@@ -25,10 +25,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <commons-lang3.version>3.9</commons-lang3.version>
         <spring-boot.version>2.1.4.RELEASE</spring-boot.version>
         <mybatis-spring-boot.version>2.0.1</mybatis-spring-boot.version>
         <mysql.version>5.1.47</mysql.version>
         <mysql8.version>8.0.16</mysql8.version>
+        <elasticsearch.version>6.4.2</elasticsearch.version>
+        <fastjson.version>1.2.39</fastjson.version>
     </properties>
 
     <dependencyManagement>
@@ -42,6 +45,17 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-log4j2</artifactId>
+                <version>${spring-boot.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -49,6 +63,7 @@
                 <version>${spring-boot.version}</version>
                 <scope>test</scope>
             </dependency>
+
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
                 <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -59,6 +74,40 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql8.version}</version>
                 <scope>runtime</scope>
+            </dependency>
+            <!-- es -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch</groupId>
+                <artifactId>elasticsearch</artifactId>
+                <version>${elasticsearch.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.elasticsearch.client</groupId>
+                <artifactId>transport</artifactId>
+                <version>${elasticsearch.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.elasticsearch</groupId>
+                        <artifactId>elasticsearch</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
