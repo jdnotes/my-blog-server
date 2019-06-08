@@ -4,7 +4,6 @@ import com.easy.blog.es.model.BlogArticleEs;
 import com.easy.blog.es.repository.BlogArticleSearchRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,11 +12,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import java.util.Optional;
 
 /**
  * @author zhouyong
  * @date 2019/6/6
  */
+@Service
 public class BlogArticleSearchService {
 
     @Autowired
@@ -46,13 +50,35 @@ public class BlogArticleSearchService {
             return null;
         }
         BoolQueryBuilder qb = QueryBuilders.boolQuery();
-        qb.must(QueryBuilders.multiMatchQuery(keywords, "title")
-                .type(MultiMatchQueryBuilder.Type.BEST_FIELDS))
-                .minimumShouldMatch("50%");
+        qb.must(QueryBuilders.matchQuery("title", keywords));
         SearchQuery searchQuery = new NativeSearchQueryBuilder().withPageable(pageable).withQuery(qb).build();
-
         Page<BlogArticleEs> page = blogArticleSearchRepository.search(searchQuery);
         return page;
     }
 
+    public void add(BlogArticleEs es) {
+        if (es.getId() == null || es.getId() == 0) {
+            Assert.notNull(es.getId(), "id is null");
+        }
+        blogArticleSearchRepository.save(es);
+    }
+
+    public void update(BlogArticleEs es) {
+        if (es.getId() == null || es.getId() == 0) {
+            Assert.notNull(es.getId(), "id is null");
+        }
+        blogArticleSearchRepository.save(es);
+    }
+
+    public BlogArticleEs getInfoById(Long id) {
+        if (id == null || id <= 0) {
+            return null;
+        }
+        Optional<BlogArticleEs> optional = blogArticleSearchRepository.findById(id);
+        if (optional != null) {
+            BlogArticleEs es = optional.get();
+            return es;
+        }
+        return null;
+    }
 }
