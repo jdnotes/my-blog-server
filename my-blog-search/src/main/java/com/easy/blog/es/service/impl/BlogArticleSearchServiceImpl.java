@@ -59,7 +59,7 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
     public Page<BlogArticleEs> search(BlogArticleEsDTO param) {
         SearchQuery searchQuery = this.putSearchParams(param);
         if (logger.isDebugEnabled()) {
-            logger.debug("recommend search param:{},searchQuery:{}", JSON.toJSONString(param), searchQuery.getQuery().toString());
+            logger.debug("recommend search param:{},searchQuery:{}", JSON.toJSONString(param), searchQuery.getQuery() == null ? "" : searchQuery.getQuery().toString());
         }
         Page<BlogArticleEs> page = blogArticleSearchRepository.search(searchQuery);
         return page;

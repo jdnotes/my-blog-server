@@ -134,24 +134,12 @@ public class Pager<E> implements Serializable {
         return currentPage;
     }
 
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
-
     public int getPageRow() {
         return pageRow;
     }
 
-    public void setPageRow(int pageRow) {
-        this.pageRow = pageRow;
-    }
-
     public int getTotalRecords() {
         return totalRecords;
-    }
-
-    public void setTotalRecords(int totalRecords) {
-        this.totalRecords = totalRecords;
     }
 
     public int getTotalPage() {
@@ -164,6 +152,10 @@ public class Pager<E> implements Serializable {
 
     public List<E> getRecords() {
         return records;
+    }
+
+    public void setRecords(List<E> records) {
+        this.records = records;
     }
 
     public int getBeginPageNum() {

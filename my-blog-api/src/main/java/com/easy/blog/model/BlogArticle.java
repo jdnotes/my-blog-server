@@ -1,16 +1,9 @@
-package com.easy.blog.es.model;
-
-import org.springframework.data.elasticsearch.annotations.Document;
+package com.easy.blog.model;
 
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author zhouyong
- * @date 2019/6/6
- */
-@Document(indexName = "blog_article_index", type = "blog_article_type")
-public class BlogArticleEs implements Serializable {
+public class BlogArticle implements Serializable {
 
     private Long id;
 
@@ -22,6 +15,14 @@ public class BlogArticleEs implements Serializable {
 
     private String author;
 
+    private String firstTag;
+
+    private String firstTagName;
+
+    private String secondTag;
+
+    private String secondTagName;
+
     private String tags;
 
     private String tagsName;
@@ -29,8 +30,6 @@ public class BlogArticleEs implements Serializable {
     private Integer articleType;
 
     private String articleSection;
-
-    private String articleHtml;
 
     private String remark;
 
@@ -47,6 +46,10 @@ public class BlogArticleEs implements Serializable {
     private Date createDate;
 
     private Date updateDate;
+
+    private String articleMarkdown;
+
+    private String articleHtml;
 
     public Long getId() {
         return id;
@@ -88,6 +91,38 @@ public class BlogArticleEs implements Serializable {
         this.author = author;
     }
 
+    public String getFirstTag() {
+        return firstTag;
+    }
+
+    public void setFirstTag(String firstTag) {
+        this.firstTag = firstTag;
+    }
+
+    public String getFirstTagName() {
+        return firstTagName;
+    }
+
+    public void setFirstTagName(String firstTagName) {
+        this.firstTagName = firstTagName;
+    }
+
+    public String getSecondTag() {
+        return secondTag;
+    }
+
+    public void setSecondTag(String secondTag) {
+        this.secondTag = secondTag;
+    }
+
+    public String getSecondTagName() {
+        return secondTagName;
+    }
+
+    public void setSecondTagName(String secondTagName) {
+        this.secondTagName = secondTagName;
+    }
+
     public String getTags() {
         return tags;
     }
@@ -118,14 +153,6 @@ public class BlogArticleEs implements Serializable {
 
     public void setArticleSection(String articleSection) {
         this.articleSection = articleSection;
-    }
-
-    public String getArticleHtml() {
-        return articleHtml;
-    }
-
-    public void setArticleHtml(String articleHtml) {
-        this.articleHtml = articleHtml;
     }
 
     public String getRemark() {
@@ -190,5 +217,21 @@ public class BlogArticleEs implements Serializable {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getArticleMarkdown() {
+        return articleMarkdown;
+    }
+
+    public void setArticleMarkdown(String articleMarkdown) {
+        this.articleMarkdown = articleMarkdown;
+    }
+
+    public String getArticleHtml() {
+        return articleHtml;
+    }
+
+    public void setArticleHtml(String articleHtml) {
+        this.articleHtml = articleHtml;
     }
 }

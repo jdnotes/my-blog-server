@@ -1,8 +1,11 @@
-package com.easy.blog;
+package com.easy.blog.utils;
 
-import com.easy.blog.utils.SnowflakeIdUtils;
+import com.alibaba.fastjson.JSON;
+import com.easy.blog.constant.CodeMsgConstant;
+import com.easy.blog.constant.Result;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.Random;
 
 
@@ -27,5 +30,16 @@ public class AppTest {
         System.out.println(id);
         id = SnowflakeIdUtils.getSnowflakeId();
         System.out.println(id);
+    }
+
+    @Test
+    public void testResult() {
+        Date date = new Date();
+        Result result = Result.success(date);
+        System.out.println(JSON.toJSONString(result));
+
+        result = Result.error(CodeMsgConstant.PARAM_BIND_ERROR);
+        System.out.println(JSON.toJSONString(result));
+
     }
 }

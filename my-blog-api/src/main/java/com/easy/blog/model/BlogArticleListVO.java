@@ -1,20 +1,11 @@
-package com.easy.blog.es.model;
-
-import org.springframework.data.elasticsearch.annotations.Document;
+package com.easy.blog.model;
 
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * @author zhouyong
- * @date 2019/6/6
- */
-@Document(indexName = "blog_article_index", type = "blog_article_type")
-public class BlogArticleEs implements Serializable {
+public class BlogArticleListVO implements Serializable {
 
-    private Long id;
-
-    private String code;
+    private String id;
 
     private String title;
 
@@ -22,15 +13,13 @@ public class BlogArticleEs implements Serializable {
 
     private String author;
 
-    private String tags;
-
     private String tagsName;
 
     private Integer articleType;
 
-    private String articleSection;
+    private String articleTypeText;
 
-    private String articleHtml;
+    private String articleSection;
 
     private String remark;
 
@@ -38,30 +27,18 @@ public class BlogArticleEs implements Serializable {
 
     private Integer likeNum;
 
-    private Integer sort;
-
-    private Integer level;
-
-    private Integer status;
-
     private Date createDate;
 
     private Date updateDate;
 
-    public Long getId() {
+    private String articleHtml;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getTitle() {
@@ -88,14 +65,6 @@ public class BlogArticleEs implements Serializable {
         this.author = author;
     }
 
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
-
     public String getTagsName() {
         return tagsName;
     }
@@ -112,20 +81,20 @@ public class BlogArticleEs implements Serializable {
         this.articleType = articleType;
     }
 
+    public String getArticleTypeText() {
+        return articleTypeText;
+    }
+
+    public void setArticleTypeText(String articleTypeText) {
+        this.articleTypeText = articleTypeText;
+    }
+
     public String getArticleSection() {
         return articleSection;
     }
 
     public void setArticleSection(String articleSection) {
         this.articleSection = articleSection;
-    }
-
-    public String getArticleHtml() {
-        return articleHtml;
-    }
-
-    public void setArticleHtml(String articleHtml) {
-        this.articleHtml = articleHtml;
     }
 
     public String getRemark() {
@@ -152,30 +121,6 @@ public class BlogArticleEs implements Serializable {
         this.likeNum = likeNum;
     }
 
-    public Integer getSort() {
-        return sort;
-    }
-
-    public void setSort(Integer sort) {
-        this.sort = sort;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
     public Date getCreateDate() {
         return createDate;
     }
@@ -190,5 +135,13 @@ public class BlogArticleEs implements Serializable {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getArticleHtml() {
+        return articleHtml;
+    }
+
+    public void setArticleHtml(String articleHtml) {
+        this.articleHtml = articleHtml;
     }
 }

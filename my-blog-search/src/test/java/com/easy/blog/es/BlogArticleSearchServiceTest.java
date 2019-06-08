@@ -84,11 +84,20 @@ public class BlogArticleSearchServiceTest {
         for (int i = 0; i < 3; i++) {
             es = new BlogArticleEs();
             es.setId(id);
+            es.setCode(String.valueOf(id));
+            es.setLogo("https://dpic.tiankong.com/82/9f/QJ6333551457.jpg");
             es.setAuthor("zhangsan");
+            es.setArticleType(1);
             es.setTitle("JAVA源码之ArrayList解读" + i);
             es.setTags("1001");
             es.setTagsName("JAVA");
+            es.setArticleSection("也许，爱情没有永远，地老天荒也走不完，生命终结的末端，苦短情长。站在岁月的边端，那些美丽的定格，心伤的绝恋，都被四季的掩埋，一去不返。徒剩下这荒芜的花好月圆，一路相随，流离天涯背负了谁的思念？");
+            es.setRemark("ps:本篇内容由站长网路整理汇总,如有雷同,请留言 or 微信联系me.");
+            es.setReadNum(4500);
+            es.setLikeNum(4577);
             es.setCreateDate(new Date(System.currentTimeMillis() + id));
+            es.setUpdateDate(new Date(System.currentTimeMillis() + id));
+            es.setArticleHtml("<p>在fastjson和jackson的结果中，原来类中的isSuccess字段被序列化成success，并且其中还包含hollis值。而Gson中只有isSuccess字段。</p>");
             id++;
             list.add(es);
         }
@@ -96,11 +105,21 @@ public class BlogArticleSearchServiceTest {
         for (int i = 0; i < 4; i++) {
             es = new BlogArticleEs();
             es.setId(id);
+            es.setCode(String.valueOf(id));
+            es.setLogo("https://dpic.tiankong.com/82/9f/QJ6333551457.jpg");
             es.setAuthor("zhangsan");
+            es.setArticleType(1);
             es.setTitle("JAVA源码之HashMap解读" + i);
             es.setTags("1001");
             es.setTagsName("JAVA");
             es.setCreateDate(new Date(System.currentTimeMillis() + id));
+            es.setArticleSection("也许，爱情没有永远，地老天荒也走不完，生命终结的末端，苦短情长。站在岁月的边端，那些美丽的定格，心伤的绝恋，都被四季的掩埋，一去不返。徒剩下这荒芜的花好月圆，一路相随，流离天涯背负了谁的思念？");
+            es.setRemark("ps:本篇内容由站长网路整理汇总,如有雷同,请留言 or 微信联系me.");
+            es.setReadNum(4500);
+            es.setLikeNum(4577);
+            es.setCreateDate(new Date(System.currentTimeMillis() + id));
+            es.setUpdateDate(new Date(System.currentTimeMillis() + id));
+            es.setArticleHtml("<p>在fastjson和jackson的结果中，原来类中的isSuccess字段被序列化成success，并且其中还包含hollis值。而Gson中只有isSuccess字段。</p>");
             id++;
             list.add(es);
         }
@@ -108,11 +127,21 @@ public class BlogArticleSearchServiceTest {
         for (int i = 0; i < 5; i++) {
             es = new BlogArticleEs();
             es.setId(id);
+            es.setCode(String.valueOf(id));
+            es.setLogo("https://dpic.tiankong.com/82/9f/QJ6333551457.jpg");
             es.setAuthor("zhangsan");
+            es.setArticleType(1);
             es.setTitle("Spring应用之IOC实战" + i);
             es.setTags("1002");
             es.setTagsName("Spring");
             es.setCreateDate(new Date(System.currentTimeMillis() + id));
+            es.setArticleSection("也许，爱情没有永远，地老天荒也走不完，生命终结的末端，苦短情长。站在岁月的边端，那些美丽的定格，心伤的绝恋，都被四季的掩埋，一去不返。徒剩下这荒芜的花好月圆，一路相随，流离天涯背负了谁的思念？");
+            es.setRemark("ps:本篇内容由站长网路整理汇总,如有雷同,请留言 or 微信联系me.");
+            es.setReadNum(4500);
+            es.setLikeNum(4577);
+            es.setCreateDate(new Date(System.currentTimeMillis() + id));
+            es.setUpdateDate(new Date(System.currentTimeMillis() + id));
+            es.setArticleHtml("<p>在fastjson和jackson的结果中，原来类中的isSuccess字段被序列化成success，并且其中还包含hollis值。而Gson中只有isSuccess字段。</p>");
             id++;
             list.add(es);
         }
@@ -120,11 +149,21 @@ public class BlogArticleSearchServiceTest {
         for (int i = 0; i < 7; i++) {
             es = new BlogArticleEs();
             es.setId(id);
+            es.setCode(String.valueOf(id));
+            es.setLogo("https://dpic.tiankong.com/82/9f/QJ6333551457.jpg");
             es.setAuthor("zhangsan");
+            es.setArticleType(1);
             es.setTitle("Spring应用之AOP实战" + i);
             es.setTags("1002");
             es.setTagsName("Spring");
             es.setCreateDate(new Date(System.currentTimeMillis() + id));
+            es.setArticleSection("也许，爱情没有永远，地老天荒也走不完，生命终结的末端，苦短情长。站在岁月的边端，那些美丽的定格，心伤的绝恋，都被四季的掩埋，一去不返。徒剩下这荒芜的花好月圆，一路相随，流离天涯背负了谁的思念？");
+            es.setRemark("ps:本篇内容由站长网路整理汇总,如有雷同,请留言 or 微信联系me.");
+            es.setReadNum(4500);
+            es.setLikeNum(4577);
+            es.setCreateDate(new Date(System.currentTimeMillis() + id));
+            es.setUpdateDate(new Date(System.currentTimeMillis() + id));
+            es.setArticleHtml("<p>在fastjson和jackson的结果中，原来类中的isSuccess字段被序列化成success，并且其中还包含hollis值。而Gson中只有isSuccess字段。</p>");
             id++;
             list.add(es);
         }
