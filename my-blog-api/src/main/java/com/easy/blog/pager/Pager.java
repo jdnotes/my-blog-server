@@ -1,4 +1,4 @@
-package com.easy.blog.utils;
+package com.easy.blog.pager;
 
 import java.io.Serializable;
 import java.util.List;
