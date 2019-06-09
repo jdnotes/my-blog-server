@@ -14,4 +14,6 @@ public interface BlogTagMapper {
     int updateSelective(BlogTag record);
 
     List<BlogTag> getTagCloud();
+
+    List<BlogTag> getSecondTags(String parentCode);
 }

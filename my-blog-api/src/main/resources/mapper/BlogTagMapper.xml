@@ -177,4 +177,14 @@
         order by sort
     </select>
 
+    <select id="getSecondTags" resultMap="BaseResultMap">
+        select
+        ct.id, ct.parent_id, ct.code, ct.en_name, ct.tag_name, ct.alias, ct.`type`, ct.sort,
+        ct.create_date, ct.update_date, ct.`status`
+        from t_blog_tag as ct
+        left join t_blog_tag as pt on ct.parent_id = pt.id
+        where pt.code = #{parentCode} and ct.`type` = 2 and ct.`status` = 0
+        order by sort
+    </select>
+
 </mapper>

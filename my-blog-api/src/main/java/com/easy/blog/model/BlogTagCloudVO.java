@@ -4,11 +4,21 @@ import java.io.Serializable;
 
 public class BlogTagCloudVO implements Serializable {
 
+    private String id;
+
     private String code;
 
     private String tagName;
 
     private Integer num;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getCode() {
         return code;

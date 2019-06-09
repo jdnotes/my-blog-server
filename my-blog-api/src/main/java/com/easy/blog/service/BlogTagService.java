@@ -11,4 +11,6 @@ import java.util.List;
 public interface BlogTagService {
 
     List<BlogTagCloudVO> getTagCloud();
+
+    List<BlogTagCloudVO> getSecondTags(String parentCode);
 }

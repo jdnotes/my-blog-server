@@ -4,6 +4,8 @@ import com.easy.blog.dao.BlogTagMapper;
 import com.easy.blog.model.BlogTag;
 import com.easy.blog.model.BlogTagCloudVO;
 import com.easy.blog.service.BlogTagService;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,9 +33,31 @@ public class BlogTagServiceImpl implements BlogTagService {
         List<BlogTagCloudVO> voList = new ArrayList<>();
         for (BlogTag tag : tags) {
             BlogTagCloudVO vo = new BlogTagCloudVO();
+            vo.setId(String.valueOf(tag.getId()));
             vo.setCode(tag.getCode());
             vo.setTagName(tag.getAlias());
-            vo.setNum(5);
+            vo.setNum(1);
+            voList.add(vo);
+        }
+        return voList;
+    }
+
+    @Override
+    public List<BlogTagCloudVO> getSecondTags(String parentCode) {
+        if (StringUtils.isEmpty(parentCode)) {
+            return null;
+        }
+        List<BlogTag> tags = blogTagMapper.getSecondTags(parentCode);
+        if (tags == null || tags.size() == 0) {
+            return new ArrayList<>();
+        }
+        List<BlogTagCloudVO> voList = new ArrayList<>();
+        for (BlogTag tag : tags) {
+            BlogTagCloudVO vo = new BlogTagCloudVO();
+            vo.setId(String.valueOf(tag.getId()));
+            vo.setCode(tag.getCode());
+            vo.setTagName(tag.getAlias());
+            vo.setNum(1);
             voList.add(vo);
         }
         return voList;
