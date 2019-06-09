@@ -24,7 +24,25 @@ public class RandomUtils {
         return res;
     }
 
+    /**
+     * 获取指定范围随机数
+     *
+     * @param min
+     * @param max
+     * @return
+     */
+    public static int getRandomNum(int min, int max) {
+        if (min < 0 || max <= 0) {
+            return -1;
+        }
+        Random random = new Random();
+        int n = random.nextInt(max) % (max - min + 1) + min;
+        return n;
+    }
+
     public static void main(String[] args) {
         System.out.println(getRandomStr(10));
+
+        System.out.println(getRandomNum(10, 101));
     }
 }

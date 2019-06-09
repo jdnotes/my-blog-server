@@ -76,6 +76,14 @@ public class BlogArticleSearchServiceTest {
         logger.info(JSON.toJSONString(page.getContent()));
     }
 
+    @Test
+    public void searchByCode() {
+        String code = "10001";
+        BlogArticleEs es = blogArticleSearchService.getInfoByCode(code);
+        Assert.assertNotNull(es);
+        logger.info(JSON.toJSONString(es));
+    }
+
     private List<BlogArticleEs> getDatas() {
         List<BlogArticleEs> list = new ArrayList<>();
         BlogArticleEs es;

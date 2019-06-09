@@ -9,4 +9,6 @@ import com.easy.blog.model.BlogStrive;
 public interface BlogStriveService {
 
     BlogStrive get(Long id);
+
+    String getInfoByRandom();
 }

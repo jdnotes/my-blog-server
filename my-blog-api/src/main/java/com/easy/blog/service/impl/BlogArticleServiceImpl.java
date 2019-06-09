@@ -4,11 +4,11 @@ import com.easy.blog.constant.GlobalConstant;
 import com.easy.blog.es.model.BlogArticleEs;
 import com.easy.blog.es.model.BlogArticleEsDTO;
 import com.easy.blog.es.service.BlogArticleSearchService;
-import com.easy.blog.model.BlogArticleListDTO;
-import com.easy.blog.model.BlogArticleListVO;
-import com.easy.blog.model.BlogArticleRecommendVO;
+import com.easy.blog.model.*;
 import com.easy.blog.pager.Pager;
 import com.easy.blog.service.BlogArticleService;
+import com.easy.blog.service.BlogStriveService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,9 @@ public class BlogArticleServiceImpl implements BlogArticleService {
 
     @Autowired
     private BlogArticleSearchService blogArticleSearchService;
+
+    @Autowired
+    private BlogStriveService blogStriveService;
 
     @Override
     public Pager<BlogArticleListVO> search(BlogArticleListDTO param) {
@@ -60,8 +63,6 @@ public class BlogArticleServiceImpl implements BlogArticleService {
             BlogArticleListVO vo = new BlogArticleListVO();
             BeanUtils.copyProperties(es, vo);
             vo.setId(es.getCode());
-            String articleTypeText = putArticleTypeText(es.getArticleType());
-            vo.setArticleTypeText(articleTypeText);
             voList.add(vo);
         }
         return voList;
@@ -100,6 +101,42 @@ public class BlogArticleServiceImpl implements BlogArticleService {
         }
         List<BlogArticleRecommendVO> voList = putBlogArticleRecommendValue(list);
         return voList;
+    }
+
+    @Override
+    public BlogArticleDetailsVO getDetails(String code) {
+        BlogArticleEs articleEs = blogArticleSearchService.getInfoByCode(code);
+        if (articleEs == null) {
+            return null;
+        }
+        BlogArticleDetailsVO vo = new BlogArticleDetailsVO();
+        BeanUtils.copyProperties(articleEs, vo);
+        vo.setId(articleEs.getCode());
+        String articleTypeText = putArticleTypeText(articleEs.getArticleType());
+        vo.setArticleTypeText(articleTypeText);
+        List<BlogTagCloudVO> tags = putTagsValue(articleEs.getTags(), articleEs.getTagsName());
+        vo.setTags(tags);
+        String mind = blogStriveService.getInfoByRandom();
+        vo.setMind(mind);
+        return vo;
+    }
+
+    private List<BlogTagCloudVO> putTagsValue(String tags, String tagsName) {
+        List<BlogTagCloudVO> tagList = new ArrayList<>();
+        if (StringUtils.isNotEmpty(tags) && StringUtils.isNotEmpty(tagsName)) {
+            String[] tagArr = tags.split(",");
+            String[] tagNameArr = tagsName.split(",");
+            if (tagArr != null && tagNameArr != null && tagArr.length == tagNameArr.length) {
+                for (int i = 0; i < tagArr.length; i++) {
+                    BlogTagCloudVO vo = new BlogTagCloudVO();
+                    vo.setCode(tagArr[i]);
+                    vo.setTagName(tagNameArr[i]);
+                    vo.setNum(0);
+                    tagList.add(vo);
+                }
+            }
+        }
+        return tagList;
     }
 
     private List<BlogArticleRecommendVO> putBlogArticleRecommendValue(List<BlogArticleEs> list) {

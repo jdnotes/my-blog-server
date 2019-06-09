@@ -6,6 +6,7 @@ import com.easy.blog.es.model.BlogArticleEsDTO;
 import com.easy.blog.es.repository.BlogArticleSearchRepository;
 import com.easy.blog.es.service.BlogArticleSearchService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.elasticsearch.common.lucene.search.function.FunctionScoreQuery;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -165,5 +166,21 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
         nativeSearchQueryBuilder.withPageable(pageable);
         nativeSearchQueryBuilder.withSort(SortBuilders.fieldSort("createDate").order(SortOrder.DESC));
         return nativeSearchQueryBuilder.build();
+    }
+
+    @Override
+    public BlogArticleEs getInfoByCode(String code) {
+        if (StringUtils.isEmpty(code)) {
+            return null;
+        }
+        NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
+        Pageable pageable = PageRequest.of(0, 1);
+        nativeSearchQueryBuilder.withPageable(pageable);
+        nativeSearchQueryBuilder.withFilter(QueryBuilders.termQuery("code", code));
+        Page<BlogArticleEs> page = blogArticleSearchRepository.search(nativeSearchQueryBuilder.build());
+        if (page != null && page.getContent().size() > 0) {
+            return page.getContent().get(0);
+        }
+        return null;
     }
 }

@@ -1,11 +1,14 @@
 package com.easy.blog.controller;
 
+import com.easy.blog.constant.CodeMsgConstant;
 import com.easy.blog.constant.Result;
+import com.easy.blog.model.BlogArticleDetailsVO;
 import com.easy.blog.model.BlogArticleListDTO;
 import com.easy.blog.model.BlogArticleListVO;
 import com.easy.blog.model.BlogArticleRecommendVO;
 import com.easy.blog.pager.Pager;
 import com.easy.blog.service.BlogArticleService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +61,27 @@ public class BlogArticleController {
         try {
             List<BlogArticleRecommendVO> datas = blogArticleService.recommendList();
             result = Result.success(datas);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result = Result.error();
+        }
+        return result;
+    }
+
+    /**
+     * 博文详情
+     *
+     * @return
+     */
+    @RequestMapping(value = "/details", method = RequestMethod.POST)
+    public Object details(String code) {
+        if (StringUtils.isEmpty(code)) {
+            return Result.error(CodeMsgConstant.PARAM_BIND_ERROR);
+        }
+        Result result;
+        try {
+            BlogArticleDetailsVO details = blogArticleService.getDetails(code);
+            result = Result.success(details);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             result = Result.error();

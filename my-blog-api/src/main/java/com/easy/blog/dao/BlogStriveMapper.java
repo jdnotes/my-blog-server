@@ -10,4 +10,5 @@ public interface BlogStriveMapper {
 
     int updateSelective(BlogStrive record);
 
+    BlogStrive getInfoByCode(String code);
 }

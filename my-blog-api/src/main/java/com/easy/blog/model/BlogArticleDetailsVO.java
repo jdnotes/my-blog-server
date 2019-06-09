@@ -1,9 +1,12 @@
 package com.easy.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
-public class BlogArticleListVO implements Serializable {
+public class BlogArticleDetailsVO implements Serializable {
 
     private String id;
 
@@ -13,15 +16,23 @@ public class BlogArticleListVO implements Serializable {
 
     private String author;
 
-    private String tagsName;
+    private String articleTypeText;
 
-    private String articleSection;
+    private String remark;
 
     private Integer readNum;
 
     private Integer likeNum;
 
     private Date createDate;
+
+    private Date updateDate;
+
+    private String articleHtml;
+
+    private String mind;
+
+    private List<BlogTagCloudVO> tags;
 
     public String getId() {
         return id;
@@ -55,20 +66,20 @@ public class BlogArticleListVO implements Serializable {
         this.author = author;
     }
 
-    public String getTagsName() {
-        return tagsName;
+    public String getArticleTypeText() {
+        return articleTypeText;
     }
 
-    public void setTagsName(String tagsName) {
-        this.tagsName = tagsName;
+    public void setArticleTypeText(String articleTypeText) {
+        this.articleTypeText = articleTypeText;
     }
 
-    public String getArticleSection() {
-        return articleSection;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setArticleSection(String articleSection) {
-        this.articleSection = articleSection;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public Integer getReadNum() {
@@ -93,5 +104,37 @@ public class BlogArticleListVO implements Serializable {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getArticleHtml() {
+        return articleHtml;
+    }
+
+    public void setArticleHtml(String articleHtml) {
+        this.articleHtml = articleHtml;
+    }
+
+    public String getMind() {
+        return mind;
+    }
+
+    public void setMind(String mind) {
+        this.mind = mind;
+    }
+
+    public List<BlogTagCloudVO> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<BlogTagCloudVO> tags) {
+        this.tags = tags;
     }
 }

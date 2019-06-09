@@ -1,5 +1,6 @@
 package com.easy.blog.service;
 
+import com.easy.blog.model.BlogArticleDetailsVO;
 import com.easy.blog.model.BlogArticleListDTO;
 import com.easy.blog.model.BlogArticleListVO;
 import com.easy.blog.model.BlogArticleRecommendVO;
@@ -16,4 +17,6 @@ public interface BlogArticleService {
     Pager<BlogArticleListVO> search(BlogArticleListDTO param);
 
     List<BlogArticleRecommendVO> recommendList();
+
+    BlogArticleDetailsVO getDetails(String code);
 }
