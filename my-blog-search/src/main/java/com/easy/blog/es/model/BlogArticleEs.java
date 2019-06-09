@@ -22,6 +22,8 @@ public class BlogArticleEs implements Serializable {
 
     private String author;
 
+    private String firstTag;
+
     private String tags;
 
     private String tagsName;
@@ -86,6 +88,14 @@ public class BlogArticleEs implements Serializable {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public String getFirstTag() {
+        return firstTag;
+    }
+
+    public void setFirstTag(String firstTag) {
+        this.firstTag = firstTag;
     }
 
     public String getTags() {

@@ -91,6 +91,9 @@ public class BlogArticleServiceImpl implements BlogArticleService {
 
     @Override
     public List<BlogArticleRecommendVO> recommendList() {
+        //缓存处理:一天
+        // TODO: 2019/6/9
+
         List<BlogArticleEs> list = blogArticleSearchService.recommendList(5);
         if (list == null || list.size() == 0) {
             return new ArrayList<>();
