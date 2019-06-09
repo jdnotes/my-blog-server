@@ -15,6 +15,13 @@ public class Result<T> implements Serializable {
     /**
      * 成功时候的调用
      */
+    public static <T> Result<T> success() {
+        return new Result<>();
+    }
+
+    /**
+     * 成功时候的调用
+     */
     public static <T> Result<T> success(T data) {
         return new Result<>(data);
     }
@@ -33,6 +40,13 @@ public class Result<T> implements Serializable {
         return new Result<>(codeMsg);
     }
 
+    /**
+     * 成功的构造函数
+     */
+    private Result() {
+        this.code = 200;
+        this.msg = "success";
+    }
 
     /**
      * 成功的构造函数

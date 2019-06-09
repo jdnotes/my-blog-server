@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easy.blog.dao.BlogArticleBackMapper">
+    <resultMap id="BaseResultMap" type="com.easy.blog.model.BlogArticleBack">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="logo" jdbcType="VARCHAR" property="logo"/>
+        <result column="author" jdbcType="VARCHAR" property="author"/>
+        <result column="first_tag" jdbcType="VARCHAR" property="firstTag"/>
+        <result column="first_tag_name" jdbcType="VARCHAR" property="firstTagName"/>
+        <result column="second_tag" jdbcType="VARCHAR" property="secondTag"/>
+        <result column="second_tag_name" jdbcType="VARCHAR" property="secondTagName"/>
+        <result column="tags" jdbcType="VARCHAR" property="tags"/>
+        <result column="tags_name" jdbcType="VARCHAR" property="tagsName"/>
+        <result column="article_type" jdbcType="TINYINT" property="articleType"/>
+        <result column="article_section" jdbcType="VARCHAR" property="articleSection"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="read_num" jdbcType="INTEGER" property="readNum"/>
+        <result column="like_num" jdbcType="INTEGER" property="likeNum"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+        <result column="level" jdbcType="TINYINT" property="level"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+    </resultMap>
+
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.easy.blog.model.BlogArticleBack">
+        <result column="article_markdown" jdbcType="LONGVARCHAR" property="articleMarkdown"/>
+        <result column="article_html" jdbcType="LONGVARCHAR" property="articleHtml"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, code, title, logo, author, first_tag, first_tag_name, second_tag, second_tag_name,
+        tags, tags_name, article_type, article_section, remark, read_num, like_num, sort,
+        level, status, create_date, update_date
+    </sql>
+
+    <sql id="Blob_Column_List">
+        article_markdown, article_html
+    </sql>
+
+    <select id="get" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from t_blog_article_back
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from t_blog_article_back
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.easy.blog.model.BlogArticleBack">
+        insert into t_blog_article_back (id, code, title,
+        logo, author, first_tag,
+        first_tag_name, second_tag, second_tag_name,
+        tags, tags_name, article_type,
+        article_section, remark, read_num,
+        like_num, sort, level,
+        status, create_date, update_date,
+        article_markdown, article_html)
+        values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
+        #{logo,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{firstTag,jdbcType=VARCHAR},
+        #{firstTagName,jdbcType=VARCHAR}, #{secondTag,jdbcType=VARCHAR}, #{secondTagName,jdbcType=VARCHAR},
+        #{tags,jdbcType=VARCHAR}, #{tagsName,jdbcType=VARCHAR}, #{articleType,jdbcType=TINYINT},
+        #{articleSection,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{readNum,jdbcType=INTEGER},
+        #{likeNum,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{level,jdbcType=TINYINT},
+        #{status,jdbcType=TINYINT}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
+        #{articleMarkdown,jdbcType=LONGVARCHAR}, #{articleHtml,jdbcType=LONGVARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.easy.blog.model.BlogArticleBack">
+        insert into t_blog_article_back
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="logo != null">
+                logo,
+            </if>
+            <if test="author != null">
+                author,
+            </if>
+            <if test="firstTag != null">
+                first_tag,
+            </if>
+            <if test="firstTagName != null">
+                first_tag_name,
+            </if>
+            <if test="secondTag != null">
+                second_tag,
+            </if>
+            <if test="secondTagName != null">
+                second_tag_name,
+            </if>
+            <if test="tags != null">
+                tags,
+            </if>
+            <if test="tagsName != null">
+                tags_name,
+            </if>
+            <if test="articleType != null">
+                article_type,
+            </if>
+            <if test="articleSection != null">
+                article_section,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="readNum != null">
+                read_num,
+            </if>
+            <if test="likeNum != null">
+                like_num,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="level != null">
+                level,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="articleMarkdown != null">
+                article_markdown,
+            </if>
+            <if test="articleHtml != null">
+                article_html,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="logo != null">
+                #{logo,jdbcType=VARCHAR},
+            </if>
+            <if test="author != null">
+                #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="firstTag != null">
+                #{firstTag,jdbcType=VARCHAR},
+            </if>
+            <if test="firstTagName != null">
+                #{firstTagName,jdbcType=VARCHAR},
+            </if>
+            <if test="secondTag != null">
+                #{secondTag,jdbcType=VARCHAR},
+            </if>
+            <if test="secondTagName != null">
+                #{secondTagName,jdbcType=VARCHAR},
+            </if>
+            <if test="tags != null">
+                #{tags,jdbcType=VARCHAR},
+            </if>
+            <if test="tagsName != null">
+                #{tagsName,jdbcType=VARCHAR},
+            </if>
+            <if test="articleType != null">
+                #{articleType,jdbcType=TINYINT},
+            </if>
+            <if test="articleSection != null">
+                #{articleSection,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="readNum != null">
+                #{readNum,jdbcType=INTEGER},
+            </if>
+            <if test="likeNum != null">
+                #{likeNum,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="level != null">
+                #{level,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="articleMarkdown != null">
+                #{articleMarkdown,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="articleHtml != null">
+                #{articleHtml,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateSelective" parameterType="com.easy.blog.model.BlogArticleBack">
+        update t_blog_article_back
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="logo != null">
+                logo = #{logo,jdbcType=VARCHAR},
+            </if>
+            <if test="author != null">
+                author = #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="firstTag != null">
+                first_tag = #{firstTag,jdbcType=VARCHAR},
+            </if>
+            <if test="firstTagName != null">
+                first_tag_name = #{firstTagName,jdbcType=VARCHAR},
+            </if>
+            <if test="secondTag != null">
+                second_tag = #{secondTag,jdbcType=VARCHAR},
+            </if>
+            <if test="secondTagName != null">
+                second_tag_name = #{secondTagName,jdbcType=VARCHAR},
+            </if>
+            <if test="tags != null">
+                tags = #{tags,jdbcType=VARCHAR},
+            </if>
+            <if test="tagsName != null">
+                tags_name = #{tagsName,jdbcType=VARCHAR},
+            </if>
+            <if test="articleType != null">
+                article_type = #{articleType,jdbcType=TINYINT},
+            </if>
+            <if test="articleSection != null">
+                article_section = #{articleSection,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="readNum != null">
+                read_num = #{readNum,jdbcType=INTEGER},
+            </if>
+            <if test="likeNum != null">
+                like_num = #{likeNum,jdbcType=INTEGER},
+            </if>
+            <if test="sort != null">
+                sort = #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="level != null">
+                level = #{level,jdbcType=TINYINT},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=TINYINT},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="articleMarkdown != null">
+                article_markdown = #{articleMarkdown,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="articleHtml != null">
+                article_html = #{articleHtml,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="update" parameterType="com.easy.blog.model.BlogArticleBack">
+        update t_blog_article_back
+        set code = #{code,jdbcType=VARCHAR},
+        title = #{title,jdbcType=VARCHAR},
+        logo = #{logo,jdbcType=VARCHAR},
+        author = #{author,jdbcType=VARCHAR},
+        first_tag = #{firstTag,jdbcType=VARCHAR},
+        first_tag_name = #{firstTagName,jdbcType=VARCHAR},
+        second_tag = #{secondTag,jdbcType=VARCHAR},
+        second_tag_name = #{secondTagName,jdbcType=VARCHAR},
+        tags = #{tags,jdbcType=VARCHAR},
+        tags_name = #{tagsName,jdbcType=VARCHAR},
+        article_type = #{articleType,jdbcType=TINYINT},
+        article_section = #{articleSection,jdbcType=VARCHAR},
+        remark = #{remark,jdbcType=VARCHAR},
+        read_num = #{readNum,jdbcType=INTEGER},
+        like_num = #{likeNum,jdbcType=INTEGER},
+        sort = #{sort,jdbcType=INTEGER},
+        level = #{level,jdbcType=TINYINT},
+        status = #{status,jdbcType=TINYINT},
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+        article_markdown = #{articleMarkdown,jdbcType=LONGVARCHAR},
+        article_html = #{articleHtml,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>
