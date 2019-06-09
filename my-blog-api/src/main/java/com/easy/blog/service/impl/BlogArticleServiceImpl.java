@@ -6,6 +6,7 @@ import com.easy.blog.es.model.BlogArticleEsDTO;
 import com.easy.blog.es.service.BlogArticleSearchService;
 import com.easy.blog.model.BlogArticleListDTO;
 import com.easy.blog.model.BlogArticleListVO;
+import com.easy.blog.model.BlogArticleRecommendVO;
 import com.easy.blog.pager.Pager;
 import com.easy.blog.service.BlogArticleService;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -86,5 +87,29 @@ public class BlogArticleServiceImpl implements BlogArticleService {
                 text = GlobalConstant.ARTICLE_TYPE_TIDY;
         }
         return text;
+    }
+
+    @Override
+    public List<BlogArticleRecommendVO> recommendList() {
+        List<BlogArticleEs> list = blogArticleSearchService.recommendList(5);
+        if (list == null || list.size() == 0) {
+            return new ArrayList<>();
+        }
+        List<BlogArticleRecommendVO> voList = putBlogArticleRecommendValue(list);
+        return voList;
+    }
+
+    private List<BlogArticleRecommendVO> putBlogArticleRecommendValue(List<BlogArticleEs> list) {
+        if (list == null || list.size() == 0) {
+            return new ArrayList<>();
+        }
+        List<BlogArticleRecommendVO> voList = new ArrayList<>(list.size());
+        for (BlogArticleEs es : list) {
+            BlogArticleRecommendVO vo = new BlogArticleRecommendVO();
+            vo.setId(es.getCode());
+            vo.setTitle(es.getTitle());
+            voList.add(vo);
+        }
+        return voList;
     }
 }

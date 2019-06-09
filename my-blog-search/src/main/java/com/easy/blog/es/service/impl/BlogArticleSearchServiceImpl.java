@@ -145,4 +145,25 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
         }
         return null;
     }
+
+    @Override
+    public List<BlogArticleEs> recommendList(int size) {
+        if (size <= 0) {
+            return null;
+        }
+        SearchQuery searchQuery = this.putRecommendParams(size);
+        Page<BlogArticleEs> page = blogArticleSearchRepository.search(searchQuery);
+        if (page != null) {
+            return page.getContent();
+        }
+        return null;
+    }
+
+    private SearchQuery putRecommendParams(int size) {
+        NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
+        Pageable pageable = PageRequest.of(0, size);
+        nativeSearchQueryBuilder.withPageable(pageable);
+        nativeSearchQueryBuilder.withSort(SortBuilders.fieldSort("createDate").order(SortOrder.DESC));
+        return nativeSearchQueryBuilder.build();
+    }
 }

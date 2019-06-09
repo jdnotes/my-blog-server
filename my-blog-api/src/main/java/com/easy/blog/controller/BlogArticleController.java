@@ -3,6 +3,7 @@ package com.easy.blog.controller;
 import com.easy.blog.constant.Result;
 import com.easy.blog.model.BlogArticleListDTO;
 import com.easy.blog.model.BlogArticleListVO;
+import com.easy.blog.model.BlogArticleRecommendVO;
 import com.easy.blog.pager.Pager;
 import com.easy.blog.service.BlogArticleService;
 import org.slf4j.Logger;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * @author zhouyong
@@ -37,6 +40,24 @@ public class BlogArticleController {
         try {
             Pager<BlogArticleListVO> pager = blogArticleService.search(param);
             result = Result.success(pager);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result = Result.error();
+        }
+        return result;
+    }
+
+    /**
+     * 最新推荐列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/recommends", method = RequestMethod.POST)
+    public Object recommendList() {
+        Result result;
+        try {
+            List<BlogArticleRecommendVO> datas = blogArticleService.recommendList();
+            result = Result.success(datas);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             result = Result.error();
