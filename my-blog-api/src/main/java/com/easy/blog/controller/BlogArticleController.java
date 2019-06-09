@@ -2,16 +2,14 @@ package com.easy.blog.controller;
 
 import com.easy.blog.constant.CodeMsgConstant;
 import com.easy.blog.constant.Result;
-import com.easy.blog.model.BlogArticleDetailsVO;
-import com.easy.blog.model.BlogArticleListDTO;
-import com.easy.blog.model.BlogArticleListVO;
-import com.easy.blog.model.BlogArticleRecommendVO;
+import com.easy.blog.model.*;
 import com.easy.blog.pager.Pager;
 import com.easy.blog.service.BlogArticleService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,7 +36,7 @@ public class BlogArticleController {
      * @return
      */
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public Object search(BlogArticleListDTO param) {
+    public Object search(@RequestBody BlogArticleListDTO param) {
         Result result;
         try {
             Pager<BlogArticleListVO> pager = blogArticleService.search(param);
@@ -74,13 +72,13 @@ public class BlogArticleController {
      * @return
      */
     @RequestMapping(value = "/details", method = RequestMethod.POST)
-    public Object details(String code) {
-        if (StringUtils.isEmpty(code)) {
+    public Object details(@RequestBody BlogArticleDetailsDTO param) {
+        if (param == null || StringUtils.isEmpty(param.getId())) {
             return Result.error(CodeMsgConstant.PARAM_BIND_ERROR);
         }
         Result result;
         try {
-            BlogArticleDetailsVO details = blogArticleService.getDetails(code);
+            BlogArticleDetailsVO details = blogArticleService.getDetails(param.getId());
             result = Result.success(details);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
