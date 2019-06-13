@@ -9,4 +9,6 @@ import com.easy.blog.model.BlogArticleBack;
 public interface BlogArticleBackService {
 
     void add(BlogArticleBack param);
+
+    BlogArticleBack get(Long id);
 }

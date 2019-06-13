@@ -1,5 +1,6 @@
 package com.easy.blog.service;
 
+import com.easy.blog.model.BlogTag;
 import com.easy.blog.model.BlogTagCloudVO;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface BlogTagService {
     List<BlogTagCloudVO> getTagCloud();
 
     List<BlogTagCloudVO> getSecondTags(String parentCode);
+
+    void add(BlogTag param);
 }

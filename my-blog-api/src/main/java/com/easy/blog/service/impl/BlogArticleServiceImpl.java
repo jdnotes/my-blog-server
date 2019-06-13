@@ -1,11 +1,13 @@
 package com.easy.blog.service.impl;
 
 import com.easy.blog.constant.GlobalConstant;
+import com.easy.blog.dao.BlogArticleMapper;
 import com.easy.blog.es.model.BlogArticleEs;
 import com.easy.blog.es.model.BlogArticleEsDTO;
 import com.easy.blog.es.service.BlogArticleSearchService;
 import com.easy.blog.model.*;
 import com.easy.blog.pager.Pager;
+import com.easy.blog.service.BlogArticleBackService;
 import com.easy.blog.service.BlogArticleService;
 import com.easy.blog.service.BlogStriveService;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,12 @@ public class BlogArticleServiceImpl implements BlogArticleService {
 
     @Autowired
     private BlogStriveService blogStriveService;
+
+    @Autowired
+    private BlogArticleBackService blogArticleBackService;
+
+    @Autowired
+    private BlogArticleMapper blogArticleMapper;
 
     @Override
     public Pager<BlogArticleListVO> search(BlogArticleListDTO param) {
@@ -119,6 +128,27 @@ public class BlogArticleServiceImpl implements BlogArticleService {
         String mind = blogStriveService.getInfoByRandom();
         vo.setMind(mind);
         return vo;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void publish(BlogArticlePublishDTO param) {
+        BlogArticleBack articleBack = blogArticleBackService.get(param.getArticleId());
+        if (articleBack == null) {
+            throw new RuntimeException("article back is not exist");
+        }
+        BlogArticle article = new BlogArticle();
+        BeanUtils.copyProperties(articleBack, article);
+        blogArticleMapper.insertSelective(article);
+        BlogArticleEs es = new BlogArticleEs();
+        BeanUtils.copyProperties(article, es);
+        if (article.getAuthorId() == null) {
+            es.setAuthor(GlobalConstant.ARTICLE_AUTHOR);
+        } else {
+            //查询DB
+            es.setAuthor(GlobalConstant.ARTICLE_AUTHOR);
+        }
+        blogArticleSearchService.add(es);
     }
 
     private List<BlogTagCloudVO> putTagsValue(String tags, String tagsName) {

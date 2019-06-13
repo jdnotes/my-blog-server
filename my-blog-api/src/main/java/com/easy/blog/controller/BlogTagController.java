@@ -2,6 +2,7 @@ package com.easy.blog.controller;
 
 import com.easy.blog.constant.CodeMsgConstant;
 import com.easy.blog.constant.Result;
+import com.easy.blog.model.BlogTag;
 import com.easy.blog.model.BlogTagCloudVO;
 import com.easy.blog.model.BlogTagListDTO;
 import com.easy.blog.service.BlogTagService;
@@ -30,6 +31,29 @@ public class BlogTagController {
     private BlogTagService blogTagService;
 
     /**
+     * 添加
+     *
+     * @return
+     */
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public Object add(@RequestBody BlogTag param) {
+        if (param == null || StringUtils.isEmpty(param.getEnName())
+                || StringUtils.isEmpty(param.getTagName()) || StringUtils.isEmpty(param.getAlias())
+                || param.getType() == null) {
+            return Result.error(CodeMsgConstant.PARAM_BIND_ERROR);
+        }
+        Result result;
+        try {
+            blogTagService.add(param);
+            result = Result.success();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result = Result.error();
+        }
+        return result;
+    }
+
+    /**
      * 标签云
      *
      * @return
@@ -48,7 +72,7 @@ public class BlogTagController {
     }
 
     /**
-     * 标签云
+     * 二级标签
      *
      * @return
      */

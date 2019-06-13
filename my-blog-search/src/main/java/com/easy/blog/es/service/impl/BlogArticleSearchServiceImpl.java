@@ -6,7 +6,6 @@ import com.easy.blog.es.model.BlogArticleEsDTO;
 import com.easy.blog.es.repository.BlogArticleSearchRepository;
 import com.easy.blog.es.service.BlogArticleSearchService;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.elasticsearch.common.lucene.search.function.FunctionScoreQuery;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -57,6 +56,7 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
      * @param param
      * @return
      */
+    @Override
     public Page<BlogArticleEs> search(BlogArticleEsDTO param) {
         SearchQuery searchQuery = this.putSearchParams(param);
         if (logger.isDebugEnabled()) {
@@ -121,6 +121,7 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
         return nativeSearchQueryBuilder.build();
     }
 
+    @Override
     public void add(BlogArticleEs es) {
         if (es.getId() == null || es.getId() == 0) {
             Assert.notNull(es.getId(), "id is null");
@@ -128,6 +129,7 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
         blogArticleSearchRepository.save(es);
     }
 
+    @Override
     public void update(BlogArticleEs es) {
         if (es.getId() == null || es.getId() == 0) {
             Assert.notNull(es.getId(), "id is null");
@@ -135,6 +137,7 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
         blogArticleSearchRepository.save(es);
     }
 
+    @Override
     public BlogArticleEs getInfoById(Long id) {
         if (id == null || id <= 0) {
             return null;

@@ -1,9 +1,6 @@
 package com.easy.blog.service;
 
-import com.easy.blog.model.BlogArticleDetailsVO;
-import com.easy.blog.model.BlogArticleListDTO;
-import com.easy.blog.model.BlogArticleListVO;
-import com.easy.blog.model.BlogArticleRecommendVO;
+import com.easy.blog.model.*;
 import com.easy.blog.pager.Pager;
 
 import java.util.List;
@@ -19,4 +16,6 @@ public interface BlogArticleService {
     List<BlogArticleRecommendVO> recommendList();
 
     BlogArticleDetailsVO getDetails(String code);
+
+    void publish(BlogArticlePublishDTO param);
 }

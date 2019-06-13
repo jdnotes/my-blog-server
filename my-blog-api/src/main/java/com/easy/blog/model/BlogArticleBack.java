@@ -15,7 +15,7 @@ public class BlogArticleBack implements Serializable {
 
     private String logo;
 
-    private String author;
+    private Long authorId;
 
     private Long tagId;
 
@@ -87,12 +87,12 @@ public class BlogArticleBack implements Serializable {
         this.logo = logo;
     }
 
-    public String getAuthor() {
-        return author;
+    public Long getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorId(Long authorId) {
+        this.authorId = authorId;
     }
 
     public Long getTagId() {

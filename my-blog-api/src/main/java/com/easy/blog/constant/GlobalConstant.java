@@ -20,4 +20,9 @@ public class GlobalConstant {
      * 文章类型
      */
     public static final String ARTICLE_TYPE_REPRINTED = "转载";
+
+    /**
+     * 文章作者
+     */
+    public static final String ARTICLE_AUTHOR = "一花一世界";
 }

@@ -30,6 +30,28 @@ public class BlogArticleController {
     private BlogArticleService blogArticleService;
 
     /**
+     * 发布博文
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/publish", method = RequestMethod.POST)
+    public Object publish(@RequestBody BlogArticlePublishDTO param) {
+        if (param == null || param.getArticleId() == null) {
+            return Result.error(CodeMsgConstant.PARAM_BIND_ERROR);
+        }
+        Result result;
+        try {
+            blogArticleService.publish(param);
+            result = Result.success();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result = Result.error();
+        }
+        return result;
+    }
+
+    /**
      * 搜索列表
      *
      * @param param

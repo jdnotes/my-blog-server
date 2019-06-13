@@ -7,6 +7,7 @@ import com.easy.blog.utils.RandomUtils;
 import com.easy.blog.utils.SnowflakeIdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -20,21 +21,27 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
     @Autowired
     private BlogArticleBackMapper blogArticleBackMapper;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void add(BlogArticleBack param) {
         if (param == null) {
-            throw new RuntimeException("blog aritcle back param is null");
+            throw new RuntimeException("blog article back param is null");
         }
         param.setId(SnowflakeIdUtils.getSnowflakeId());
-        param.setAuthor("周永");
-        param.setLevel(1);
-        param.setStatus(0);
-        param.setArticleType(2);
-        param.setReadNum(RandomUtils.getRandomNum(10, 20));
-        param.setLikeNum(RandomUtils.getRandomNum(10, 20));
+        if (param.getAuthorId() == null) {
+            //默认站长
+            param.setAuthorId(1L);
+        }
         param.setCode(RandomUtils.getRandomStr(10));
+        param.setReadNum(0);
+        param.setLikeNum(0);
         param.setCreateDate(new Date());
         param.setUpdateDate(new Date());
         blogArticleBackMapper.insertSelective(param);
+    }
+
+    @Override
+    public BlogArticleBack get(Long id) {
+        return blogArticleBackMapper.get(id);
     }
 }

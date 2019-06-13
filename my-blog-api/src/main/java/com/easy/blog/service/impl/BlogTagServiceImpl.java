@@ -4,13 +4,14 @@ import com.easy.blog.dao.BlogTagMapper;
 import com.easy.blog.model.BlogTag;
 import com.easy.blog.model.BlogTagCloudVO;
 import com.easy.blog.service.BlogTagService;
+import com.easy.blog.utils.RandomUtils;
+import com.easy.blog.utils.SnowflakeIdUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author zhouyong
@@ -61,5 +62,20 @@ public class BlogTagServiceImpl implements BlogTagService {
             voList.add(vo);
         }
         return voList;
+    }
+
+    @Override
+    public void add(BlogTag param) {
+        if (param == null) {
+            throw new RuntimeException("tag param is null");
+        }
+        param.setId(SnowflakeIdUtils.getSnowflakeId());
+        param.setParentId(1L);
+        param.setCode(RandomUtils.getRandomStr(10));
+        param.setSort(10);
+        Date date = new Date();
+        param.setCreateDate(date);
+        param.setUpdateDate(date);
+        blogTagMapper.insertSelective(param);
     }
 }
