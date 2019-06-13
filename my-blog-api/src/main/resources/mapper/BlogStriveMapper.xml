@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.easy.blog.dao.BlogStriveMapper">
-    <resultMap id="BaseResultMap" type="com.easy.blog.model.BlogStrive">
+<mapper namespace="com.easy.blog.api.dao.BlogStriveMapper">
+    <resultMap id="BaseResultMap" type="com.easy.blog.api.model.BlogStrive">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="content" jdbcType="VARCHAR" property="content"/>
@@ -25,14 +25,14 @@
         where id = #{id,jdbcType=BIGINT}
     </delete>
 
-    <insert id="insert" parameterType="com.easy.blog.model.BlogStrive">
+    <insert id="insert" parameterType="com.easy.blog.api.model.BlogStrive">
         insert into t_blog_strive (id, code, content,
         create_date, update_date)
         values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR},
         #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
     </insert>
 
-    <insert id="insertSelective" parameterType="com.easy.blog.model.BlogStrive">
+    <insert id="insertSelective" parameterType="com.easy.blog.api.model.BlogStrive">
         insert into t_blog_strive
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -70,7 +70,7 @@
         </trim>
     </insert>
 
-    <update id="updateSelective" parameterType="com.easy.blog.model.BlogStrive">
+    <update id="updateSelective" parameterType="com.easy.blog.api.model.BlogStrive">
         update t_blog_strive
         <set>
             <if test="code != null">
@@ -89,7 +89,7 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <update id="update" parameterType="com.easy.blog.model.BlogStrive">
+    <update id="update" parameterType="com.easy.blog.api.model.BlogStrive">
         update t_blog_strive
         set code = #{code,jdbcType=VARCHAR},
         content = #{content,jdbcType=VARCHAR},

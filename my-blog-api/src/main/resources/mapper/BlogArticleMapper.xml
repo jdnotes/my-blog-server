@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.easy.blog.dao.BlogArticleMapper">
-    <resultMap id="BaseResultMap" type="com.easy.blog.model.BlogArticle">
+<mapper namespace="com.easy.blog.api.dao.BlogArticleMapper">
+    <resultMap id="BaseResultMap" type="com.easy.blog.api.model.BlogArticle">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
@@ -23,7 +23,7 @@
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
     </resultMap>
 
-    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.easy.blog.model.BlogArticle">
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.easy.blog.api.model.BlogArticle">
         <result column="article_markdown" jdbcType="LONGVARCHAR" property="articleMarkdown"/>
         <result column="article_html" jdbcType="LONGVARCHAR" property="articleHtml"/>
     </resultMap>
@@ -51,7 +51,7 @@
         where id = #{id,jdbcType=BIGINT}
     </delete>
 
-    <insert id="insert" parameterType="com.easy.blog.model.BlogArticle">
+    <insert id="insert" parameterType="com.easy.blog.api.model.BlogArticle">
         insert into t_blog_article (id, code, title,
         second_title, logo, author_id,
         tag_id, tags, tags_name,
@@ -70,7 +70,7 @@
         )
     </insert>
 
-    <insert id="insertSelective" parameterType="com.easy.blog.model.BlogArticle">
+    <insert id="insertSelective" parameterType="com.easy.blog.api.model.BlogArticle">
         insert into t_blog_article
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -204,7 +204,7 @@
         </trim>
     </insert>
 
-    <update id="updateSelective" parameterType="com.easy.blog.model.BlogArticle">
+    <update id="updateSelective" parameterType="com.easy.blog.api.model.BlogArticle">
         update t_blog_article
         <set>
             <if test="code != null">
@@ -271,7 +271,7 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <update id="update" parameterType="com.easy.blog.model.BlogArticle">
+    <update id="update" parameterType="com.easy.blog.api.model.BlogArticle">
         update t_blog_article
         set code = #{code,jdbcType=VARCHAR},
         title = #{title,jdbcType=VARCHAR},
