@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @author zhouyong
@@ -43,5 +44,42 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
     @Override
     public BlogArticleBack get(Long id) {
         return blogArticleBackMapper.get(id);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public String save(BlogArticleBack param) {
+        if (param == null) {
+            throw new RuntimeException("blog article back param is null");
+        }
+        Long id = null;
+        if (param.getId() != null && param.getId() > 0) {
+            BlogArticleBack old = this.get(param.getId());
+            if (old != null) {
+                id = param.getId();
+                if (param.getAuthorId() == null) {
+                    //默认站长
+                    param.setAuthorId(1L);
+                }
+                param.setUpdateDate(new Date());
+                blogArticleBackMapper.updateSelective(param);
+            } else {
+                this.add(param);
+            }
+        } else {
+            id = SnowflakeIdUtils.getSnowflakeId();
+            param.setId(id);
+            if (param.getAuthorId() == null) {
+                //默认站长
+                param.setAuthorId(1L);
+            }
+            param.setCode(RandomUtils.getRandomStr(10));
+            param.setReadNum(0);
+            param.setLikeNum(0);
+            param.setCreateDate(new Date());
+            param.setUpdateDate(new Date());
+            blogArticleBackMapper.insertSelective(param);
+        }
+        return String.valueOf(id);
     }
 }

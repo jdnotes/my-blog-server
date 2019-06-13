@@ -38,8 +38,8 @@ public class BlogArticleBackController {
         }
         Result result;
         try {
-            blogArticleBackService.add(param);
-            result = Result.success();
+            String id = blogArticleBackService.save(param);
+            result = Result.success(id);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             result = Result.error();

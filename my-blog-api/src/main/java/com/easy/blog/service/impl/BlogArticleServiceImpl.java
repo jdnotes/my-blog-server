@@ -8,8 +8,10 @@ import com.easy.blog.es.service.BlogArticleSearchService;
 import com.easy.blog.model.*;
 import com.easy.blog.pager.Pager;
 import com.easy.blog.service.BlogArticleBackService;
+import com.easy.blog.service.BlogArticleHistoryService;
 import com.easy.blog.service.BlogArticleService;
 import com.easy.blog.service.BlogStriveService;
+import com.easy.blog.utils.SnowflakeIdUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.BeanUtils;
@@ -36,6 +38,9 @@ public class BlogArticleServiceImpl implements BlogArticleService {
 
     @Autowired
     private BlogArticleBackService blogArticleBackService;
+
+    @Autowired
+    private BlogArticleHistoryService blogArticleHistoryService;
 
     @Autowired
     private BlogArticleMapper blogArticleMapper;
@@ -137,9 +142,22 @@ public class BlogArticleServiceImpl implements BlogArticleService {
         if (articleBack == null) {
             throw new RuntimeException("article back is not exist");
         }
-        BlogArticle article = new BlogArticle();
-        BeanUtils.copyProperties(articleBack, article);
-        blogArticleMapper.insertSelective(article);
+        BlogArticle old = blogArticleMapper.get(articleBack.getId());
+        BlogArticle article;
+        if (old == null) {
+            article = new BlogArticle();
+            BeanUtils.copyProperties(articleBack, article);
+            blogArticleMapper.insertSelective(article);
+        } else {
+            BlogArticleHistory history = new BlogArticleHistory();
+            BeanUtils.copyProperties(old, history);
+            blogArticleHistoryService.add(history);
+
+            article = new BlogArticle();
+            BeanUtils.copyProperties(articleBack, article);
+            blogArticleMapper.updateSelective(article);
+        }
+
         BlogArticleEs es = new BlogArticleEs();
         BeanUtils.copyProperties(article, es);
         if (article.getAuthorId() == null) {

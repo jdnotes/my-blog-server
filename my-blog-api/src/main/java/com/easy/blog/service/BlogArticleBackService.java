@@ -11,4 +11,6 @@ public interface BlogArticleBackService {
     void add(BlogArticleBack param);
 
     BlogArticleBack get(Long id);
+
+    String save(BlogArticleBack param);
 }

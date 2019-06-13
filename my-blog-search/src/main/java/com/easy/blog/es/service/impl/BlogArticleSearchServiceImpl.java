@@ -60,7 +60,8 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
     public Page<BlogArticleEs> search(BlogArticleEsDTO param) {
         SearchQuery searchQuery = this.putSearchParams(param);
         if (logger.isDebugEnabled()) {
-            logger.debug("recommend search param:{},searchQuery:{}", JSON.toJSONString(param), searchQuery.getQuery() == null ? "" : searchQuery.getQuery().toString());
+            logger.debug("recommend search param:{},searchQuery:{}", JSON.toJSONString(param),
+                    searchQuery.getQuery() == null ? "" : searchQuery.getQuery().toString());
         }
         Page<BlogArticleEs> page = blogArticleSearchRepository.search(searchQuery);
         return page;
@@ -115,7 +116,8 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
             nativeSearchQueryBuilder.withSort(SortBuilders.scoreSort().order(SortOrder.DESC));
         } else {
             //按时间
-            nativeSearchQueryBuilder.withSort(SortBuilders.fieldSort("createDate").order(SortOrder.DESC));
+            nativeSearchQueryBuilder.withSort(SortBuilders.fieldSort("createDate")
+                    .unmappedType("long").order(SortOrder.DESC));
         }
 
         return nativeSearchQueryBuilder.build();

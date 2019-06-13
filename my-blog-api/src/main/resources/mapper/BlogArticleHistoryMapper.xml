@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.easy.blog.dao.BlogArticleBackMapper">
-    <resultMap id="BaseResultMap" type="com.easy.blog.model.BlogArticleBack">
+<mapper namespace="com.easy.blog.dao.BlogArticleHistoryMapper">
+    <resultMap id="BaseResultMap" type="com.easy.blog.model.BlogArticleHistory">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
@@ -23,7 +23,7 @@
         <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
     </resultMap>
 
-    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.easy.blog.model.BlogArticleBack">
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.easy.blog.model.BlogArticleHistory">
         <result column="article_markdown" jdbcType="LONGVARCHAR" property="articleMarkdown"/>
         <result column="article_html" jdbcType="LONGVARCHAR" property="articleHtml"/>
     </resultMap>
@@ -42,17 +42,17 @@
         <include refid="Base_Column_List"/>
         ,
         <include refid="Blob_Column_List"/>
-        from t_blog_article_back
+        from t_blog_article_history
         where id = #{id,jdbcType=BIGINT}
     </select>
 
     <delete id="delete" parameterType="java.lang.Long">
-        delete from t_blog_article_back
+        delete from t_blog_article_history
         where id = #{id,jdbcType=BIGINT}
     </delete>
 
-    <insert id="insert" parameterType="com.easy.blog.model.BlogArticleBack">
-        insert into t_blog_article_back (id, code, title,
+    <insert id="insert" parameterType="com.easy.blog.model.BlogArticleHistory">
+        insert into t_blog_article_history (id, code, title,
         second_title, logo, author_id,
         tag_id, tags, tags_name,
         article_type, article_section, remark,
@@ -70,8 +70,8 @@
         )
     </insert>
 
-    <insert id="insertSelective" parameterType="com.easy.blog.model.BlogArticleBack">
-        insert into t_blog_article_back
+    <insert id="insertSelective" parameterType="com.easy.blog.model.BlogArticleHistory">
+        insert into t_blog_article_history
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
@@ -204,8 +204,8 @@
         </trim>
     </insert>
 
-    <update id="updateSelective" parameterType="com.easy.blog.model.BlogArticleBack">
-        update t_blog_article_back
+    <update id="updateSelective" parameterType="com.easy.blog.model.BlogArticleHistory">
+        update t_blog_article_history
         <set>
             <if test="code != null">
                 code = #{code,jdbcType=VARCHAR},
@@ -271,8 +271,8 @@
         where id = #{id,jdbcType=BIGINT}
     </update>
 
-    <update id="update" parameterType="com.easy.blog.model.BlogArticleBack">
-        update t_blog_article_back
+    <update id="update" parameterType="com.easy.blog.model.BlogArticleHistory">
+        update t_blog_article_history
         set code = #{code,jdbcType=VARCHAR},
         title = #{title,jdbcType=VARCHAR},
         second_title = #{secondTitle,jdbcType=VARCHAR},
