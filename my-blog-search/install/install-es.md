@@ -8,7 +8,7 @@
 ```shell
 sudo docker search elasticsearch
 
-docker pull elasticsearch
+sudo docker pull elasticsearch
 ```
 
 ## 运行容器
@@ -16,7 +16,7 @@ ElasticSearch的默认端口是9200，我们把宿主环境9200端口映射到Do
 注意：5.0默认分配jvm空间大小为2g,5.0之前好像是1g。若你的服务器内存够大请随意。
 
 ```shell
-$ docker run --name es -d -e ES_JAVA_OPTS="-Xms512m -Xmx512m" -p 9200:9200 -p 9300:9300 elasticsearch
+$ sudo docker run --name es -d -e ES_JAVA_OPTS="-Xms512m -Xmx512m" -p 9200:9200 -p 9300:9300 elasticsearch
 07294dbb5936bdbb6b012befbddf725f2835625e18d0270c5cb6b4044bfb4541
 $ sudo docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                                            NAMES

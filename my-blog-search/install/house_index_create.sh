@@ -61,7 +61,6 @@ curl -XPOST 'http://192.168.1.200:9200/blog_article_index/blog_article_type?pret
 				"store": true,
 				"type": "integer"
 			},
-
 			"level": {
 				"store": true,
 				"type": "integer"
@@ -70,10 +69,6 @@ curl -XPOST 'http://192.168.1.200:9200/blog_article_index/blog_article_type?pret
 				"store": true,
 				"type": "integer"
 			},
-			"status": {
-                "store": true,
-                "type": "integer"
-            },
 			"updateDate": {
 				"format": "strict_date_optional_time||epoch_millis",
 				"store": true,

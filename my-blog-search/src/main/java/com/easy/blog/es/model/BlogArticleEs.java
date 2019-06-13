@@ -1,5 +1,6 @@
 package com.easy.blog.es.model;
 
+import com.easy.blog.es.constant.EsConstants;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.io.Serializable;
@@ -9,7 +10,7 @@ import java.util.Date;
  * @author zhouyong
  * @date 2019/6/6
  */
-@Document(indexName = "blog_article_index", type = "blog_article_type")
+@Document(indexName = EsConstants.ARTICLE_INDEX, type = EsConstants.ARTICLE_TYPE)
 public class BlogArticleEs implements Serializable {
 
     private Long id;
@@ -22,7 +23,9 @@ public class BlogArticleEs implements Serializable {
 
     private String author;
 
-    private String firstTag;
+    private String tagId;
+
+    private String tag;
 
     private String tags;
 
@@ -90,12 +93,20 @@ public class BlogArticleEs implements Serializable {
         this.author = author;
     }
 
-    public String getFirstTag() {
-        return firstTag;
+    public String getTagId() {
+        return tagId;
     }
 
-    public void setFirstTag(String firstTag) {
-        this.firstTag = firstTag;
+    public void setTagId(String tagId) {
+        this.tagId = tagId;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public String getTags() {

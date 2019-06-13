@@ -5,12 +5,10 @@
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="second_title" jdbcType="VARCHAR" property="secondTitle"/>
         <result column="logo" jdbcType="VARCHAR" property="logo"/>
         <result column="author" jdbcType="VARCHAR" property="author"/>
-        <result column="first_tag" jdbcType="VARCHAR" property="firstTag"/>
-        <result column="first_tag_name" jdbcType="VARCHAR" property="firstTagName"/>
-        <result column="second_tag" jdbcType="VARCHAR" property="secondTag"/>
-        <result column="second_tag_name" jdbcType="VARCHAR" property="secondTagName"/>
+        <result column="tag_id" jdbcType="BIGINT" property="tagId"/>
         <result column="tags" jdbcType="VARCHAR" property="tags"/>
         <result column="tags_name" jdbcType="VARCHAR" property="tagsName"/>
         <result column="article_type" jdbcType="TINYINT" property="articleType"/>
@@ -31,9 +29,8 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, code, title, logo, author, first_tag, first_tag_name, second_tag, second_tag_name,
-        tags, tags_name, article_type, article_section, remark, read_num, like_num, sort,
-        level, status, create_date, update_date
+        id, code, title, second_title, logo, author, tag_id, tags, tags_name, article_type,
+        article_section, remark, read_num, like_num, sort, level, status, create_date, update_date
     </sql>
 
     <sql id="Blob_Column_List">
@@ -56,21 +53,21 @@
 
     <insert id="insert" parameterType="com.easy.blog.model.BlogArticle">
         insert into t_blog_article (id, code, title,
-        logo, author, first_tag,
-        first_tag_name, second_tag, second_tag_name,
-        tags, tags_name, article_type,
-        article_section, remark, read_num,
-        like_num, sort, level,
-        status, create_date, update_date,
-        article_markdown, article_html)
+        second_title, logo, author,
+        tag_id, tags, tags_name,
+        article_type, article_section, remark,
+        read_num, like_num, sort,
+        level, status, create_date,
+        update_date, article_markdown, article_html
+        )
         values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
-        #{logo,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{firstTag,jdbcType=VARCHAR},
-        #{firstTagName,jdbcType=VARCHAR}, #{secondTag,jdbcType=VARCHAR}, #{secondTagName,jdbcType=VARCHAR},
-        #{tags,jdbcType=VARCHAR}, #{tagsName,jdbcType=VARCHAR}, #{articleType,jdbcType=TINYINT},
-        #{articleSection,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{readNum,jdbcType=INTEGER},
-        #{likeNum,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{level,jdbcType=TINYINT},
-        #{status,jdbcType=TINYINT}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
-        #{articleMarkdown,jdbcType=LONGVARCHAR}, #{articleHtml,jdbcType=LONGVARCHAR})
+        #{secondTitle,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR},
+        #{tagId,jdbcType=BIGINT}, #{tags,jdbcType=VARCHAR}, #{tagsName,jdbcType=VARCHAR},
+        #{articleType,jdbcType=TINYINT}, #{articleSection,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+        #{readNum,jdbcType=INTEGER}, #{likeNum,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER},
+        #{level,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{createDate,jdbcType=TIMESTAMP},
+        #{updateDate,jdbcType=TIMESTAMP}, #{articleMarkdown,jdbcType=LONGVARCHAR}, #{articleHtml,jdbcType=LONGVARCHAR}
+        )
     </insert>
 
     <insert id="insertSelective" parameterType="com.easy.blog.model.BlogArticle">
@@ -85,23 +82,17 @@
             <if test="title != null">
                 title,
             </if>
+            <if test="secondTitle != null">
+                second_title,
+            </if>
             <if test="logo != null">
                 logo,
             </if>
             <if test="author != null">
                 author,
             </if>
-            <if test="firstTag != null">
-                first_tag,
-            </if>
-            <if test="firstTagName != null">
-                first_tag_name,
-            </if>
-            <if test="secondTag != null">
-                second_tag,
-            </if>
-            <if test="secondTagName != null">
-                second_tag_name,
+            <if test="tagId != null">
+                tag_id,
             </if>
             <if test="tags != null">
                 tags,
@@ -156,23 +147,17 @@
             <if test="title != null">
                 #{title,jdbcType=VARCHAR},
             </if>
+            <if test="secondTitle != null">
+                #{secondTitle,jdbcType=VARCHAR},
+            </if>
             <if test="logo != null">
                 #{logo,jdbcType=VARCHAR},
             </if>
             <if test="author != null">
                 #{author,jdbcType=VARCHAR},
             </if>
-            <if test="firstTag != null">
-                #{firstTag,jdbcType=VARCHAR},
-            </if>
-            <if test="firstTagName != null">
-                #{firstTagName,jdbcType=VARCHAR},
-            </if>
-            <if test="secondTag != null">
-                #{secondTag,jdbcType=VARCHAR},
-            </if>
-            <if test="secondTagName != null">
-                #{secondTagName,jdbcType=VARCHAR},
+            <if test="tagId != null">
+                #{tagId,jdbcType=BIGINT},
             </if>
             <if test="tags != null">
                 #{tags,jdbcType=VARCHAR},
@@ -228,23 +213,17 @@
             <if test="title != null">
                 title = #{title,jdbcType=VARCHAR},
             </if>
+            <if test="secondTitle != null">
+                second_title = #{secondTitle,jdbcType=VARCHAR},
+            </if>
             <if test="logo != null">
                 logo = #{logo,jdbcType=VARCHAR},
             </if>
             <if test="author != null">
                 author = #{author,jdbcType=VARCHAR},
             </if>
-            <if test="firstTag != null">
-                first_tag = #{firstTag,jdbcType=VARCHAR},
-            </if>
-            <if test="firstTagName != null">
-                first_tag_name = #{firstTagName,jdbcType=VARCHAR},
-            </if>
-            <if test="secondTag != null">
-                second_tag = #{secondTag,jdbcType=VARCHAR},
-            </if>
-            <if test="secondTagName != null">
-                second_tag_name = #{secondTagName,jdbcType=VARCHAR},
+            <if test="tagId != null">
+                tag_id = #{tagId,jdbcType=BIGINT},
             </if>
             <if test="tags != null">
                 tags = #{tags,jdbcType=VARCHAR},
@@ -296,12 +275,10 @@
         update t_blog_article
         set code = #{code,jdbcType=VARCHAR},
         title = #{title,jdbcType=VARCHAR},
+        second_title = #{secondTitle,jdbcType=VARCHAR},
         logo = #{logo,jdbcType=VARCHAR},
         author = #{author,jdbcType=VARCHAR},
-        first_tag = #{firstTag,jdbcType=VARCHAR},
-        first_tag_name = #{firstTagName,jdbcType=VARCHAR},
-        second_tag = #{secondTag,jdbcType=VARCHAR},
-        second_tag_name = #{secondTagName,jdbcType=VARCHAR},
+        tag_id = #{tagId,jdbcType=BIGINT},
         tags = #{tags,jdbcType=VARCHAR},
         tags_name = #{tagsName,jdbcType=VARCHAR},
         article_type = #{articleType,jdbcType=TINYINT},

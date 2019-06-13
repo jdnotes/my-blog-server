@@ -11,23 +11,19 @@ public class BlogArticle implements Serializable {
 
     private String title;
 
+    private String secondTitle;
+
     private String logo;
 
     private String author;
 
-    private String firstTag;
-
-    private String firstTagName;
-
-    private String secondTag;
-
-    private String secondTagName;
+    private Long tagId;
 
     private String tags;
 
     private String tagsName;
 
-    private Integer articleType;
+    private Byte articleType;
 
     private String articleSection;
 
@@ -39,9 +35,9 @@ public class BlogArticle implements Serializable {
 
     private Integer sort;
 
-    private Integer level;
+    private Byte level;
 
-    private Integer status;
+    private Byte status;
 
     private Date createDate;
 
@@ -75,6 +71,14 @@ public class BlogArticle implements Serializable {
         this.title = title;
     }
 
+    public String getSecondTitle() {
+        return secondTitle;
+    }
+
+    public void setSecondTitle(String secondTitle) {
+        this.secondTitle = secondTitle;
+    }
+
     public String getLogo() {
         return logo;
     }
@@ -91,36 +95,12 @@ public class BlogArticle implements Serializable {
         this.author = author;
     }
 
-    public String getFirstTag() {
-        return firstTag;
+    public Long getTagId() {
+        return tagId;
     }
 
-    public void setFirstTag(String firstTag) {
-        this.firstTag = firstTag;
-    }
-
-    public String getFirstTagName() {
-        return firstTagName;
-    }
-
-    public void setFirstTagName(String firstTagName) {
-        this.firstTagName = firstTagName;
-    }
-
-    public String getSecondTag() {
-        return secondTag;
-    }
-
-    public void setSecondTag(String secondTag) {
-        this.secondTag = secondTag;
-    }
-
-    public String getSecondTagName() {
-        return secondTagName;
-    }
-
-    public void setSecondTagName(String secondTagName) {
-        this.secondTagName = secondTagName;
+    public void setTagId(Long tagId) {
+        this.tagId = tagId;
     }
 
     public String getTags() {
@@ -139,11 +119,11 @@ public class BlogArticle implements Serializable {
         this.tagsName = tagsName;
     }
 
-    public Integer getArticleType() {
+    public Byte getArticleType() {
         return articleType;
     }
 
-    public void setArticleType(Integer articleType) {
+    public void setArticleType(Byte articleType) {
         this.articleType = articleType;
     }
 
@@ -187,19 +167,19 @@ public class BlogArticle implements Serializable {
         this.sort = sort;
     }
 
-    public Integer getLevel() {
+    public Byte getLevel() {
         return level;
     }
 
-    public void setLevel(Integer level) {
+    public void setLevel(Byte level) {
         this.level = level;
     }
 
-    public Integer getStatus() {
+    public Byte getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(Byte status) {
         this.status = status;
     }
 

@@ -1,6 +1,5 @@
 package com.easy.blog.dao;
 
-
 import com.easy.blog.model.BlogArticle;
 
 public interface BlogArticleMapper {

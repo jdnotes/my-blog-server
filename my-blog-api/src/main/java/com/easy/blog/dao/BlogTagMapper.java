@@ -1,6 +1,5 @@
 package com.easy.blog.dao;
 
-
 import com.easy.blog.model.BlogTag;
 
 import java.util.List;
