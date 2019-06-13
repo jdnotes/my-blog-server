@@ -151,6 +151,11 @@ public class BlogArticleServiceImpl implements BlogArticleService {
         blogArticleSearchService.add(es);
     }
 
+    @Override
+    public void remove(BlogArticlePublishDTO param) {
+
+    }
+
     private List<BlogTagCloudVO> putTagsValue(String tags, String tagsName) {
         List<BlogTagCloudVO> tagList = new ArrayList<>();
         if (StringUtils.isNotEmpty(tags) && StringUtils.isNotEmpty(tagsName)) {

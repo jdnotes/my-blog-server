@@ -18,4 +18,6 @@ public interface BlogArticleService {
     BlogArticleDetailsVO getDetails(String code);
 
     void publish(BlogArticlePublishDTO param);
+
+    void remove(BlogArticlePublishDTO param);
 }

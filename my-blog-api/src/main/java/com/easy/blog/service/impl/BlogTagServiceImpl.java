@@ -9,6 +9,7 @@ import com.easy.blog.utils.SnowflakeIdUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.*;
@@ -64,6 +65,7 @@ public class BlogTagServiceImpl implements BlogTagService {
         return voList;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void add(BlogTag param) {
         if (param == null) {

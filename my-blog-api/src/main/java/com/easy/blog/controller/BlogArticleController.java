@@ -29,6 +29,29 @@ public class BlogArticleController {
     @Autowired
     private BlogArticleService blogArticleService;
 
+
+    /**
+     * 下架博文
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/remove", method = RequestMethod.POST)
+    public Object remove(@RequestBody BlogArticlePublishDTO param) {
+        if (param == null || param.getArticleId() == null) {
+            return Result.error(CodeMsgConstant.PARAM_BIND_ERROR);
+        }
+        Result result;
+        try {
+            blogArticleService.remove(param);
+            result = Result.success();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result = Result.error();
+        }
+        return result;
+    }
+
     /**
      * 发布博文
      *
