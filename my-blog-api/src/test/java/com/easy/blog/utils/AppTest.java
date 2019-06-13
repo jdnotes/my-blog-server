@@ -1,8 +1,9 @@
 package com.easy.blog.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.easy.blog.constant.CodeMsgConstant;
-import com.easy.blog.constant.Result;
+import com.easy.blog.api.constant.CodeMsgConstant;
+import com.easy.blog.api.constant.Result;
+import com.easy.blog.api.utils.SnowflakeIdUtils;
 import org.junit.Test;
 
 import java.util.Date;
