@@ -1,7 +1,11 @@
 package com.easy.blog.es.model;
 
 import com.easy.blog.es.constant.EsConstants;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,47 +14,68 @@ import java.util.Date;
  * @author zhouyong
  * @date 2019/6/6
  */
-@Document(indexName = EsConstants.ARTICLE_INDEX, type = EsConstants.ARTICLE_TYPE)
+@Document(indexName = EsConstants.ARTICLE_INDEX, type = EsConstants.ARTICLE_TYPE, useServerConfiguration = true)
 public class BlogArticleEs implements Serializable {
 
+    @Id
+    @Field(type = FieldType.Long, store = true, index = false)
     private Long id;
 
+    @Field(type = FieldType.Text, store = true, index = false)
     private String code;
 
+    @Field(type = FieldType.Text, store = true, searchAnalyzer = "ik_max_word", analyzer = "ik_max_word")
     private String title;
 
+    @Field(type = FieldType.Text, store = true, index = false)
     private String logo;
 
+    @Field(type = FieldType.Text, store = true, index = false)
     private String author;
 
+    @Field(type = FieldType.Text, store = true, index = false)
     private String tagId;
 
+    @Field(type = FieldType.Text, store = true, index = false)
     private String tag;
 
+    @Field(type = FieldType.Text, store = true, searchAnalyzer = "ik_smart", analyzer = "ik_smart")
     private String tags;
 
+    @Field(type = FieldType.Text, store = true, index = false)
     private String tagsName;
 
+    @Field(type = FieldType.Integer, store = true, index = false)
     private Integer articleType;
 
+    @Field(type = FieldType.Text, store = true, index = false)
     private String articleSection;
 
+    @Field(type = FieldType.Text, store = true, index = false)
     private String articleHtml;
 
+    @Field(type = FieldType.Text, store = true, index = false)
     private String remark;
 
+    @Field(type = FieldType.Integer, store = true, index = false)
     private Integer readNum;
 
+    @Field(type = FieldType.Integer, store = true, index = false)
     private Integer likeNum;
 
+    @Field(type = FieldType.Integer, store = true, index = false)
     private Integer sort;
 
+    @Field(type = FieldType.Integer, store = true, index = false)
     private Integer level;
 
+    @Field(type = FieldType.Integer, store = true, index = false)
     private Integer status;
 
+    @Field(type = FieldType.Date, store = true, index = false, format = DateFormat.basic_date_time_no_millis)
     private Date createDate;
 
+    @Field(type = FieldType.Date, store = true, index = false, format = DateFormat.basic_date_time_no_millis)
     private Date updateDate;
 
     public Long getId() {
