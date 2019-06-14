@@ -188,4 +188,9 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
         }
         return null;
     }
+
+    @Override
+    public void delete(Long articleId) {
+        blogArticleSearchRepository.deleteById(articleId);
+    }
 }

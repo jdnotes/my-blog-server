@@ -168,8 +168,23 @@ public class BlogArticleServiceImpl implements BlogArticleService {
         blogArticleSearchService.add(es);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void remove(BlogArticlePublishDTO param) {
+        if (param == null || param.getArticleId() == null) {
+            throw new RuntimeException("Article remove param is null");
+        }
+        BlogArticle article = new BlogArticle();
+        article.setId(param.getArticleId());
+        article.setStatus(NumberUtils.toByte("2"));
+        blogArticleMapper.updateSelective(article);
+
+        BlogArticle old = blogArticleMapper.get(article.getId());
+        BlogArticleHistory history = new BlogArticleHistory();
+        BeanUtils.copyProperties(old, history);
+        blogArticleHistoryService.add(history);
+
+        blogArticleSearchService.delete(param.getArticleId());
 
     }
 

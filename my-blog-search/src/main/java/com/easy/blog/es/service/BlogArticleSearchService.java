@@ -23,4 +23,6 @@ public interface BlogArticleSearchService {
     List<BlogArticleEs> recommendList(int size);
 
     BlogArticleEs getInfoByCode(String code);
+
+    void delete(Long articleId);
 }
