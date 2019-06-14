@@ -72,10 +72,10 @@ public class BlogArticleEs implements Serializable {
     @Field(type = FieldType.Integer, store = true, index = false)
     private Integer status;
 
-    @Field(type = FieldType.Date, store = true, index = false, format = DateFormat.basic_date_time_no_millis)
+    @Field(type = FieldType.Date, store = true, index = false)
     private Date createDate;
 
-    @Field(type = FieldType.Date, store = true, index = false, format = DateFormat.basic_date_time_no_millis)
+    @Field(type = FieldType.Date, store = true, index = false)
     private Date updateDate;
 
     public Long getId() {

@@ -37,8 +37,7 @@ curl -XPOST 'http://192.168.1.200:9200/blog_article_index/blog_article_type?pret
 			"createDate": {
 				"type": "date",
 				"index": false,
-				"store": true,
-				"format": "basic_date_time_no_millis"
+				"store": true
 			},
 			"id": {
 				"type": "keyword"
@@ -106,8 +105,7 @@ curl -XPOST 'http://192.168.1.200:9200/blog_article_index/blog_article_type?pret
 			"updateDate": {
 				"type": "date",
 				"index": false,
-				"store": true,
-				"format": "basic_date_time_no_millis"
+				"store": true
 			}
 		}
 	}
