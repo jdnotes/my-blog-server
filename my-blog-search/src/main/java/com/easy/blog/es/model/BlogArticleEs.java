@@ -38,10 +38,10 @@ public class BlogArticleEs implements Serializable {
     @Field(type = FieldType.Keyword, store = true, index = false)
     private String tag;
 
-    @Field(type = FieldType.Text, store = true, searchAnalyzer = "ik_smart", analyzer = "ik_smart")
+    @Field(type = FieldType.Text, store = true, index = true, searchAnalyzer = "ik_smart", analyzer = "ik_smart")
     private String tags;
 
-    @Field(type = FieldType.Text, store = true, index = false)
+    @Field(type = FieldType.Text, store = true, index = true, searchAnalyzer = "ik_max_word", analyzer = "ik_max_word")
     private String tagsName;
 
     @Field(type = FieldType.Integer, store = true, index = false)
