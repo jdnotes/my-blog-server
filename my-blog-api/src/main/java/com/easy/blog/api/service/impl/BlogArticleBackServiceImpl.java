@@ -1,10 +1,9 @@
 package com.easy.blog.api.service.impl;
 
 import com.easy.blog.api.dao.BlogArticleBackMapper;
-import com.easy.blog.api.model.BlogArticleBack;
-import com.easy.blog.api.model.BlogArticleBackDTO;
-import com.easy.blog.api.model.BlogTag;
+import com.easy.blog.api.model.*;
 import com.easy.blog.api.service.BlogArticleBackService;
+import com.easy.blog.api.service.BlogArticleService;
 import com.easy.blog.api.service.BlogTagService;
 import com.easy.blog.api.utils.RandomUtils;
 import com.easy.blog.api.utils.SnowflakeIdUtils;
@@ -31,6 +30,9 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
     @Autowired
     private BlogTagService blogTagService;
 
+    @Autowired
+    private BlogArticleService blogArticleService;
+
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void add(BlogArticleBack param) {
@@ -55,21 +57,21 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
         return blogArticleBackMapper.get(id);
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public void save(BlogArticleBackDTO param) {
         if (param == null) {
             throw new RuntimeException("blog article back param is null");
         }
+        BlogArticleBack back;
         if (param.getId() != null && param.getId() > 0) {
             BlogArticleBack old = this.get(param.getId());
             if (old != null) {
-                BlogArticleBack back = this.putBlogArticleParam(param);
+                back = this.putBlogArticleParam(param);
                 back.setId(old.getId());
                 back.setUpdateDate(new Date());
                 blogArticleBackMapper.updateSelective(back);
             } else {
-                BlogArticleBack back = this.putBlogArticleParam(param);
+                back = this.putBlogArticleParam(param);
                 Long id = SnowflakeIdUtils.getSnowflakeId();
                 back.setId(id);
                 back.setCreateDate(new Date());
@@ -77,12 +79,20 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
                 blogArticleBackMapper.insertSelective(back);
             }
         } else {
-            BlogArticleBack back = this.putBlogArticleParam(param);
+            back = this.putBlogArticleParam(param);
             Long id = SnowflakeIdUtils.getSnowflakeId();
             back.setId(id);
             back.setCreateDate(new Date());
             back.setUpdateDate(new Date());
             blogArticleBackMapper.insertSelective(back);
+        }
+        if (StringUtils.isNotBlank(param.getWord())) {
+            //通过口令发布博客 todo cache
+            if ("word".equals(param.getWord())) {
+                BlogArticlePublishDTO publish = new BlogArticlePublishDTO();
+                publish.setArticleId(back.getId());
+                blogArticleService.publish(publish);
+            }
         }
     }
 
@@ -116,12 +126,16 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
             List<BlogTag> tagDatas = blogTagService.getTagByCodes(tagCodes);
             if (tagDatas != null && tagDatas.size() > 0) {
                 for (BlogTag tag : tagDatas) {
-                    tags.append(tag.getCode());
-                    tagsName.append(tag.getAlias());
+                    tags.append(tag.getCode()).append(",");
+                    tagsName.append(tag.getAlias()).append(",");
                 }
             }
         }
-        back.setTags(tags.toString());
-        back.setTagsName(tagsName.toString());
+        if (tags.length() > 1) {
+            back.setTags(tags.toString().substring(0, tags.length() - 1));
+        }
+        if (tagsName.length() > 1) {
+            back.setTagsName(tagsName.toString().substring(0, tagsName.length() - 1));
+        }
     }
 }

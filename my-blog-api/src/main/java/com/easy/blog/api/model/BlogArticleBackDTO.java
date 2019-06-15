@@ -31,6 +31,8 @@ public class BlogArticleBackDTO implements Serializable {
 
     private String articleHtml;
 
+    private String word;
+
     public Long getId() {
         return id;
     }
@@ -133,5 +135,13 @@ public class BlogArticleBackDTO implements Serializable {
 
     public void setArticleHtml(String articleHtml) {
         this.articleHtml = articleHtml;
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
     }
 }

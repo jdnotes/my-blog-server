@@ -146,19 +146,27 @@ public class BlogArticleServiceImpl implements BlogArticleService {
         if (old == null) {
             article = new BlogArticle();
             BeanUtils.copyProperties(articleBack, article);
+            article.setStatus(NumberUtils.toByte("1"));
             blogArticleMapper.insertSelective(article);
         } else {
-            BlogArticleHistory history = new BlogArticleHistory();
-            BeanUtils.copyProperties(old, history);
-            blogArticleHistoryService.add(history);
-
             article = new BlogArticle();
             BeanUtils.copyProperties(articleBack, article);
+            article.setStatus(NumberUtils.toByte("1"));
             blogArticleMapper.updateSelective(article);
         }
 
+        BlogArticleHistory history = new BlogArticleHistory();
+        BeanUtils.copyProperties(article, history);
+        blogArticleHistoryService.add(history);
+
         BlogArticleEs es = new BlogArticleEs();
         BeanUtils.copyProperties(article, es);
+        es.setAuthor(GlobalConstant.ARTICLE_AUTHOR);
+        es.setTagId(String.valueOf(article.getTagId() == null ? "" : article.getTagId()));
+        es.setTag(String.valueOf(article.getTagId() == null ? "" : article.getTagId()));
+        es.setArticleType(NumberUtils.toInt(article.getArticleType() + ""));
+        es.setLevel(NumberUtils.toInt(article.getLevel() + ""));
+        es.setStatus(NumberUtils.toInt(article.getStatus() + ""));
         if (article.getAuthorId() == null) {
             es.setAuthor(GlobalConstant.ARTICLE_AUTHOR);
         } else {

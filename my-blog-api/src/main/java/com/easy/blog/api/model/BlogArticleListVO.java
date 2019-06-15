@@ -17,6 +17,8 @@ public class BlogArticleListVO implements Serializable {
 
     private String articleSection;
 
+    private String articleHtml;
+
     private Integer readNum;
 
     private Integer likeNum;
@@ -69,6 +71,14 @@ public class BlogArticleListVO implements Serializable {
 
     public void setArticleSection(String articleSection) {
         this.articleSection = articleSection;
+    }
+
+    public String getArticleHtml() {
+        return articleHtml;
+    }
+
+    public void setArticleHtml(String articleHtml) {
+        this.articleHtml = articleHtml;
     }
 
     public Integer getReadNum() {
