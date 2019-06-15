@@ -95,4 +95,9 @@ public class BlogTagServiceImpl implements BlogTagService {
         }
         return voList;
     }
+
+    @Override
+    public BlogTag get(Long id) {
+        return blogTagMapper.get(id);
+    }
 }

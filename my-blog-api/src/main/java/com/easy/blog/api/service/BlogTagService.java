@@ -20,4 +20,6 @@ public interface BlogTagService {
     List<BlogTag> getTagByCodes(List<String> tags);
 
     List<BlogTagCloudVO> getTags();
+
+    BlogTag get(Long tagId);
 }

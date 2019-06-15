@@ -2,9 +2,12 @@ package com.easy.blog.api.controller;
 
 import com.easy.blog.api.constant.CodeMsgConstant;
 import com.easy.blog.api.constant.Result;
+import com.easy.blog.api.model.BlogArticle;
 import com.easy.blog.api.model.BlogArticleBack;
 import com.easy.blog.api.model.BlogArticleBackDTO;
+import com.easy.blog.api.model.BlogArticleBackEditorVO;
 import com.easy.blog.api.service.BlogArticleBackService;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +34,7 @@ public class BlogArticleBackController {
      *
      * @return
      */
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Object add(@RequestBody BlogArticleBackDTO param) {
         if (param == null) {
             return Result.error(CodeMsgConstant.PARAM_BIND_ERROR);
@@ -40,6 +43,27 @@ public class BlogArticleBackController {
         try {
             blogArticleBackService.save(param);
             result = Result.success();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result = Result.error();
+        }
+        return result;
+    }
+
+    /**
+     * 博文草稿详情
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getByCode", method = RequestMethod.POST)
+    public Object getByCode(@RequestBody BlogArticleBackDTO param) {
+        if (param == null || StringUtils.isEmpty(param.getCode())) {
+            return Result.error(CodeMsgConstant.PARAM_BIND_ERROR);
+        }
+        Result result;
+        try {
+            BlogArticleBackEditorVO back = blogArticleBackService.getByCode(param);
+            result = Result.success(back);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             result = Result.error();

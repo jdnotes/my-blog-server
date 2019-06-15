@@ -3,6 +3,7 @@ package com.easy.blog.api.service;
 
 import com.easy.blog.api.model.BlogArticleBack;
 import com.easy.blog.api.model.BlogArticleBackDTO;
+import com.easy.blog.api.model.BlogArticleBackEditorVO;
 
 /**
  * @author zhouyong
@@ -15,4 +16,6 @@ public interface BlogArticleBackService {
     BlogArticleBack get(Long id);
 
     void save(BlogArticleBackDTO param);
+
+    BlogArticleBackEditorVO getByCode(BlogArticleBackDTO param);
 }

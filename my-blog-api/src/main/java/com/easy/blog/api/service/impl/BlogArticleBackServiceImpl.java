@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -63,30 +64,14 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
         if (param == null) {
             throw new RuntimeException("blog article back param is null");
         }
-        BlogArticleBack back;
-        if (param.getId() != null && param.getId() > 0) {
-            BlogArticleBack old = this.get(param.getId());
-            if (old != null) {
-                back = this.putBlogArticleParam(param);
-                back.setId(old.getId());
-                back.setUpdateDate(new Date());
-                blogArticleBackMapper.updateSelective(back);
-            } else {
-                back = this.putBlogArticleParam(param);
-                Long id = SnowflakeIdUtils.getSnowflakeId();
-                back.setId(id);
-                back.setCreateDate(new Date());
-                back.setUpdateDate(new Date());
-                blogArticleBackMapper.insertSelective(back);
-            }
-        } else {
-            back = this.putBlogArticleParam(param);
-            Long id = SnowflakeIdUtils.getSnowflakeId();
-            back.setId(id);
-            back.setCreateDate(new Date());
-            back.setUpdateDate(new Date());
-            blogArticleBackMapper.insertSelective(back);
-        }
+        BlogArticleBack back = this.putBlogArticleParam(param);
+        Long id = SnowflakeIdUtils.getSnowflakeId();
+        back.setId(id);
+        back.setCode(RandomUtils.getRandomStr(10));
+        back.setCreateDate(new Date());
+        back.setUpdateDate(new Date());
+        blogArticleBackMapper.insertSelective(back);
+
         if (StringUtils.isNotBlank(param.getWord())) {
             //通过口令发布博客 todo cache
             if (GlobalConstant.ARTICLE_WORD.equals(param.getWord())) {
@@ -95,6 +80,34 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
                 blogArticleService.publish(publish);
             }
         }
+    }
+
+    @Override
+    public BlogArticleBackEditorVO getByCode(BlogArticleBackDTO param) {
+        BlogArticleBack back = this.getByCode(param.getCode());
+        BlogArticleBackEditorVO vo = null;
+        if (back != null) {
+            vo = new BlogArticleBackEditorVO();
+            BeanUtils.copyProperties(back, vo);
+            if (StringUtils.isNotEmpty(back.getTags())) {
+                String[] arr = back.getTags().split(",");
+                if (arr != null && arr.length > 0) {
+                    vo.setTags(Arrays.asList(arr));
+                }
+            }
+            if (back.getTagId() != null) {
+                BlogTag tag = blogTagService.get(back.getTagId());
+                if (tag != null) {
+                    vo.setTag(tag.getCode());
+                }
+            }
+            //md,html加密处理 todo
+        }
+        return vo;
+    }
+
+    private BlogArticleBack getByCode(String code) {
+        return blogArticleBackMapper.getByCode(code);
     }
 
     private BlogArticleBack putBlogArticleParam(BlogArticleBackDTO param) {
@@ -114,7 +127,6 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
             }
         }
         this.getTagsName(param.getTags(), back);
-        back.setCode(RandomUtils.getRandomStr(10));
         back.setReadNum(0);
         back.setLikeNum(0);
         return back;

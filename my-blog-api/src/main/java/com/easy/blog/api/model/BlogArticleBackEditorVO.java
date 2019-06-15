@@ -1,9 +1,10 @@
 package com.easy.blog.api.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
-public class BlogArticleBackDTO implements Serializable {
+public class BlogArticleBackEditorVO implements Serializable {
 
     private String code;
 
@@ -19,6 +20,8 @@ public class BlogArticleBackDTO implements Serializable {
 
     private List<String> tags;
 
+    private String tagsName;
+
     private Byte articleType;
 
     private String articleSection;
@@ -28,10 +31,6 @@ public class BlogArticleBackDTO implements Serializable {
     private Byte level;
 
     private String articleMarkdown;
-
-    private String articleHtml;
-
-    private String word;
 
     public String getCode() {
         return code;
@@ -89,6 +88,14 @@ public class BlogArticleBackDTO implements Serializable {
         this.tags = tags;
     }
 
+    public String getTagsName() {
+        return tagsName;
+    }
+
+    public void setTagsName(String tagsName) {
+        this.tagsName = tagsName;
+    }
+
     public Byte getArticleType() {
         return articleType;
     }
@@ -127,21 +134,5 @@ public class BlogArticleBackDTO implements Serializable {
 
     public void setArticleMarkdown(String articleMarkdown) {
         this.articleMarkdown = articleMarkdown;
-    }
-
-    public String getArticleHtml() {
-        return articleHtml;
-    }
-
-    public void setArticleHtml(String articleHtml) {
-        this.articleHtml = articleHtml;
-    }
-
-    public String getWord() {
-        return word;
-    }
-
-    public void setWord(String word) {
-        this.word = word;
     }
 }

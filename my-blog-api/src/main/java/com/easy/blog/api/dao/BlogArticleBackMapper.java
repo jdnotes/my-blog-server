@@ -9,4 +9,6 @@ public interface BlogArticleBackMapper {
     BlogArticleBack get(Long id);
 
     int updateSelective(BlogArticleBack record);
+
+    BlogArticleBack getByCode(String code);
 }
