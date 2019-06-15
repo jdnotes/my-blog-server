@@ -2,6 +2,7 @@ package com.easy.blog.api.service;
 
 
 import com.easy.blog.api.model.BlogArticleBack;
+import com.easy.blog.api.model.BlogArticleBackDTO;
 
 /**
  * @author zhouyong
@@ -13,5 +14,5 @@ public interface BlogArticleBackService {
 
     BlogArticleBack get(Long id);
 
-    String save(BlogArticleBack param);
+    void save(BlogArticleBackDTO param);
 }

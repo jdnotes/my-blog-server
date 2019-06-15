@@ -3,6 +3,7 @@ package com.easy.blog.api.controller;
 import com.easy.blog.api.constant.CodeMsgConstant;
 import com.easy.blog.api.constant.Result;
 import com.easy.blog.api.model.BlogArticleBack;
+import com.easy.blog.api.model.BlogArticleBackDTO;
 import com.easy.blog.api.service.BlogArticleBackService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,14 +32,14 @@ public class BlogArticleBackController {
      * @return
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Object add(@RequestBody BlogArticleBack param) {
+    public Object add(@RequestBody BlogArticleBackDTO param) {
         if (param == null) {
             return Result.error(CodeMsgConstant.PARAM_BIND_ERROR);
         }
         Result result;
         try {
-            String id = blogArticleBackService.save(param);
-            result = Result.success(id);
+            blogArticleBackService.save(param);
+            result = Result.success();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             result = Result.error();

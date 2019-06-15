@@ -187,4 +187,22 @@
         order by sort
     </select>
 
+    <select id="getTagByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_blog_tag
+        where code = #{tag}
+    </select>
+
+    <select id="getTagByCodes" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_blog_tag
+        where code in
+        <foreach collection="tags" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+
 </mapper>

@@ -80,4 +80,20 @@ public class BlogTagServiceImpl implements BlogTagService {
         param.setUpdateDate(date);
         blogTagMapper.insertSelective(param);
     }
+
+    @Override
+    public BlogTag getTagByCode(String tag) {
+        if (StringUtils.isEmpty(tag)) {
+            return null;
+        }
+        return blogTagMapper.getTagByCode(tag);
+    }
+
+    @Override
+    public List<BlogTag> getTagByCodes(List<String> tags) {
+        if (tags == null || tags.size() == 0) {
+            return null;
+        }
+        return blogTagMapper.getTagByCodes(tags);
+    }
 }

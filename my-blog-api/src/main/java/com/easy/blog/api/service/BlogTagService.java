@@ -16,4 +16,8 @@ public interface BlogTagService {
     List<BlogTagCloudVO> getSecondTags(String parentCode);
 
     void add(BlogTag param);
+
+    BlogTag getTagByCode(String tag);
+
+    List<BlogTag> getTagByCodes(List<String> tags);
 }
