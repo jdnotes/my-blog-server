@@ -44,27 +44,6 @@ public class BlogTagServiceImpl implements BlogTagService {
         return voList;
     }
 
-    @Override
-    public List<BlogTagCloudVO> getSecondTags(String parentCode) {
-        if (StringUtils.isEmpty(parentCode)) {
-            return null;
-        }
-        List<BlogTag> tags = blogTagMapper.getSecondTags(parentCode);
-        if (tags == null || tags.size() == 0) {
-            return new ArrayList<>();
-        }
-        List<BlogTagCloudVO> voList = new ArrayList<>();
-        for (BlogTag tag : tags) {
-            BlogTagCloudVO vo = new BlogTagCloudVO();
-            vo.setId(String.valueOf(tag.getId()));
-            vo.setCode(tag.getCode());
-            vo.setTagName(tag.getAlias());
-            vo.setNum(1);
-            voList.add(vo);
-        }
-        return voList;
-    }
-
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void add(BlogTag param) {
@@ -95,5 +74,25 @@ public class BlogTagServiceImpl implements BlogTagService {
             return null;
         }
         return blogTagMapper.getTagByCodes(tags);
+    }
+
+    @Override
+    public List<BlogTagCloudVO> getTags() {
+        //cache todo
+
+        List<BlogTag> tags = blogTagMapper.getTagsByLimit(8);
+        if (tags == null || tags.size() == 0) {
+            return new ArrayList<>();
+        }
+        List<BlogTagCloudVO> voList = new ArrayList<>();
+        for (BlogTag tag : tags) {
+            BlogTagCloudVO vo = new BlogTagCloudVO();
+            vo.setId(String.valueOf(tag.getId()));
+            vo.setCode(tag.getCode());
+            vo.setTagName(tag.getAlias());
+            vo.setNum(0);
+            voList.add(vo);
+        }
+        return voList;
     }
 }

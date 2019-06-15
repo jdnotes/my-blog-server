@@ -72,18 +72,15 @@ public class BlogTagController {
     }
 
     /**
-     * 二级标签
+     * 推荐标签列表
      *
      * @return
      */
-    @RequestMapping(value = "/secondTags", method = RequestMethod.POST)
-    public Object secondTags(@RequestBody BlogTagListDTO param) {
-        if (param == null || StringUtils.isEmpty(param.getParentCode())) {
-            return Result.error(CodeMsgConstant.PARAM_BIND_ERROR);
-        }
+    @RequestMapping(value = "/tags", method = RequestMethod.POST)
+    public Object getTags() {
         Result result;
         try {
-            List<BlogTagCloudVO> tags = blogTagService.getSecondTags(param.getParentCode());
+            List<BlogTagCloudVO> tags = blogTagService.getTags();
             result = Result.success(tags);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

@@ -17,7 +17,7 @@ public class BlogStriveController {
     @Autowired
     private BlogStriveService blogStriveService;
 
-    @RequestMapping("/get")
+    //@RequestMapping("/get")
     public Object get(Long id) {
         BlogStrive blogStrive = blogStriveService.get(id);
         return blogStrive;

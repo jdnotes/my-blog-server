@@ -204,5 +204,14 @@
         </foreach>
     </select>
 
+    <select id="getTagsByLimit" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_blog_tag
+        where `type` = 1 and `status` = 0
+        order by sort
+        limit #{num}
+    </select>
+
 
 </mapper>

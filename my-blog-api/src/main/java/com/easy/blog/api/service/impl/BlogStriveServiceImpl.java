@@ -30,7 +30,7 @@ public class BlogStriveServiceImpl implements BlogStriveService {
     public String getInfoByRandom() {
         //cache // TODO: 2019/6/9
 
-        int n = RandomUtils.getRandomNum(1, 2);
+        int n = RandomUtils.getRandomNum(1, 30);
         logger.info("blog strive random num is {}", n);
         BlogStrive strive = blogStriveMapper.getInfoByCode(String.valueOf(n));
         if (strive != null) {

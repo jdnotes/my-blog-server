@@ -20,4 +20,6 @@ public interface BlogTagMapper {
     List<BlogTag> getTagByCodes(@Param("tags") List<String> tags);
 
     BlogTag getTagByCode(String tag);
+
+    List<BlogTag> getTagsByLimit(int num);
 }

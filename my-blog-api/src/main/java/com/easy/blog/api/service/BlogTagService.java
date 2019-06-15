@@ -13,11 +13,11 @@ public interface BlogTagService {
 
     List<BlogTagCloudVO> getTagCloud();
 
-    List<BlogTagCloudVO> getSecondTags(String parentCode);
-
     void add(BlogTag param);
 
     BlogTag getTagByCode(String tag);
 
     List<BlogTag> getTagByCodes(List<String> tags);
+
+    List<BlogTagCloudVO> getTags();
 }
