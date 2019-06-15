@@ -183,18 +183,21 @@ public class BlogArticleServiceImpl implements BlogArticleService {
         if (param == null || StringUtils.isEmpty(param.getCode())) {
             throw new RuntimeException("Article remove param is null");
         }
+        BlogArticle old = blogArticleMapper.getByCode(param.getCode());
+        if (old == null) {
+            throw new RuntimeException("Article remove data is null");
+        }
         BlogArticle article = new BlogArticle();
-        article.setId(param.getArticleId());
+        article.setId(old.getId());
         article.setStatus(NumberUtils.toByte("2"));
         article.setUpdateDate(new Date());
         blogArticleMapper.updateSelective(article);
 
-        BlogArticle old = blogArticleMapper.get(article.getId());
         BlogArticleHistory history = new BlogArticleHistory();
         BeanUtils.copyProperties(old, history);
         blogArticleHistoryService.add(history);
 
-        blogArticleSearchService.delete(param.getArticleId());
+        blogArticleSearchService.delete(old.getId());
 
     }
 
