@@ -2,7 +2,6 @@ package com.easy.blog.es.model;
 
 import com.easy.blog.es.constant.EsConstants;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.DateFormat;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -18,25 +17,25 @@ import java.util.Date;
 public class BlogArticleEs implements Serializable {
 
     @Id
-    @Field(type = FieldType.Long, store = true, index = false)
+    @Field(type = FieldType.Long, store = true, index = true)
     private Long id;
 
-    @Field(type = FieldType.Text, store = true, index = false)
+    @Field(type = FieldType.Keyword, store = true, index = true)
     private String code;
 
     @Field(type = FieldType.Text, store = true, searchAnalyzer = "ik_max_word", analyzer = "ik_max_word")
     private String title;
 
-    @Field(type = FieldType.Text, store = true, index = false)
+    @Field(type = FieldType.Keyword, store = true, index = false)
     private String logo;
 
-    @Field(type = FieldType.Text, store = true, index = false)
+    @Field(type = FieldType.Keyword, store = true, index = false)
     private String author;
 
-    @Field(type = FieldType.Text, store = true, index = false)
+    @Field(type = FieldType.Keyword, store = true, index = false)
     private String tagId;
 
-    @Field(type = FieldType.Text, store = true, index = false)
+    @Field(type = FieldType.Keyword, store = true, index = false)
     private String tag;
 
     @Field(type = FieldType.Text, store = true, searchAnalyzer = "ik_smart", analyzer = "ik_smart")
@@ -48,13 +47,13 @@ public class BlogArticleEs implements Serializable {
     @Field(type = FieldType.Integer, store = true, index = false)
     private Integer articleType;
 
-    @Field(type = FieldType.Text, store = true, index = false)
+    @Field(type = FieldType.Keyword, store = true, index = false)
     private String articleSection;
 
     @Field(type = FieldType.Text, store = true, index = false)
     private String articleHtml;
 
-    @Field(type = FieldType.Text, store = true, index = false)
+    @Field(type = FieldType.Keyword, store = true, index = false)
     private String remark;
 
     @Field(type = FieldType.Integer, store = true, index = false)
@@ -66,10 +65,10 @@ public class BlogArticleEs implements Serializable {
     @Field(type = FieldType.Integer, store = true, index = false)
     private Integer sort;
 
-    @Field(type = FieldType.Integer, store = true, index = false)
+    @Field(type = FieldType.Integer, store = true, index = true)
     private Integer level;
 
-    @Field(type = FieldType.Integer, store = true, index = false)
+    @Field(type = FieldType.Integer, store = true, index = true)
     private Integer status;
 
     @Field(type = FieldType.Date, store = true, index = false)
