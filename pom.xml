@@ -43,7 +43,11 @@
                 <artifactId>my-blog-search</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.easy</groupId>
+                <artifactId>my-blog-cache</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!-- third jar -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>

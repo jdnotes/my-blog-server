@@ -105,4 +105,11 @@
         where code = #{code}
     </select>
 
+    <select id="getAllByLimit" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_blog_strive
+        limit #{num}
+    </select>
+
 </mapper>

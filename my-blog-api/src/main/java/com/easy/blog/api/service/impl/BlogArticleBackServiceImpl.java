@@ -1,6 +1,7 @@
 package com.easy.blog.api.service.impl;
 
 import com.easy.blog.api.constant.GlobalConstant;
+import com.easy.blog.api.constant.RedisConstant;
 import com.easy.blog.api.dao.BlogArticleBackMapper;
 import com.easy.blog.api.model.*;
 import com.easy.blog.api.service.BlogArticleBackService;
@@ -8,6 +9,7 @@ import com.easy.blog.api.service.BlogArticleService;
 import com.easy.blog.api.service.BlogTagService;
 import com.easy.blog.api.utils.RandomUtils;
 import com.easy.blog.api.utils.SnowflakeIdUtils;
+import com.easy.blog.cache.service.CacheService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.BeanUtils;
@@ -34,6 +36,9 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
 
     @Autowired
     private BlogArticleService blogArticleService;
+
+    @Autowired
+    private CacheService cacheService;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -73,8 +78,15 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
         blogArticleBackMapper.insertSelective(back);
 
         if (StringUtils.isNotBlank(param.getWord())) {
-            //通过口令发布博客 todo cache
-            if (GlobalConstant.ARTICLE_WORD.equals(param.getWord())) {
+            //通过口令发布博客
+            String key = RedisConstant.BLOG_ARTICLE_WORD;
+            String value = cacheService.get(key);
+            if (StringUtils.isEmpty(value)) {
+                value = GlobalConstant.ARTICLE_WORD;
+                String random = RandomUtils.getRandomStr(4);
+                cacheService.set(key, random, 604800);
+            }
+            if (value.equals(param.getWord())) {
                 BlogArticlePublishDTO publish = new BlogArticlePublishDTO();
                 publish.setArticleId(back.getId());
                 blogArticleService.publish(publish);

@@ -1,6 +1,9 @@
 package com.easy.blog.api.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.easy.blog.api.constant.GlobalConstant;
+import com.easy.blog.api.constant.RedisConstant;
 import com.easy.blog.api.dao.BlogArticleMapper;
 import com.easy.blog.api.model.*;
 import com.easy.blog.api.pager.Pager;
@@ -8,6 +11,7 @@ import com.easy.blog.api.service.BlogArticleBackService;
 import com.easy.blog.api.service.BlogArticleHistoryService;
 import com.easy.blog.api.service.BlogArticleService;
 import com.easy.blog.api.service.BlogStriveService;
+import com.easy.blog.cache.service.CacheService;
 import com.easy.blog.es.model.BlogArticleEs;
 import com.easy.blog.es.model.BlogArticleEsDTO;
 import com.easy.blog.es.service.BlogArticleSearchService;
@@ -41,6 +45,9 @@ public class BlogArticleServiceImpl implements BlogArticleService {
 
     @Autowired
     private BlogArticleHistoryService blogArticleHistoryService;
+
+    @Autowired
+    private CacheService cacheService;
 
     @Autowired
     private BlogArticleMapper blogArticleMapper;
@@ -106,14 +113,21 @@ public class BlogArticleServiceImpl implements BlogArticleService {
 
     @Override
     public List<BlogArticleRecommendVO> recommendList() {
-        //缓存处理:一天
-        // TODO: 2019/6/9
-
+        String key = RedisConstant.BLOG_ARTICLE_RECOMMEND_LIST;
+        String json = cacheService.get(key);
+        if (StringUtils.isNotEmpty(json)) {
+            List<BlogArticleRecommendVO> voList = JSON.parseObject(json, new TypeReference<List<BlogArticleRecommendVO>>() {
+            });
+            return voList;
+        }
         List<BlogArticleEs> list = blogArticleSearchService.recommendList(5);
         if (list == null || list.size() == 0) {
             return new ArrayList<>();
         }
         List<BlogArticleRecommendVO> voList = putBlogArticleRecommendValue(list);
+        if (voList != null && voList.size() > 0) {
+            cacheService.set(key, JSON.toJSONString(voList), 43200);
+        }
         return voList;
     }
 

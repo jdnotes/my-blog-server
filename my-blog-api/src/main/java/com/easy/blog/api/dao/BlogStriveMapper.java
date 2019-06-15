@@ -2,6 +2,8 @@ package com.easy.blog.api.dao;
 
 import com.easy.blog.api.model.BlogStrive;
 
+import java.util.List;
+
 public interface BlogStriveMapper {
 
     int insertSelective(BlogStrive record);
@@ -11,4 +13,6 @@ public interface BlogStriveMapper {
     int updateSelective(BlogStrive record);
 
     BlogStrive getInfoByCode(String code);
+
+    List<BlogStrive> getAllByLimit(int num);
 }

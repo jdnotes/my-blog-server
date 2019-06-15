@@ -2,10 +2,13 @@ package com.easy.blog.api.controller;
 
 import com.easy.blog.api.constant.CodeMsgConstant;
 import com.easy.blog.api.constant.GlobalConstant;
+import com.easy.blog.api.constant.RedisConstant;
 import com.easy.blog.api.constant.Result;
 import com.easy.blog.api.model.*;
 import com.easy.blog.api.pager.Pager;
 import com.easy.blog.api.service.BlogArticleService;
+import com.easy.blog.api.utils.RandomUtils;
+import com.easy.blog.cache.service.CacheService;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +34,9 @@ public class BlogArticleController {
     @Autowired
     private BlogArticleService blogArticleService;
 
+    @Autowired
+    private CacheService cacheService;
+
     /**
      * 下架博文
      *
@@ -46,7 +52,14 @@ public class BlogArticleController {
         if (StringUtils.isEmpty(word)) {
             return Result.error(CodeMsgConstant.SESSION_ERROR);
         }
-        if (!GlobalConstant.ARTICLE_WORD.equals(word)) {
+        String key = RedisConstant.BLOG_ARTICLE_WORD;
+        String value = cacheService.get(key);
+        if (StringUtils.isEmpty(value)) {
+            String random = RandomUtils.getRandomStr(4);
+            value = random;
+            cacheService.set(key, random, 604800);
+        }
+        if (!value.equals(word)) {
             return Result.error(CodeMsgConstant.SESSION_ERROR);
         }
         Result result;

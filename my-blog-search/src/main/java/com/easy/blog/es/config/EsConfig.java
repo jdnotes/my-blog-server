@@ -74,7 +74,7 @@ public class EsConfig {
         return transportClient;
     }
 
-    @Bean
+    @Bean(name = "elasticsearchTemplate")
     public ElasticsearchTemplate elasticsearchTemplate() {
         return new ElasticsearchTemplate(transportClient());
     }
