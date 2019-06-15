@@ -1,5 +1,6 @@
 package com.easy.blog.api.service.impl;
 
+import com.easy.blog.api.constant.GlobalConstant;
 import com.easy.blog.api.dao.BlogArticleBackMapper;
 import com.easy.blog.api.model.*;
 import com.easy.blog.api.service.BlogArticleBackService;
@@ -88,7 +89,7 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
         }
         if (StringUtils.isNotBlank(param.getWord())) {
             //通过口令发布博客 todo cache
-            if ("word".equals(param.getWord())) {
+            if (GlobalConstant.ARTICLE_WORD.equals(param.getWord())) {
                 BlogArticlePublishDTO publish = new BlogArticlePublishDTO();
                 publish.setArticleId(back.getId());
                 blogArticleService.publish(publish);

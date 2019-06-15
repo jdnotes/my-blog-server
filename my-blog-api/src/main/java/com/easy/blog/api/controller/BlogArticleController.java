@@ -1,6 +1,7 @@
 package com.easy.blog.api.controller;
 
 import com.easy.blog.api.constant.CodeMsgConstant;
+import com.easy.blog.api.constant.GlobalConstant;
 import com.easy.blog.api.constant.Result;
 import com.easy.blog.api.model.*;
 import com.easy.blog.api.pager.Pager;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -36,9 +38,16 @@ public class BlogArticleController {
      * @return
      */
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
-    public Object remove(@RequestBody BlogArticlePublishDTO param) {
-        if (param == null || param.getArticleId() == null) {
+    public Object remove(@RequestBody BlogArticlePublishDTO param, HttpServletRequest request) {
+        if (param == null || StringUtils.isEmpty(param.getCode())) {
             return Result.error(CodeMsgConstant.PARAM_BIND_ERROR);
+        }
+        String word = request.getHeader("word");
+        if (StringUtils.isEmpty(word)) {
+            return Result.error(CodeMsgConstant.SESSION_ERROR);
+        }
+        if (!GlobalConstant.ARTICLE_WORD.equals(word)) {
+            return Result.error(CodeMsgConstant.SESSION_ERROR);
         }
         Result result;
         try {
@@ -57,7 +66,7 @@ public class BlogArticleController {
      * @param param
      * @return
      */
-    @RequestMapping(value = "/publish", method = RequestMethod.POST)
+    //@RequestMapping(value = "/publish", method = RequestMethod.POST)
     public Object publish(@RequestBody BlogArticlePublishDTO param) {
         if (param == null || param.getArticleId() == null) {
             return Result.error(CodeMsgConstant.PARAM_BIND_ERROR);

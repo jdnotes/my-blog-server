@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -179,12 +180,13 @@ public class BlogArticleServiceImpl implements BlogArticleService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void remove(BlogArticlePublishDTO param) {
-        if (param == null || param.getArticleId() == null) {
+        if (param == null || StringUtils.isEmpty(param.getCode())) {
             throw new RuntimeException("Article remove param is null");
         }
         BlogArticle article = new BlogArticle();
         article.setId(param.getArticleId());
         article.setStatus(NumberUtils.toByte("2"));
+        article.setUpdateDate(new Date());
         blogArticleMapper.updateSelective(article);
 
         BlogArticle old = blogArticleMapper.get(article.getId());

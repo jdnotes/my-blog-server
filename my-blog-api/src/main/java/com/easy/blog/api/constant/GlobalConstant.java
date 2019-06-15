@@ -25,4 +25,10 @@ public class GlobalConstant {
      * 文章作者
      */
     public static final String ARTICLE_AUTHOR = "一花一世界";
+
+    /**
+     * 口令(默认)
+     */
+    public static final String ARTICLE_WORD = "9527";
+
 }
