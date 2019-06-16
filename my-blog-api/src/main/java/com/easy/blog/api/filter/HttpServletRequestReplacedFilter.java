@@ -144,7 +144,7 @@ public class HttpServletRequestReplacedFilter implements Filter {
         map.put("headers", JSON.toJSONString(headers));
         String temp = JSON.toJSONString(map);
         logger.info("请求地址参数: {}", temp);
-        mqService.sendMessage(MQConstant.BlogMqConstant.BLOG_EXCHANGE, MQConstant.BlogMqConstant.LOG_QUEUE_NAME, temp);
+        mqService.sendMessage(MQConstant.BlogMqConstant.BLOG_EXCHANGE, MQConstant.BlogMqConstant.LOG_ROUTE_NAME, temp);
     }
 
     private String getNonceStr(String url, String token, String timestamp, String nonce, String sign) {
