@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * MQ启动类
  */
-@SpringBootApplication
+//@SpringBootApplication
 public class MqApplication {
 
     public static void main(String[] args) {

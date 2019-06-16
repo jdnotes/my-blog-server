@@ -31,4 +31,9 @@ public class RedisConstant {
      */
     public static final String BLOG_ARTICLE_WORD = "BLOG:ARTICLE:WORD";
 
+    /**
+     * nonce重复请求
+     */
+    public static final String BLOG_INTERCEPT_NONCE = "BLOG:INTERCEPT:NONCE:";
+
 }
