@@ -13,6 +13,7 @@ import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.connection.CorrelationData;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.AbstractJavaTypeMapper;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ import java.util.UUID;
  * @date 2019/6/16
  */
 @Service
-public class RabbitMQHandler implements MqService, RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnCallback {
+public class RabbitMQHandler implements MqService, RabbitTemplate.ConfirmCallback, RabbitTemplate.ReturnCallback, InitializingBean {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -74,7 +75,7 @@ public class RabbitMQHandler implements MqService, RabbitTemplate.ConfirmCallbac
     @Override
     public void confirm(@Nullable CorrelationData correlationData, boolean ack, @Nullable String cause) {
         if (ack) {
-            logger.info("The message was sent to confirm success:{}", correlationData.getId());
+            logger.info("The message was send to confirm success:{}", correlationData.getId());
         } else {
             logger.info("Message id :{} delivery confirmation failed:{}", correlationData.getId(), cause);
         }
@@ -97,4 +98,9 @@ public class RabbitMQHandler implements MqService, RabbitTemplate.ConfirmCallbac
                 new String(message.getBody()), replyCode, replyText, exchange, routingKey);
     }
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        rabbitTemplate.setConfirmCallback(this::confirm);
+        rabbitTemplate.setReturnCallback(this::returnedMessage);
+    }
 }
