@@ -55,13 +55,22 @@ public class RabbitMQHandler implements MqService, RabbitTemplate.ConfirmCallbac
     }
 
     @Override
-    public void sendTopicMessage(String exchange, String topic, String message) {
+    public void sendTopicMessage(String exchange, String routingKey, String message) {
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString().replace("-", ""));
-        logger.info("send Message topic:{},message:{},id:{}", topic, message, correlationData.getId());
+        logger.info("send Message routingKey:{},message:{},id:{}", routingKey, message, correlationData.getId());
         // 用RabbitMQ发送MQTT需将exchange配置为amq.topic
-        this.rabbitTemplate.convertAndSend(exchange, topic, message, correlationData);
+        this.rabbitTemplate.convertAndSend(exchange, routingKey, message, correlationData);
     }
 
+    /**
+     * 实现ConfirmCallback
+     * ACK=true仅仅标示消息已被Broker接收到，并不表示已成功投放至消息队列中
+     * ACK=false标示消息由于Broker处理错误，消息并未处理成功
+     *
+     * @param correlationData
+     * @param ack
+     * @param cause
+     */
     @Override
     public void confirm(@Nullable CorrelationData correlationData, boolean ack, @Nullable String cause) {
         if (ack) {
@@ -71,9 +80,21 @@ public class RabbitMQHandler implements MqService, RabbitTemplate.ConfirmCallbac
         }
     }
 
+    /**
+     * 实现ReturnCallback
+     * 当消息发送出去找不到对应路由队列时，将会把消息退回
+     * 如果有任何一个路由队列接收投递消息成功，则不会退回消息
+     *
+     * @param message
+     * @param replyCode
+     * @param replyText
+     * @param exchange
+     * @param routingKey
+     */
     @Override
     public void returnedMessage(Message message, int replyCode, String replyText, String exchange, String routingKey) {
         logger.info("return message:{},replyCode:{},replyText:{},exchange:{},routingKey:{}",
                 new String(message.getBody()), replyCode, replyText, exchange, routingKey);
     }
+
 }

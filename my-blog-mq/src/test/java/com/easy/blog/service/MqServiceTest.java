@@ -35,6 +35,6 @@ public class MqServiceTest {
     @Test
     public void sendTopicMessage() {
         String message = "hello topic! timestamp is " + System.currentTimeMillis();
-        mqService.sendTopicMessage(MQConstant.ORDER_EXCHANGE, MQConstant.ORDER_QUEUE_NAME, message);
+        mqService.sendTopicMessage(MQConstant.ORDER_EXCHANGE, MQConstant.ORDER_ROUTE_NAME, message);
     }
 }

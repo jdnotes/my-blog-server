@@ -15,18 +15,16 @@ import java.io.IOException;
  * @date 2019/6/16
  */
 @Component
-public class LogMqListener {
+public class OrderMqListener {
 
-    private static final Logger logger = LoggerFactory.getLogger(LogMqListener.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrderMqListener.class);
 
     /**
      * 监听消费用户日志
      *
      * @param message
-     * @Payload byte[] message
-     * Message message
      */
-    @RabbitListener(queues = MQConstant.LOG_QUEUE_NAME, containerFactory = "singleListenerContainer")
+    @RabbitListener(queues = MQConstant.ORDER_QUEUE_NAME, containerFactory = "singleListenerContainer")
     public void msgHandler(Message message, Channel channel) throws IOException {
         boolean success = false;
         try {
@@ -36,10 +34,10 @@ public class LogMqListener {
             logger.error(e.getMessage(), e);
         } finally {
             if (success) {
-                logger.info("ACK");
+                logger.info("Topic ACK");
                 channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
             } else {
-                logger.info("NACK");
+                logger.info("Topic NACK");
                 channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, true);
             }
         }

@@ -19,8 +19,8 @@ public interface MqService {
      * topic message send
      *
      * @param exchange
-     * @param topic
+     * @param routingKey
      * @param message
      */
-    void sendTopicMessage(String exchange, String topic, String message);
+    void sendTopicMessage(String exchange, String routingKey, String message);
 }

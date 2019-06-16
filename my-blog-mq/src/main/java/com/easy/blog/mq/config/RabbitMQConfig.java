@@ -63,8 +63,10 @@ public class RabbitMQConfig {
         connectionFactory.setUsername(username);
         connectionFactory.setPassword(password);
         connectionFactory.setVirtualHost(virtualHost);
-        //如果要进行消息回调，则这里必须要设置为true
+        //true 开启发送确认
         connectionFactory.setPublisherConfirms(publisherConfirms);
+        //true 开启发送失败退回
+        connectionFactory.setPublisherReturns(true);
         logger.info("Create rabbitmq ConnectionFactory bean ..");
         return connectionFactory;
     }

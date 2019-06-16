@@ -12,18 +12,18 @@ import org.springframework.context.annotation.Configuration;
 public class OrderQueueConfig {
 
     @Bean
-    public TopicExchange exchange() {
+    public TopicExchange topicExchange() {
         return new TopicExchange(MQConstant.ORDER_EXCHANGE, true, false);
     }
 
     @Bean
-    public Queue queue() {
+    public Queue topicQueue() {
         return new Queue(MQConstant.ORDER_QUEUE_NAME, true);
     }
 
     @Bean
-    public Binding binding() {
-        return BindingBuilder.bind(queue()).to(exchange()).with(MQConstant.ORDER_ROUTE_NAME);
+    public Binding topicBinding() {
+        return BindingBuilder.bind(topicQueue()).to(topicExchange()).with(MQConstant.ORDER_ROUTE_NAME);
     }
 
 }
