@@ -2,7 +2,6 @@ package com.easy.blog.api.filter;
 
 import com.alibaba.fastjson.JSON;
 import com.easy.blog.api.utils.Md5Utils;
-import com.easy.blog.api.utils.SnowflakeIdUtils;
 import com.easy.blog.cache.service.CacheService;
 import com.easy.blog.mq.config.MQConstant;
 import com.easy.blog.mq.service.MqService;
@@ -132,7 +131,6 @@ public class HttpServletRequestReplacedFilter implements Filter {
     private void sendMsg(String url, String method, Map<String, String> headers,
                          String body, String token, long startTime, String ip) {
         Map<String, Object> map = new HashMap<>(10);
-        map.put("messageId", SnowflakeIdUtils.getSnowflakeId());
         map.put("url", url);
         map.put("method", method);
         map.put("parameter", body);
