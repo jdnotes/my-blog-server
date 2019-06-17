@@ -31,4 +31,18 @@ public class GlobalConstant {
      */
     public static final String ARTICLE_WORD = "9527";
 
+    /**
+     * 请求超时时间(90s)
+     */
+    public static final long REPUEST_EXPIRE_TIME = 90000L;
+
+    /**
+     * 重复请求时间
+     */
+    public static final int SECOND_EXPIRE_TIME = 60;
+
+    /**
+     * 对称加密key( MD5(Gk4Wmql9yk) )
+     */
+    public final static String SYMMETRIC_ENCRYPTION_KEY = "38ec4167d7fa907447c8f2217ed3b0e2";
 }

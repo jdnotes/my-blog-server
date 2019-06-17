@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easy.blog.api.dao.BlogLogMapper">
+    <resultMap id="BaseResultMap" type="com.easy.blog.api.model.BlogLog">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="headers" jdbcType="VARCHAR" property="headers"/>
+        <result column="parameter" jdbcType="VARCHAR" property="parameter"/>
+        <result column="token" jdbcType="VARCHAR" property="token"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="message_date" jdbcType="TIMESTAMP" property="messageDate"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, url, ip, headers, parameter, token, user_id, message_date, create_date
+    </sql>
+
+    <select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_blog_log
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from t_blog_log
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.easy.blog.api.model.BlogLog">
+        insert into t_blog_log (id, url, ip, headers,
+        parameter, token, user_id,
+        message_date, create_date)
+        values (#{id,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{headers,jdbcType=VARCHAR},
+        #{parameter,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT},
+        #{messageDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.easy.blog.api.model.BlogLog">
+        insert into t_blog_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="headers != null">
+                headers,
+            </if>
+            <if test="parameter != null">
+                parameter,
+            </if>
+            <if test="token != null">
+                token,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="messageDate != null">
+                message_date,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="headers != null">
+                #{headers,jdbcType=VARCHAR},
+            </if>
+            <if test="parameter != null">
+                #{parameter,jdbcType=VARCHAR},
+            </if>
+            <if test="token != null">
+                #{token,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="messageDate != null">
+                #{messageDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateSelective" parameterType="com.easy.blog.api.model.BlogLog">
+        update t_blog_log
+        <set>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                ip = #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="headers != null">
+                headers = #{headers,jdbcType=VARCHAR},
+            </if>
+            <if test="parameter != null">
+                parameter = #{parameter,jdbcType=VARCHAR},
+            </if>
+            <if test="token != null">
+                token = #{token,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="messageDate != null">
+                message_date = #{messageDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="update" parameterType="com.easy.blog.api.model.BlogLog">
+        update t_blog_log
+        set url = #{url,jdbcType=VARCHAR},
+        ip = #{ip,jdbcType=VARCHAR},
+        headers = #{headers,jdbcType=VARCHAR},
+        parameter = #{parameter,jdbcType=VARCHAR},
+        token = #{token,jdbcType=VARCHAR},
+        user_id = #{userId,jdbcType=BIGINT},
+        message_date = #{messageDate,jdbcType=TIMESTAMP},
+        create_date = #{createDate,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>
