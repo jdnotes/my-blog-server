@@ -22,7 +22,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @ConfigurationProperties(prefix = "spring.rabbitmq")
-@PropertySource(value = "classpath:/rabbitMQ.properties", ignoreResourceNotFound = true)
+@PropertySource(value = "classpath:/rabbitmq.properties", ignoreResourceNotFound = true)
 public class RabbitMQConfig {
 
     private static Logger logger = LoggerFactory.getLogger(RabbitMQConfig.class);
