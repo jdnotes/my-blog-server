@@ -156,6 +156,14 @@ public class BlogArticleServiceImpl implements BlogArticleService {
         if (articleBack == null) {
             throw new RuntimeException("article back is not exist");
         }
+        this.publish(articleBack);
+    }
+
+    @Override
+    public void publish(BlogArticleBack articleBack) {
+        if (articleBack == null) {
+            throw new RuntimeException("article back is not exist");
+        }
         BlogArticle old = blogArticleMapper.get(articleBack.getId());
         BlogArticle article;
         if (old == null) {

@@ -25,6 +25,7 @@ import java.util.List;
  * @author zhouyong
  * @date 2019/6/9
  */
+@Transactional
 @Service
 public class BlogArticleBackServiceImpl implements BlogArticleBackService {
 
@@ -70,12 +71,24 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
             throw new RuntimeException("blog article back param is null");
         }
         BlogArticleBack back = this.putBlogArticleParam(param);
-        Long id = SnowflakeIdUtils.getSnowflakeId();
-        back.setId(id);
-        back.setCode(RandomUtils.getRandomStr(10));
-        back.setCreateDate(new Date());
-        back.setUpdateDate(new Date());
-        blogArticleBackMapper.insertSelective(back);
+        if (StringUtils.isEmpty(param.getCode())) {
+            Long id = SnowflakeIdUtils.getSnowflakeId();
+            back.setId(id);
+            back.setCode(RandomUtils.getRandomStr(10));
+            back.setCreateDate(new Date());
+            back.setUpdateDate(new Date());
+            blogArticleBackMapper.insertSelective(back);
+        } else {
+            BlogArticleBack old = blogArticleBackMapper.getByCode(param.getCode());
+            if (old == null) {
+                throw new RuntimeException("blog article back is not exist!");
+            }
+            back.setId(old.getId());
+            back.setReadNum(old.getReadNum());
+            back.setLikeNum(old.getLikeNum());
+            back.setUpdateDate(new Date());
+            blogArticleBackMapper.updateSelective(back);
+        }
 
         if (StringUtils.isNotBlank(param.getWord())) {
             //通过口令发布博客
@@ -87,9 +100,7 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
                 cacheService.set(key, random, 604800);
             }
             if (value.equals(param.getWord())) {
-                BlogArticlePublishDTO publish = new BlogArticlePublishDTO();
-                publish.setArticleId(back.getId());
-                blogArticleService.publish(publish);
+                blogArticleService.publish(back);
             }
         }
     }

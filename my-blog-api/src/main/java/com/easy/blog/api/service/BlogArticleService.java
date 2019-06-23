@@ -20,5 +20,7 @@ public interface BlogArticleService {
 
     void publish(BlogArticlePublishDTO param);
 
+    void publish(BlogArticleBack param);
+
     void remove(BlogArticlePublishDTO param);
 }
