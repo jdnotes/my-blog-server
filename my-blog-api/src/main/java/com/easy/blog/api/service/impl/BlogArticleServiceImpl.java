@@ -202,6 +202,10 @@ public class BlogArticleServiceImpl implements BlogArticleService {
             es.setAuthor(GlobalConstant.ARTICLE_AUTHOR);
         }
         blogArticleSearchService.add(es);
+
+        //删除推荐列表cache
+        String key = RedisConstant.BLOG_ARTICLE_RECOMMEND_LIST;
+        cacheService.del(key);
     }
 
     @Transactional(rollbackFor = Exception.class)

@@ -12,14 +12,14 @@ public class RedisConstant {
     public static final String BLOG_ARTICLE_RECOMMEND_LIST = "BLOG:ARTICLE:RECOMMEND:LIST";
 
     /**
-     * 博文推荐列表
+     * 博文标签列表
      */
     public static final String BLOG_ARTICLE_TAG_CLOUD = "BLOG:ARTICLE:TAG:CLOUD";
 
     /**
      * 博文标签列表
      */
-    public static final String BLOG_ARTICLE_TAG_LIST = "BLOG:ARTICLE:TAG_LIST";
+    public static final String BLOG_ARTICLE_TAG_LIST = "BLOG:ARTICLE:TAG:LIST";
 
     /**
      * 鼓励列表
