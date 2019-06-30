@@ -125,16 +125,20 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
 
     @Override
     public void add(BlogArticleEs es) {
-        if (es.getId() == null || es.getId() == 0) {
-            Assert.notNull(es.getId(), "id is null");
+        logger.info("save es json:{}", JSON.toJSONString(es));
+        logger.info("save es {}", blogArticleSearchRepository);
+        if (es == null || es.getId() == null || es.getId() == 0) {
+            logger.info("article id is null");
+            throw new RuntimeException("id is null");
         }
         blogArticleSearchRepository.save(es);
     }
 
     @Override
     public void update(BlogArticleEs es) {
-        if (es.getId() == null || es.getId() == 0) {
-            Assert.notNull(es.getId(), "id is null");
+        if (es == null || es.getId() == null || es.getId() == 0) {
+            logger.info("article id is null");
+            throw new RuntimeException("id is null");
         }
         blogArticleSearchRepository.save(es);
     }

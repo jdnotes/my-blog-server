@@ -17,6 +17,8 @@ import com.easy.blog.es.model.BlogArticleEsDTO;
 import com.easy.blog.es.service.BlogArticleSearchService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,8 +33,11 @@ import java.util.List;
  * @author zhouyong
  * @date 2019/6/8
  */
+@Transactional
 @Service
 public class BlogArticleServiceImpl implements BlogArticleService {
+
+    private final Logger logger = LoggerFactory.getLogger(BlogArticleServiceImpl.class);
 
     @Autowired
     private BlogArticleSearchService blogArticleSearchService;

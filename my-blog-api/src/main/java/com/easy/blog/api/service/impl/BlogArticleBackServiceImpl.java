@@ -12,6 +12,8 @@ import com.easy.blog.api.utils.SnowflakeIdUtils;
 import com.easy.blog.cache.service.CacheService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,8 @@ import java.util.List;
 @Transactional
 @Service
 public class BlogArticleBackServiceImpl implements BlogArticleBackService {
+
+    private final Logger logger = LoggerFactory.getLogger(BlogArticleBackServiceImpl.class);
 
     @Autowired
     private BlogArticleBackMapper blogArticleBackMapper;
