@@ -7,10 +7,7 @@ import com.easy.blog.api.constant.RedisConstant;
 import com.easy.blog.api.dao.BlogArticleMapper;
 import com.easy.blog.api.model.*;
 import com.easy.blog.api.pager.Pager;
-import com.easy.blog.api.service.BlogArticleBackService;
-import com.easy.blog.api.service.BlogArticleHistoryService;
-import com.easy.blog.api.service.BlogArticleService;
-import com.easy.blog.api.service.BlogStriveService;
+import com.easy.blog.api.service.*;
 import com.easy.blog.cache.service.CacheService;
 import com.easy.blog.es.model.BlogArticleEs;
 import com.easy.blog.es.model.BlogArticleEsDTO;
@@ -25,9 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author zhouyong
@@ -50,6 +45,9 @@ public class BlogArticleServiceImpl implements BlogArticleService {
 
     @Autowired
     private BlogArticleHistoryService blogArticleHistoryService;
+
+    @Autowired
+    private BlogThemeService blogThemeService;
 
     @Autowired
     private CacheService cacheService;
@@ -117,26 +115,6 @@ public class BlogArticleServiceImpl implements BlogArticleService {
     }
 
     @Override
-    public List<BlogArticleRecommendVO> recommendList() {
-        String key = RedisConstant.BLOG_ARTICLE_RECOMMEND_LIST;
-        String json = cacheService.get(key);
-        if (StringUtils.isNotEmpty(json)) {
-            List<BlogArticleRecommendVO> voList = JSON.parseObject(json, new TypeReference<List<BlogArticleRecommendVO>>() {
-            });
-            return voList;
-        }
-        List<BlogArticleEs> list = blogArticleSearchService.recommendList(5);
-        if (list == null || list.size() == 0) {
-            return new ArrayList<>();
-        }
-        List<BlogArticleRecommendVO> voList = putBlogArticleRecommendValue(list);
-        if (voList != null && voList.size() > 0) {
-            cacheService.set(key, JSON.toJSONString(voList), 43200);
-        }
-        return voList;
-    }
-
-    @Override
     public BlogArticleDetailsVO getDetails(String code) {
         BlogArticleEs articleEs = blogArticleSearchService.getInfoByCode(code);
         if (articleEs == null) {
@@ -145,12 +123,6 @@ public class BlogArticleServiceImpl implements BlogArticleService {
         BlogArticleDetailsVO vo = new BlogArticleDetailsVO();
         BeanUtils.copyProperties(articleEs, vo);
         vo.setId(articleEs.getCode());
-        String articleTypeText = putArticleTypeText(articleEs.getArticleType());
-        vo.setArticleTypeText(articleTypeText);
-        List<BlogTagCloudVO> tags = putTagsValue(articleEs.getTags(), articleEs.getTagsName());
-        vo.setTags(tags);
-        String mind = blogStriveService.getInfoByRandom();
-        vo.setMind(mind);
         return vo;
     }
 
@@ -189,23 +161,15 @@ public class BlogArticleServiceImpl implements BlogArticleService {
 
         BlogArticleEs es = new BlogArticleEs();
         BeanUtils.copyProperties(article, es);
-        es.setAuthor(GlobalConstant.ARTICLE_AUTHOR);
-        es.setTagId(String.valueOf(article.getTagId() == null ? "" : article.getTagId()));
-        es.setTag(String.valueOf(article.getTagId() == null ? "" : article.getTagId()));
         es.setArticleType(NumberUtils.toInt(article.getArticleType() + ""));
         es.setLevel(NumberUtils.toInt(article.getLevel() + ""));
         es.setStatus(NumberUtils.toInt(article.getStatus() + ""));
-        if (article.getAuthorId() == null) {
-            es.setAuthor(GlobalConstant.ARTICLE_AUTHOR);
-        } else {
-            //查询DB
-            es.setAuthor(GlobalConstant.ARTICLE_AUTHOR);
-        }
         blogArticleSearchService.add(es);
 
-        //删除推荐列表cache
-        String key = RedisConstant.BLOG_ARTICLE_RECOMMEND_LIST;
-        cacheService.del(key);
+        Set<String> set = new HashSet<>();
+        set.add(RedisConstant.BLOG_ARTICLE_RECENT_LIST);
+        set.add(RedisConstant.BLOG_QUALITY_ARTICLE);
+        cacheService.del(set);
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -250,17 +214,97 @@ public class BlogArticleServiceImpl implements BlogArticleService {
         return tagList;
     }
 
-    private List<BlogArticleRecommendVO> putBlogArticleRecommendValue(List<BlogArticleEs> list) {
+    private List<BlogArticleSuccinctVO> putBlogArticleSuccinctValue(List<BlogArticleEs> list) {
         if (list == null || list.size() == 0) {
             return new ArrayList<>();
         }
-        List<BlogArticleRecommendVO> voList = new ArrayList<>(list.size());
+        List<BlogArticleSuccinctVO> voList = new ArrayList<>(list.size());
         for (BlogArticleEs es : list) {
-            BlogArticleRecommendVO vo = new BlogArticleRecommendVO();
+            BlogArticleSuccinctVO vo = new BlogArticleSuccinctVO();
             vo.setId(es.getCode());
             vo.setTitle(es.getTitle());
+            vo.setDate(es.getUpdateDate());
             voList.add(vo);
         }
         return voList;
+    }
+
+    @Override
+    public List<BlogArticleSuccinctVO> getRecentList() {
+        String key = RedisConstant.BLOG_ARTICLE_RECENT_LIST;
+        String json = cacheService.get(key);
+        if (StringUtils.isNotEmpty(json)) {
+            List<BlogArticleSuccinctVO> voList = JSON.parseObject(json, new TypeReference<List<BlogArticleSuccinctVO>>() {
+            });
+            return voList;
+        }
+        List<BlogArticleEs> list = blogArticleSearchService.getRecentList(5);
+        if (list == null || list.size() == 0) {
+            return new ArrayList<>();
+        }
+        List<BlogArticleSuccinctVO> voList = putBlogArticleSuccinctValue(list);
+        if (voList != null && voList.size() > 0) {
+            cacheService.set(key, JSON.toJSONString(voList), 43200);
+        }
+        return voList;
+    }
+
+    @Override
+    public List<BlogArticleSuccinctVO> getThemeList(BlogThemeDTO param) {
+        if (param == null || (param.getHot() == null && param.getQuality() == null)) {
+            return new ArrayList<>();
+        }
+        String key = "";
+        if (param.getQuality() != null) {
+            key = RedisConstant.BLOG_ARTICLE_QUALITY_LIST;
+        } else if (param.getHot() != null) {
+            key = RedisConstant.BLOG_ARTICLE_HOT_LIST;
+        }
+        String json = cacheService.get(key);
+        if (StringUtils.isNotEmpty(json)) {
+            List<BlogArticleSuccinctVO> voList = JSON.parseObject(json, new TypeReference<List<BlogArticleSuccinctVO>>() {
+            });
+            return voList;
+        }
+        List<Long> ids = blogThemeService.getArticleIdsByQuality(param, 5);
+        if (ids == null || ids.size() == 0) {
+            return new ArrayList<>();
+        }
+        List<BlogArticleSuccinctVO> voList = new ArrayList<>();
+        List<BlogArticle> articles = blogArticleMapper.getListByIds(ids);
+        if (articles != null && articles.size() > 0) {
+            for (BlogArticle article : articles) {
+                BlogArticleSuccinctVO vo = new BlogArticleSuccinctVO();
+                vo.setId(article.getCode());
+                vo.setTitle(article.getTitle());
+                vo.setDate(article.getUpdateDate());
+                voList.add(vo);
+            }
+            cacheService.set(key, JSON.toJSONString(voList), 43200);
+        }
+        return voList;
+    }
+
+    @Override
+    public BlogArticleSuccinctVO getQuality() {
+        String key = RedisConstant.BLOG_QUALITY_ARTICLE;
+        String json = cacheService.get(key);
+        BlogArticleSuccinctVO vo = null;
+        if (StringUtils.isNotEmpty(json)) {
+            vo = JSON.parseObject(json, BlogArticleSuccinctVO.class);
+            return vo;
+        }
+        BlogTheme theme = blogThemeService.getByQuality();
+        if (theme != null) {
+            BlogArticle article = blogArticleMapper.get(theme.getArticleId());
+            if (article != null) {
+                vo = new BlogArticleSuccinctVO();
+                vo.setId(article.getCode());
+                vo.setTitle(article.getTitle());
+                vo.setDate(article.getUpdateDate());
+                cacheService.set(key, JSON.toJSONString(vo), 3600);
+            }
+        }
+        return vo;
     }
 }

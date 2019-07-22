@@ -7,11 +7,6 @@ package com.easy.blog.api.constant;
 public class RedisConstant {
 
     /**
-     * 博文推荐列表
-     */
-    public static final String BLOG_ARTICLE_RECOMMEND_LIST = "BLOG:ARTICLE:RECOMMEND:LIST";
-
-    /**
      * 博文标签列表
      */
     public static final String BLOG_ARTICLE_TAG_CLOUD = "BLOG:ARTICLE:TAG:CLOUD";
@@ -35,5 +30,25 @@ public class RedisConstant {
      * nonce重复请求
      */
     public static final String BLOG_INTERCEPT_NONCE = "BLOG:INTERCEPT:NONCE:";
+
+    /**
+     * top文章
+     */
+    public static final String BLOG_QUALITY_ARTICLE = "BLOG:QUALITY:ARTICLE";
+
+    /**
+     * 博文最新列表
+     */
+    public static final String BLOG_ARTICLE_RECENT_LIST = "BLOG:ARTICLE:RECENT:LIST";
+
+    /**
+     * 博文优质列表
+     */
+    public static final String BLOG_ARTICLE_QUALITY_LIST = "BLOG:ARTICLE:QUALITY:LIST";
+
+    /**
+     * 博文热门列表
+     */
+    public static final String BLOG_ARTICLE_HOT_LIST = "BLOG:ARTICLE:HOT:LIST";
 
 }

@@ -157,11 +157,11 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
     }
 
     @Override
-    public List<BlogArticleEs> recommendList(int size) {
+    public List<BlogArticleEs> getRecentList(int size) {
         if (size <= 0) {
             return null;
         }
-        SearchQuery searchQuery = this.putRecommendParams(size);
+        SearchQuery searchQuery = this.putRecentListParam(size);
         Page<BlogArticleEs> page = blogArticleSearchRepository.search(searchQuery);
         if (page != null) {
             return page.getContent();
@@ -169,7 +169,7 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
         return null;
     }
 
-    private SearchQuery putRecommendParams(int size) {
+    private SearchQuery putRecentListParam(int size) {
         NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
         Pageable pageable = PageRequest.of(0, size);
         nativeSearchQueryBuilder.withPageable(pageable);

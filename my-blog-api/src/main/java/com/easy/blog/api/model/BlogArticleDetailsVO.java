@@ -12,10 +12,6 @@ public class BlogArticleDetailsVO implements Serializable {
 
     private String logo;
 
-    private String author;
-
-    private String articleTypeText;
-
     private String remark;
 
     private Integer readNum;
@@ -27,10 +23,6 @@ public class BlogArticleDetailsVO implements Serializable {
     private Date updateDate;
 
     private String articleHtml;
-
-    private String mind;
-
-    private List<BlogTagCloudVO> tags;
 
     public String getId() {
         return id;
@@ -54,22 +46,6 @@ public class BlogArticleDetailsVO implements Serializable {
 
     public void setLogo(String logo) {
         this.logo = logo;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getArticleTypeText() {
-        return articleTypeText;
-    }
-
-    public void setArticleTypeText(String articleTypeText) {
-        this.articleTypeText = articleTypeText;
     }
 
     public String getRemark() {
@@ -118,21 +94,5 @@ public class BlogArticleDetailsVO implements Serializable {
 
     public void setArticleHtml(String articleHtml) {
         this.articleHtml = articleHtml;
-    }
-
-    public String getMind() {
-        return mind;
-    }
-
-    public void setMind(String mind) {
-        this.mind = mind;
-    }
-
-    public List<BlogTagCloudVO> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<BlogTagCloudVO> tags) {
-        this.tags = tags;
     }
 }

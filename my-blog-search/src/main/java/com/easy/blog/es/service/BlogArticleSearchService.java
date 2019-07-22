@@ -20,7 +20,7 @@ public interface BlogArticleSearchService {
 
     BlogArticleEs getInfoById(Long id);
 
-    List<BlogArticleEs> recommendList(int size);
+    List<BlogArticleEs> getRecentList(int size);
 
     BlogArticleEs getInfoByCode(String code);
 

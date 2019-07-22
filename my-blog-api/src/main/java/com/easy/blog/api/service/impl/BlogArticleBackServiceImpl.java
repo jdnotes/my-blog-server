@@ -90,6 +90,7 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
             back.setId(old.getId());
             back.setReadNum(old.getReadNum());
             back.setLikeNum(old.getLikeNum());
+            back.setCreateDate(old.getCreateDate());
             back.setUpdateDate(new Date());
             blogArticleBackMapper.updateSelective(back);
         }

@@ -305,4 +305,31 @@
         where code = #{code}
     </select>
 
+    <select id="getRecentByLevel" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_blog_article
+        where `level` = #{level}
+        order by update_date desc
+        limit 1
+    </select>
+
+    <select id="getRecentByDate" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_blog_article
+        order by update_date desc
+        limit 1
+    </select>
+
+    <select id="getListByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_blog_article
+        where id in
+        <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
 </mapper>

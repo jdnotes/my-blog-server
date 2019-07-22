@@ -17,32 +17,23 @@ import java.util.Date;
 public class BlogArticleEs implements Serializable {
 
     @Id
-    @Field(type = FieldType.Long, store = true, index = true)
+    @Field(type = FieldType.Long, store = true)
     private Long id;
 
-    @Field(type = FieldType.Keyword, store = true, index = true)
+    @Field(type = FieldType.Keyword, store = true)
     private String code;
 
     @Field(type = FieldType.Text, store = true, searchAnalyzer = "ik_max_word", analyzer = "ik_max_word")
     private String title;
 
+    @Field(type = FieldType.Text, store = true)
+    private String subtitle;
+
     @Field(type = FieldType.Keyword, store = true, index = false)
     private String logo;
 
-    @Field(type = FieldType.Keyword, store = true, index = false)
-    private String author;
-
-    @Field(type = FieldType.Keyword, store = true, index = false)
-    private String tagId;
-
-    @Field(type = FieldType.Keyword, store = true, index = false)
-    private String tag;
-
-    @Field(type = FieldType.Text, store = true, index = true, searchAnalyzer = "ik_smart", analyzer = "ik_smart")
+    @Field(type = FieldType.Text, store = true)
     private String tags;
-
-    @Field(type = FieldType.Text, store = true, index = true, searchAnalyzer = "ik_max_word", analyzer = "ik_max_word")
-    private String tagsName;
 
     @Field(type = FieldType.Integer, store = true, index = false)
     private Integer articleType;
@@ -65,10 +56,10 @@ public class BlogArticleEs implements Serializable {
     @Field(type = FieldType.Integer, store = true, index = false)
     private Integer sort;
 
-    @Field(type = FieldType.Integer, store = true, index = true)
+    @Field(type = FieldType.Integer, store = true)
     private Integer level;
 
-    @Field(type = FieldType.Integer, store = true, index = true)
+    @Field(type = FieldType.Integer, store = true)
     private Integer status;
 
     @Field(type = FieldType.Date, store = true, index = false)
@@ -101,6 +92,14 @@ public class BlogArticleEs implements Serializable {
         this.title = title;
     }
 
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
+    }
+
     public String getLogo() {
         return logo;
     }
@@ -109,44 +108,12 @@ public class BlogArticleEs implements Serializable {
         this.logo = logo;
     }
 
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getTagId() {
-        return tagId;
-    }
-
-    public void setTagId(String tagId) {
-        this.tagId = tagId;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
     public String getTags() {
         return tags;
     }
 
     public void setTags(String tags) {
         this.tags = tags;
-    }
-
-    public String getTagsName() {
-        return tagsName;
-    }
-
-    public void setTagsName(String tagsName) {
-        this.tagsName = tagsName;
     }
 
     public Integer getArticleType() {

@@ -12,6 +12,8 @@ public class BlogTagCloudVO implements Serializable {
 
     private Integer num;
 
+    private String icon;
+
     public String getId() {
         return id;
     }
@@ -42,5 +44,13 @@ public class BlogTagCloudVO implements Serializable {
 
     public void setNum(Integer num) {
         this.num = num;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

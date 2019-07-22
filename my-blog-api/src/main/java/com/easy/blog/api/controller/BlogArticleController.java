@@ -38,6 +38,82 @@ public class BlogArticleController {
     private CacheService cacheService;
 
     /**
+     * top文章
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getQuality", method = RequestMethod.POST)
+    public Object getQuality(HttpServletRequest request) {
+        Result result;
+        try {
+            BlogArticleSuccinctVO vo = blogArticleService.getQuality();
+            result = Result.success(vo);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result = Result.error();
+        }
+        return result;
+    }
+
+    /**
+     * 最新文章列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getRecentList", method = RequestMethod.POST)
+    public Object getRecentList(HttpServletRequest request) {
+        Result result;
+        try {
+            List<BlogArticleSuccinctVO> voList = blogArticleService.getRecentList();
+            result = Result.success(voList);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result = Result.error();
+        }
+        return result;
+    }
+
+    /**
+     * 优质文章列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getQualityList", method = RequestMethod.POST)
+    public Object getQualityList(HttpServletRequest request) {
+        Result result;
+        try {
+            BlogThemeDTO param = new BlogThemeDTO();
+            param.setQuality((byte) 1);
+            List<BlogArticleSuccinctVO> voList = blogArticleService.getThemeList(param);
+            result = Result.success(voList);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result = Result.error();
+        }
+        return result;
+    }
+
+    /**
+     * 优质文章列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getHotList", method = RequestMethod.POST)
+    public Object getHotList(HttpServletRequest request) {
+        Result result;
+        try {
+            BlogThemeDTO param = new BlogThemeDTO();
+            param.setHot((byte) 1);
+            List<BlogArticleSuccinctVO> voList = blogArticleService.getThemeList(param);
+            result = Result.success(voList);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            result = Result.error();
+        }
+        return result;
+    }
+
+    /**
      * 下架博文
      *
      * @param param
@@ -74,28 +150,6 @@ public class BlogArticleController {
     }
 
     /**
-     * 发布博文
-     *
-     * @param param
-     * @return
-     */
-    //@RequestMapping(value = "/publish", method = RequestMethod.POST)
-    public Object publish(@RequestBody BlogArticlePublishDTO param) {
-        if (param == null || param.getArticleId() == null) {
-            return Result.error(CodeMsgConstant.PARAM_BIND_ERROR);
-        }
-        Result result;
-        try {
-            blogArticleService.publish(param);
-            result = Result.success();
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            result = Result.error();
-        }
-        return result;
-    }
-
-    /**
      * 搜索列表
      *
      * @param param
@@ -107,24 +161,6 @@ public class BlogArticleController {
         try {
             Pager<BlogArticleListVO> pager = blogArticleService.search(param);
             result = Result.success(pager);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            result = Result.error();
-        }
-        return result;
-    }
-
-    /**
-     * 最新推荐列表
-     *
-     * @return
-     */
-    @RequestMapping(value = "/recommends", method = RequestMethod.POST)
-    public Object recommendList() {
-        Result result;
-        try {
-            List<BlogArticleRecommendVO> datas = blogArticleService.recommendList();
-            result = Result.success(datas);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             result = Result.error();

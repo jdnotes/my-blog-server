@@ -14,8 +14,6 @@ public interface BlogArticleService {
 
     Pager<BlogArticleListVO> search(BlogArticleListDTO param);
 
-    List<BlogArticleRecommendVO> recommendList();
-
     BlogArticleDetailsVO getDetails(String code);
 
     void publish(BlogArticlePublishDTO param);
@@ -23,4 +21,10 @@ public interface BlogArticleService {
     void publish(BlogArticleBack param);
 
     void remove(BlogArticlePublishDTO param);
+
+    List<BlogArticleSuccinctVO> getRecentList();
+
+    List<BlogArticleSuccinctVO> getThemeList(BlogThemeDTO param);
+
+    BlogArticleSuccinctVO getQuality();
 }
