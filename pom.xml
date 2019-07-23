@@ -172,7 +172,7 @@
     </dependencyManagement>
 
     <repositories>
-        <repository>
+        <!--<repository>
             <id>aliyun</id>
             <url>http://maven.aliyun.com/nexus/content/groups/public</url>
             <releases>
@@ -183,7 +183,7 @@
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
             </snapshots>
-        </repository>
+        </repository>-->
     </repositories>
 
     <build>

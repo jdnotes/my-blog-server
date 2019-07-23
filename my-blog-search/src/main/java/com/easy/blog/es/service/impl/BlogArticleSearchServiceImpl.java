@@ -60,7 +60,7 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
     public Page<BlogArticleEs> search(BlogArticleEsDTO param) {
         SearchQuery searchQuery = this.putSearchParams(param);
         if (logger.isDebugEnabled()) {
-            logger.debug("recommend search param:{},searchQuery:{}", JSON.toJSONString(param),
+            logger.debug("search param:{},searchQuery:{}", JSON.toJSONString(param),
                     searchQuery.getQuery() == null ? "" : searchQuery.getQuery().toString());
         }
         Page<BlogArticleEs> page = blogArticleSearchRepository.search(searchQuery);
@@ -87,7 +87,7 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
         if (StringUtils.isNotEmpty(param.getTags()) || param.getLevel() != null) {
             BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
             if (StringUtils.isNotEmpty(param.getTags())) {
-                boolQueryBuilder.must(QueryBuilders.termsQuery("tags", param.getTags()));
+                boolQueryBuilder.must(QueryBuilders.termQuery("tags", param.getTags()));
             }
             if (param.getLevel() != null) {
                 boolQueryBuilder.must(QueryBuilders.termQuery("level", param.getLevel()));
@@ -98,10 +98,10 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
         //搜索
         if (StringUtils.isNotEmpty(param.getKeywords())) {
             List<FunctionScoreQueryBuilder.FilterFunctionBuilder> filterFunctionBuilders = new ArrayList<>();
-            filterFunctionBuilders.add(new FunctionScoreQueryBuilder.FilterFunctionBuilder(QueryBuilders.matchQuery("title", param.getKeywords()),
-                    ScoreFunctionBuilders.weightFactorFunction(10)));
-            filterFunctionBuilders.add(new FunctionScoreQueryBuilder.FilterFunctionBuilder(QueryBuilders.matchQuery("tagsName", param.getKeywords()),
-                    ScoreFunctionBuilders.weightFactorFunction(5)));
+//            filterFunctionBuilders.add(new FunctionScoreQueryBuilder.FilterFunctionBuilder(QueryBuilders.matchQuery("title", param.getKeywords()),
+//                    ScoreFunctionBuilders.weightFactorFunction(1000)));
+            filterFunctionBuilders.add(new FunctionScoreQueryBuilder.FilterFunctionBuilder(QueryBuilders.matchQuery("subtitle", param.getKeywords()),
+                    ScoreFunctionBuilders.weightFactorFunction(500)));
             FunctionScoreQueryBuilder.FilterFunctionBuilder[] builders = new FunctionScoreQueryBuilder.FilterFunctionBuilder[filterFunctionBuilders.size()];
             filterFunctionBuilders.toArray(builders);
             FunctionScoreQueryBuilder functionScoreQueryBuilder = QueryBuilders.functionScoreQuery(builders)

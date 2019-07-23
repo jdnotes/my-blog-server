@@ -22,4 +22,6 @@ public interface BlogThemeMapper {
     BlogTheme getByQuality();
 
     List<Long> getArticleIdsByQuality(@Param("quality") Byte quality, @Param("hot") Byte hot, @Param("size") Integer size);
+
+    void save(BlogTheme theme);
 }

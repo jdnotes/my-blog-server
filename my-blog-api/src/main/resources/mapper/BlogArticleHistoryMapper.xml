@@ -7,13 +7,9 @@
         <result column="title" jdbcType="VARCHAR" property="title"/>
         <result column="second_title" jdbcType="VARCHAR" property="secondTitle"/>
         <result column="logo" jdbcType="VARCHAR" property="logo"/>
-        <result column="author_id" jdbcType="BIGINT" property="authorId"/>
-        <result column="tag_id" jdbcType="BIGINT" property="tagId"/>
         <result column="tags" jdbcType="VARCHAR" property="tags"/>
-        <result column="tags_name" jdbcType="VARCHAR" property="tagsName"/>
         <result column="article_type" jdbcType="TINYINT" property="articleType"/>
         <result column="article_section" jdbcType="VARCHAR" property="articleSection"/>
-        <result column="remark" jdbcType="VARCHAR" property="remark"/>
         <result column="read_num" jdbcType="INTEGER" property="readNum"/>
         <result column="like_num" jdbcType="INTEGER" property="likeNum"/>
         <result column="sort" jdbcType="INTEGER" property="sort"/>
@@ -29,8 +25,8 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, code, title, second_title, logo, author_id, tag_id, tags, tags_name, article_type,
-        article_section, remark, read_num, like_num, sort, level, status, create_date, update_date
+        id, code, title, second_title, logo, tags, article_type, article_section, read_num,
+        like_num, sort, level, status, create_date, update_date
     </sql>
 
     <sql id="Blob_Column_List">
@@ -53,21 +49,17 @@
 
     <insert id="insert" parameterType="com.easy.blog.api.model.BlogArticleHistory">
         insert into t_blog_article_history (id, code, title,
-        second_title, logo, author_id,
-        tag_id, tags, tags_name,
-        article_type, article_section, remark,
-        read_num, like_num, sort,
-        level, status, create_date,
-        update_date, article_markdown, article_html
-        )
+        second_title, logo, tags,
+        article_type, article_section, read_num,
+        like_num, sort, level,
+        status, create_date, update_date,
+        article_markdown, article_html)
         values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR},
-        #{secondTitle,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{authorId,jdbcType=BIGINT},
-        #{tagId,jdbcType=BIGINT}, #{tags,jdbcType=VARCHAR}, #{tagsName,jdbcType=VARCHAR},
-        #{articleType,jdbcType=TINYINT}, #{articleSection,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
-        #{readNum,jdbcType=INTEGER}, #{likeNum,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER},
-        #{level,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{createDate,jdbcType=TIMESTAMP},
-        #{updateDate,jdbcType=TIMESTAMP}, #{articleMarkdown,jdbcType=LONGVARCHAR}, #{articleHtml,jdbcType=LONGVARCHAR}
-        )
+        #{secondTitle,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR},
+        #{articleType,jdbcType=TINYINT}, #{articleSection,jdbcType=VARCHAR}, #{readNum,jdbcType=INTEGER},
+        #{likeNum,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{level,jdbcType=TINYINT},
+        #{status,jdbcType=TINYINT}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
+        #{articleMarkdown,jdbcType=LONGVARCHAR}, #{articleHtml,jdbcType=LONGVARCHAR})
     </insert>
 
     <insert id="insertSelective" parameterType="com.easy.blog.api.model.BlogArticleHistory">
@@ -88,26 +80,14 @@
             <if test="logo != null">
                 logo,
             </if>
-            <if test="authorId != null">
-                author_id,
-            </if>
-            <if test="tagId != null">
-                tag_id,
-            </if>
             <if test="tags != null">
                 tags,
-            </if>
-            <if test="tagsName != null">
-                tags_name,
             </if>
             <if test="articleType != null">
                 article_type,
             </if>
             <if test="articleSection != null">
                 article_section,
-            </if>
-            <if test="remark != null">
-                remark,
             </if>
             <if test="readNum != null">
                 read_num,
@@ -153,26 +133,14 @@
             <if test="logo != null">
                 #{logo,jdbcType=VARCHAR},
             </if>
-            <if test="authorId != null">
-                #{authorId,jdbcType=BIGINT},
-            </if>
-            <if test="tagId != null">
-                #{tagId,jdbcType=BIGINT},
-            </if>
             <if test="tags != null">
                 #{tags,jdbcType=VARCHAR},
-            </if>
-            <if test="tagsName != null">
-                #{tagsName,jdbcType=VARCHAR},
             </if>
             <if test="articleType != null">
                 #{articleType,jdbcType=TINYINT},
             </if>
             <if test="articleSection != null">
                 #{articleSection,jdbcType=VARCHAR},
-            </if>
-            <if test="remark != null">
-                #{remark,jdbcType=VARCHAR},
             </if>
             <if test="readNum != null">
                 #{readNum,jdbcType=INTEGER},
@@ -219,26 +187,14 @@
             <if test="logo != null">
                 logo = #{logo,jdbcType=VARCHAR},
             </if>
-            <if test="authorId != null">
-                author_id = #{authorId,jdbcType=BIGINT},
-            </if>
-            <if test="tagId != null">
-                tag_id = #{tagId,jdbcType=BIGINT},
-            </if>
             <if test="tags != null">
                 tags = #{tags,jdbcType=VARCHAR},
-            </if>
-            <if test="tagsName != null">
-                tags_name = #{tagsName,jdbcType=VARCHAR},
             </if>
             <if test="articleType != null">
                 article_type = #{articleType,jdbcType=TINYINT},
             </if>
             <if test="articleSection != null">
                 article_section = #{articleSection,jdbcType=VARCHAR},
-            </if>
-            <if test="remark != null">
-                remark = #{remark,jdbcType=VARCHAR},
             </if>
             <if test="readNum != null">
                 read_num = #{readNum,jdbcType=INTEGER},
@@ -277,13 +233,9 @@
         title = #{title,jdbcType=VARCHAR},
         second_title = #{secondTitle,jdbcType=VARCHAR},
         logo = #{logo,jdbcType=VARCHAR},
-        author_id = #{authorId,jdbcType=BIGINT},
-        tag_id = #{tagId,jdbcType=BIGINT},
         tags = #{tags,jdbcType=VARCHAR},
-        tags_name = #{tagsName,jdbcType=VARCHAR},
         article_type = #{articleType,jdbcType=TINYINT},
         article_section = #{articleSection,jdbcType=VARCHAR},
-        remark = #{remark,jdbcType=VARCHAR},
         read_num = #{readNum,jdbcType=INTEGER},
         like_num = #{likeNum,jdbcType=INTEGER},
         sort = #{sort,jdbcType=INTEGER},

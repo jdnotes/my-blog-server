@@ -15,6 +15,8 @@ public class BlogTag implements Serializable {
 
     private String tagName;
 
+    private String icon;
+
     private String alias;
 
     private Integer type;
@@ -65,6 +67,14 @@ public class BlogTag implements Serializable {
 
     public void setTagName(String tagName) {
         this.tagName = tagName;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     public String getAlias() {

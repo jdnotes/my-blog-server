@@ -26,7 +26,7 @@ public class BlogArticleEs implements Serializable {
     @Field(type = FieldType.Text, store = true, searchAnalyzer = "ik_max_word", analyzer = "ik_max_word")
     private String title;
 
-    @Field(type = FieldType.Text, store = true)
+    @Field(type = FieldType.Text, store = true, searchAnalyzer = "standard", analyzer = "standard")
     private String subtitle;
 
     @Field(type = FieldType.Keyword, store = true, index = false)

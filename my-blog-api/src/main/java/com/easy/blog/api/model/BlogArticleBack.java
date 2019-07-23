@@ -15,19 +15,11 @@ public class BlogArticleBack implements Serializable {
 
     private String logo;
 
-    private Long authorId;
-
-    private Long tagId;
-
     private String tags;
-
-    private String tagsName;
 
     private Byte articleType;
 
     private String articleSection;
-
-    private String remark;
 
     private Integer readNum;
 
@@ -87,36 +79,12 @@ public class BlogArticleBack implements Serializable {
         this.logo = logo;
     }
 
-    public Long getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
-    }
-
-    public Long getTagId() {
-        return tagId;
-    }
-
-    public void setTagId(Long tagId) {
-        this.tagId = tagId;
-    }
-
     public String getTags() {
         return tags;
     }
 
     public void setTags(String tags) {
         this.tags = tags;
-    }
-
-    public String getTagsName() {
-        return tagsName;
-    }
-
-    public void setTagsName(String tagsName) {
-        this.tagsName = tagsName;
     }
 
     public Byte getArticleType() {
@@ -133,14 +101,6 @@ public class BlogArticleBack implements Serializable {
 
     public void setArticleSection(String articleSection) {
         this.articleSection = articleSection;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
     }
 
     public Integer getReadNum() {

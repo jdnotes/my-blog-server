@@ -7,8 +7,10 @@ import com.easy.blog.api.model.*;
 import com.easy.blog.api.service.BlogArticleBackService;
 import com.easy.blog.api.service.BlogArticleService;
 import com.easy.blog.api.service.BlogTagService;
+import com.easy.blog.api.service.BlogThemeService;
 import com.easy.blog.api.utils.RandomUtils;
 import com.easy.blog.api.utils.SnowflakeIdUtils;
+import com.easy.blog.api.utils.SubStringHTMLUtils;
 import com.easy.blog.cache.service.CacheService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -18,6 +20,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -43,6 +46,9 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
     private BlogArticleService blogArticleService;
 
     @Autowired
+    private BlogThemeService blogThemeService;
+
+    @Autowired
     private CacheService cacheService;
 
     @Transactional(rollbackFor = Exception.class)
@@ -52,10 +58,6 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
             throw new RuntimeException("blog article back param is null");
         }
         param.setId(SnowflakeIdUtils.getSnowflakeId());
-        if (param.getAuthorId() == null) {
-            //默认站长
-            param.setAuthorId(1L);
-        }
         param.setCode(RandomUtils.getRandomStr(10));
         param.setReadNum(0);
         param.setLikeNum(0);
@@ -95,16 +97,22 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
             blogArticleBackMapper.updateSelective(back);
         }
 
-        if (StringUtils.isNotBlank(param.getWord())) {
+        if (StringUtils.isNotBlank(param.getUsername()) && StringUtils.isNotEmpty(param.getPassword())) {
             //通过口令发布博客
-            String key = RedisConstant.BLOG_ARTICLE_WORD;
-            String value = cacheService.get(key);
-            if (StringUtils.isEmpty(value)) {
-                value = GlobalConstant.ARTICLE_WORD;
-                String random = RandomUtils.getRandomStr(4);
-                cacheService.set(key, random, 604800);
-            }
-            if (value.equals(param.getWord())) {
+            if (GlobalConstant.ARTICLE_USERNAME.equals(param.getUsername())
+                    && GlobalConstant.ARTICLE_PASSWORD.equals(param.getPassword())) {
+
+                if (param.getHot() != null || param.getQuality() != null) {
+                    BlogTheme theme = new BlogTheme();
+                    theme.setId(SnowflakeIdUtils.getSnowflakeId());
+                    theme.setArticleId(back.getId());
+                    theme.setHot(param.getHot());
+                    theme.setQuality(param.getQuality());
+                    theme.setCreateDate(new Date());
+                    theme.setUpdateDate(new Date());
+                    blogThemeService.save(theme);
+                }
+
                 blogArticleService.publish(back);
             }
         }
@@ -123,12 +131,6 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
                     vo.setTags(Arrays.asList(arr));
                 }
             }
-            if (back.getTagId() != null) {
-                BlogTag tag = blogTagService.get(back.getTagId());
-                if (tag != null) {
-                    vo.setTag(tag.getCode());
-                }
-            }
             //md,html加密处理 todo
         }
         return vo;
@@ -141,42 +143,14 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
     private BlogArticleBack putBlogArticleParam(BlogArticleBackDTO param) {
         BlogArticleBack back = new BlogArticleBack();
         BeanUtils.copyProperties(param, back);
-        if (back.getAuthorId() == null) {
-            //默认站长
-            back.setAuthorId(1L);
-        }
         if (back.getLevel() == null) {
             back.setLevel(NumberUtils.toByte("1"));
         }
-        if (StringUtils.isNotEmpty(param.getTag())) {
-            BlogTag tag = blogTagService.getTagByCode(param.getTag());
-            if (tag != null) {
-                back.setTagId(tag.getId());
-            }
+        if (StringUtils.isNotEmpty(param.getArticleHtml())) {
+            back.setArticleSection(SubStringHTMLUtils.subStringHTML(param.getArticleHtml(), 150, "..."));
         }
-        this.getTagsName(param.getTags(), back);
         back.setReadNum(0);
         back.setLikeNum(0);
         return back;
-    }
-
-    private void getTagsName(List<String> tagCodes, BlogArticleBack back) {
-        StringBuilder tags = new StringBuilder();
-        StringBuilder tagsName = new StringBuilder();
-        if (tagCodes != null && tagCodes.size() > 0) {
-            List<BlogTag> tagDatas = blogTagService.getTagByCodes(tagCodes);
-            if (tagDatas != null && tagDatas.size() > 0) {
-                for (BlogTag tag : tagDatas) {
-                    tags.append(tag.getCode()).append(",");
-                    tagsName.append(tag.getAlias()).append(",");
-                }
-            }
-        }
-        if (tags.length() > 1) {
-            back.setTags(tags.toString().substring(0, tags.length() - 1));
-        }
-        if (tagsName.length() > 1) {
-            back.setTagsName(tagsName.toString().substring(0, tagsName.length() - 1));
-        }
     }
 }

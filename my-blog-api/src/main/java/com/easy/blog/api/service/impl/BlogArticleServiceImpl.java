@@ -161,6 +161,7 @@ public class BlogArticleServiceImpl implements BlogArticleService {
 
         BlogArticleEs es = new BlogArticleEs();
         BeanUtils.copyProperties(article, es);
+        es.setSubtitle(article.getTitle());
         es.setArticleType(NumberUtils.toInt(article.getArticleType() + ""));
         es.setLevel(NumberUtils.toInt(article.getLevel() + ""));
         es.setStatus(NumberUtils.toInt(article.getStatus() + ""));

@@ -15,9 +15,5 @@ public interface BlogArticleMapper {
 
     BlogArticle getByCode(String code);
 
-    BlogArticle getRecentByLevel(int level);
-
-    BlogArticle getRecentByDate();
-
     List<BlogArticle> getListByIds(@Param("ids") List<Long> ids);
 }

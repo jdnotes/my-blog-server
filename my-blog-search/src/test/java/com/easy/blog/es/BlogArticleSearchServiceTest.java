@@ -35,7 +35,6 @@ public class BlogArticleSearchServiceTest {
     public void add() {
         BlogArticleEs es = new BlogArticleEs();
         es.setId(1001L);
-        es.setAuthor("zhangsan");
         es.setArticleSection("我是一个可爱的人!");
         blogArticleSearchService.add(es);
     }
@@ -52,7 +51,6 @@ public class BlogArticleSearchServiceTest {
     public void update() {
         BlogArticleEs es = new BlogArticleEs();
         es.setId(1001L);
-        es.setAuthor("lisi");
         blogArticleSearchService.update(es);
     }
 
@@ -94,11 +92,9 @@ public class BlogArticleSearchServiceTest {
             es.setId(id);
             es.setCode(String.valueOf(id));
             es.setLogo("https://dpic.tiankong.com/82/9f/QJ6333551457.jpg");
-            es.setAuthor("zhangsan");
             es.setArticleType(1);
             es.setTitle("JAVA源码之ArrayList解读" + i);
             es.setTags("1001");
-            es.setTagsName("JAVA");
             es.setArticleSection("也许，爱情没有永远，地老天荒也走不完，生命终结的末端，苦短情长。站在岁月的边端，那些美丽的定格，心伤的绝恋，都被四季的掩埋，一去不返。徒剩下这荒芜的花好月圆，一路相随，流离天涯背负了谁的思念？");
             es.setRemark("ps:本篇内容由站长网路整理汇总,如有雷同,请留言 or 微信联系me.");
             es.setReadNum(4500);
@@ -115,11 +111,9 @@ public class BlogArticleSearchServiceTest {
             es.setId(id);
             es.setCode(String.valueOf(id));
             es.setLogo("https://dpic.tiankong.com/82/9f/QJ6333551457.jpg");
-            es.setAuthor("zhangsan");
             es.setArticleType(1);
             es.setTitle("JAVA源码之HashMap解读" + i);
             es.setTags("1001");
-            es.setTagsName("JAVA");
             es.setCreateDate(new Date(System.currentTimeMillis() + id));
             es.setArticleSection("也许，爱情没有永远，地老天荒也走不完，生命终结的末端，苦短情长。站在岁月的边端，那些美丽的定格，心伤的绝恋，都被四季的掩埋，一去不返。徒剩下这荒芜的花好月圆，一路相随，流离天涯背负了谁的思念？");
             es.setRemark("ps:本篇内容由站长网路整理汇总,如有雷同,请留言 or 微信联系me.");
@@ -137,11 +131,9 @@ public class BlogArticleSearchServiceTest {
             es.setId(id);
             es.setCode(String.valueOf(id));
             es.setLogo("https://dpic.tiankong.com/82/9f/QJ6333551457.jpg");
-            es.setAuthor("zhangsan");
             es.setArticleType(1);
             es.setTitle("Spring应用之IOC实战" + i);
             es.setTags("1002");
-            es.setTagsName("Spring");
             es.setCreateDate(new Date(System.currentTimeMillis() + id));
             es.setArticleSection("也许，爱情没有永远，地老天荒也走不完，生命终结的末端，苦短情长。站在岁月的边端，那些美丽的定格，心伤的绝恋，都被四季的掩埋，一去不返。徒剩下这荒芜的花好月圆，一路相随，流离天涯背负了谁的思念？");
             es.setRemark("ps:本篇内容由站长网路整理汇总,如有雷同,请留言 or 微信联系me.");
@@ -159,11 +151,9 @@ public class BlogArticleSearchServiceTest {
             es.setId(id);
             es.setCode(String.valueOf(id));
             es.setLogo("https://dpic.tiankong.com/82/9f/QJ6333551457.jpg");
-            es.setAuthor("zhangsan");
             es.setArticleType(1);
             es.setTitle("Spring应用之AOP实战" + i);
             es.setTags("1002");
-            es.setTagsName("Spring");
             es.setCreateDate(new Date(System.currentTimeMillis() + id));
             es.setArticleSection("也许，爱情没有永远，地老天荒也走不完，生命终结的末端，苦短情长。站在岁月的边端，那些美丽的定格，心伤的绝恋，都被四季的掩埋，一去不返。徒剩下这荒芜的花好月圆，一路相随，流离天涯背负了谁的思念？");
             es.setRemark("ps:本篇内容由站长网路整理汇总,如有雷同,请留言 or 微信联系me.");

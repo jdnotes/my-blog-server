@@ -7,6 +7,7 @@
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="en_name" jdbcType="VARCHAR" property="enName"/>
         <result column="tag_name" jdbcType="VARCHAR" property="tagName"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
         <result column="alias" jdbcType="VARCHAR" property="alias"/>
         <result column="type" jdbcType="TINYINT" property="type"/>
         <result column="sort" jdbcType="INTEGER" property="sort"/>
@@ -16,7 +17,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, parent_id, code, en_name, tag_name, alias, type, sort, create_date, update_date,
+        id, parent_id, code, en_name, tag_name, icon, alias, type, sort, create_date, update_date,
         status
     </sql>
 
@@ -34,13 +35,15 @@
 
     <insert id="insert" parameterType="com.easy.blog.api.model.BlogTag">
         insert into t_blog_tag (id, parent_id, code,
-        en_name, tag_name, alias,
-        type, sort, create_date,
-        update_date, status)
+        en_name, tag_name, icon,
+        alias, type, sort,
+        create_date, update_date, status
+        )
         values (#{id,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR},
-        #{enName,jdbcType=VARCHAR}, #{tagName,jdbcType=VARCHAR}, #{alias,jdbcType=VARCHAR},
-        #{type,jdbcType=TINYINT}, #{sort,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP},
-        #{updateDate,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT})
+        #{enName,jdbcType=VARCHAR}, #{tagName,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR},
+        #{alias,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{sort,jdbcType=INTEGER},
+        #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{status,jdbcType=TINYINT}
+        )
     </insert>
 
     <insert id="insertSelective" parameterType="com.easy.blog.api.model.BlogTag">
@@ -60,6 +63,9 @@
             </if>
             <if test="tagName != null">
                 tag_name,
+            </if>
+            <if test="icon != null">
+                icon,
             </if>
             <if test="alias != null">
                 alias,
@@ -95,6 +101,9 @@
             </if>
             <if test="tagName != null">
                 #{tagName,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null">
+                #{icon,jdbcType=VARCHAR},
             </if>
             <if test="alias != null">
                 #{alias,jdbcType=VARCHAR},
@@ -132,6 +141,9 @@
             <if test="tagName != null">
                 tag_name = #{tagName,jdbcType=VARCHAR},
             </if>
+            <if test="icon != null">
+                icon = #{icon,jdbcType=VARCHAR},
+            </if>
             <if test="alias != null">
                 alias = #{alias,jdbcType=VARCHAR},
             </if>
@@ -160,6 +172,7 @@
         code = #{code,jdbcType=VARCHAR},
         en_name = #{enName,jdbcType=VARCHAR},
         tag_name = #{tagName,jdbcType=VARCHAR},
+        icon = #{icon,jdbcType=VARCHAR},
         alias = #{alias,jdbcType=VARCHAR},
         type = #{type,jdbcType=TINYINT},
         sort = #{sort,jdbcType=INTEGER},

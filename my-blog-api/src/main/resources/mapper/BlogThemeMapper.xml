@@ -129,4 +129,58 @@
         limit #{size}
     </select>
 
+    <insert id="save" parameterType="com.easy.blog.api.model.BlogTheme">
+        insert into t_blog_theme
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="articleId != null">
+                article_id,
+            </if>
+            <if test="hot != null">
+                hot,
+            </if>
+            <if test="quality != null">
+                quality,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="articleId != null">
+                #{articleId,jdbcType=BIGINT},
+            </if>
+            <if test="hot != null">
+                #{hot,jdbcType=TINYINT},
+            </if>
+            <if test="quality != null">
+                #{quality,jdbcType=TINYINT},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+        ON DUPLICATE key update
+        <if test="hot != null">
+            hot = #{hot,jdbcType=TINYINT},
+        </if>
+        <if test="quality != null">
+            quality = #{quality,jdbcType=TINYINT},
+        </if>
+        <if test="updateDate != null">
+            update_date = #{updateDate,jdbcType=TIMESTAMP}
+        </if>
+    </insert>
+
 </mapper>

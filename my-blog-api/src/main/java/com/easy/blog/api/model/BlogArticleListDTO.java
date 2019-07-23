@@ -12,8 +12,6 @@ public class BlogArticleListDTO extends BaseListDTO {
 
     private String tags;
 
-    private String tagsName;
-
     public String getKeywords() {
         return keywords;
     }
@@ -36,13 +34,5 @@ public class BlogArticleListDTO extends BaseListDTO {
 
     public void setTags(String tags) {
         this.tags = tags;
-    }
-
-    public String getTagsName() {
-        return tagsName;
-    }
-
-    public void setTagsName(String tagsName) {
-        this.tagsName = tagsName;
     }
 }

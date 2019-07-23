@@ -30,4 +30,9 @@ public class BlogThemeServiceImpl implements BlogThemeService {
     public List<Long> getArticleIdsByQuality(BlogThemeDTO param, int size) {
         return blogThemeMapper.getArticleIdsByQuality(param.getQuality(), param.getHot(), size);
     }
+
+    @Override
+    public void save(BlogTheme theme) {
+        blogThemeMapper.save(theme);
+    }
 }

@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.easy.blog.api.constant.RedisConstant;
 import com.easy.blog.api.dao.BlogTagMapper;
-import com.easy.blog.api.model.BlogArticleRecommendVO;
 import com.easy.blog.api.model.BlogTag;
 import com.easy.blog.api.model.BlogTagCloudVO;
 import com.easy.blog.api.service.BlogTagService;
@@ -17,7 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author zhouyong
@@ -51,6 +51,7 @@ public class BlogTagServiceImpl implements BlogTagService {
             vo.setId(String.valueOf(tag.getId()));
             vo.setCode(tag.getCode());
             vo.setTagName(tag.getAlias());
+            vo.setIcon(tag.getIcon());
             vo.setNum(1);
             voList.add(vo);
         }

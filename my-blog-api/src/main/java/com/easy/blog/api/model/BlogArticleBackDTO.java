@@ -13,17 +13,11 @@ public class BlogArticleBackDTO implements Serializable {
 
     private String logo;
 
-    private Long authorId;
-
-    private String tag;
-
-    private List<String> tags;
+    private String tags;
 
     private Byte articleType;
 
     private String articleSection;
-
-    private String remark;
 
     private Byte level;
 
@@ -31,7 +25,15 @@ public class BlogArticleBackDTO implements Serializable {
 
     private String articleHtml;
 
-    private String word;
+    private Byte hot;
+
+    private Byte quality;
+
+    private Boolean publish;
+
+    private String username;
+
+    private String password;
 
     public String getCode() {
         return code;
@@ -65,27 +67,11 @@ public class BlogArticleBackDTO implements Serializable {
         this.logo = logo;
     }
 
-    public Long getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(Long authorId) {
-        this.authorId = authorId;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public List<String> getTags() {
+    public String getTags() {
         return tags;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(String tags) {
         this.tags = tags;
     }
 
@@ -103,14 +89,6 @@ public class BlogArticleBackDTO implements Serializable {
 
     public void setArticleSection(String articleSection) {
         this.articleSection = articleSection;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
     }
 
     public Byte getLevel() {
@@ -137,11 +115,43 @@ public class BlogArticleBackDTO implements Serializable {
         this.articleHtml = articleHtml;
     }
 
-    public String getWord() {
-        return word;
+    public Byte getHot() {
+        return hot;
     }
 
-    public void setWord(String word) {
-        this.word = word;
+    public void setHot(Byte hot) {
+        this.hot = hot;
+    }
+
+    public Byte getQuality() {
+        return quality;
+    }
+
+    public void setQuality(Byte quality) {
+        this.quality = quality;
+    }
+
+    public Boolean getPublish() {
+        return publish;
+    }
+
+    public void setPublish(Boolean publish) {
+        this.publish = publish;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -12,8 +12,6 @@ public class BlogArticleDetailsVO implements Serializable {
 
     private String logo;
 
-    private String remark;
-
     private Integer readNum;
 
     private Integer likeNum;
@@ -46,14 +44,6 @@ public class BlogArticleDetailsVO implements Serializable {
 
     public void setLogo(String logo) {
         this.logo = logo;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
     }
 
     public Integer getReadNum() {

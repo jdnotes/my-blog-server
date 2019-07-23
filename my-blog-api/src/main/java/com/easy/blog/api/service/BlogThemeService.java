@@ -14,4 +14,6 @@ public interface BlogThemeService {
     BlogTheme getByQuality();
 
     List<Long> getArticleIdsByQuality(BlogThemeDTO param, int size);
+
+    void save(BlogTheme theme);
 }
