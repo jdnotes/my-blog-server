@@ -147,7 +147,7 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
             back.setLevel(NumberUtils.toByte("1"));
         }
         if (StringUtils.isNotEmpty(param.getArticleHtml())) {
-            back.setArticleSection(SubStringHTMLUtils.subStringHTML(param.getArticleHtml(), 150, "..."));
+            back.setArticleSection(SubStringHTMLUtils.subTextHtml(param.getArticleHtml(), 150, "..."));
         }
         back.setReadNum(0);
         back.setLikeNum(0);
