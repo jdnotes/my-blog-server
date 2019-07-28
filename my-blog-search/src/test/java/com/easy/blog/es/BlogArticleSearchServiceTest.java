@@ -66,7 +66,7 @@ public class BlogArticleSearchServiceTest {
     public void search() {
         BlogArticleEsDTO param = new BlogArticleEsDTO();
         param.setCurrentPage(1);
-        param.setPageRows(15);
+        param.setPageRow(15);
         param.setKeywords("IOC");
         param.setTags("1002");
         Page<BlogArticleEs> page = blogArticleSearchService.search(param);
