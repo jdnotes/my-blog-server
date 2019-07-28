@@ -18,7 +18,7 @@ public class BlogArticleEsDTO implements Serializable {
 
     private int currentPage;
 
-    private int pageRows;
+    private int pageRow;
 
     public String getKeywords() {
         return keywords;
@@ -60,11 +60,11 @@ public class BlogArticleEsDTO implements Serializable {
         this.currentPage = currentPage;
     }
 
-    public int getPageRows() {
-        return pageRows;
+    public int getPageRow() {
+        return pageRow;
     }
 
-    public void setPageRows(int pageRows) {
-        this.pageRows = pageRows;
+    public void setPageRow(int pageRow) {
+        this.pageRow = pageRow;
     }
 }

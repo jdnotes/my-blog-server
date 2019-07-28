@@ -79,10 +79,18 @@ public class Pager<E> implements Serializable {
     }
 
     public Pager(int currentPage, int totalRecords) {
+        this(currentPage, PAGE_ROW_SIZE, totalRecords);
+    }
+
+    public Pager(int currentPage, int pageRow, int totalRecords) {
         if (currentPage < 0) {
             currentPage = CURRENT_PAGE_SIZE;
         }
+        if (pageRow <= 0) {
+            pageRow = PAGE_ROW_SIZE;
+        }
         this.currentPage = currentPage;
+        this.pageRow = pageRow;
         this.totalRecords = totalRecords;
         startIndex = (currentPage - 1) * pageRow;
         totalPage = totalRecords % pageRow == 0 ? totalRecords / pageRow : totalRecords / pageRow + 1;

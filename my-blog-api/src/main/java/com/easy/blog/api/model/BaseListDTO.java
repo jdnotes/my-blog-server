@@ -10,7 +10,7 @@ public class BaseListDTO implements Serializable {
 
     private int currentPage = 1;
 
-    private int pageRows = 10;
+    private int pageRow = 10;
 
     public int getCurrentPage() {
         return currentPage;
@@ -20,11 +20,11 @@ public class BaseListDTO implements Serializable {
         this.currentPage = currentPage;
     }
 
-    public int getPageRows() {
-        return pageRows;
+    public int getPageRow() {
+        return pageRow;
     }
 
-    public void setPageRows(int pageRows) {
-        this.pageRows = pageRows;
+    public void setPageRow(int pageRow) {
+        this.pageRow = pageRow;
     }
 }

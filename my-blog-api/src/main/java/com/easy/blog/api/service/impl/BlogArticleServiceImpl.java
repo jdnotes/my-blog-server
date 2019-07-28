@@ -63,12 +63,12 @@ public class BlogArticleServiceImpl implements BlogArticleService {
         } else {
             param = new BlogArticleListDTO();
             param.setCurrentPage(1);
-            param.setPageRows(10);
+            param.setPageRow(10);
         }
         Page<BlogArticleEs> page = blogArticleSearchService.search(dto);
         Pager<BlogArticleListVO> pager;
         if (page != null) {
-            pager = new Pager<>(param.getCurrentPage(), NumberUtils.toInt(page.getTotalElements() + ""));
+            pager = new Pager<>(param.getCurrentPage(), param.getPageRow(), NumberUtils.toInt(page.getTotalElements() + ""));
             List<BlogArticleListVO> voList = putBlogArticleListValue(page.getContent());
             pager.setRecords(voList);
         } else {

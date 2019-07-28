@@ -72,7 +72,7 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
             throw new RuntimeException("search param object is error!");
         }
         int currentPage = param.getCurrentPage();
-        int pageRows = param.getPageRows();
+        int pageRows = param.getPageRow();
         if (currentPage <= 0) {
             currentPage = 1;
         }
