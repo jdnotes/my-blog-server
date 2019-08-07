@@ -117,6 +117,7 @@
         from t_blog_theme
         where quality = 1
         order by create_date desc
+        limit 1
     </select>
 
     <select id="getArticleIdsByQuality" resultType="java.lang.Long">
