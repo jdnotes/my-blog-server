@@ -4,10 +4,7 @@ import com.easy.blog.api.constant.GlobalConstant;
 import com.easy.blog.api.constant.RedisConstant;
 import com.easy.blog.api.dao.BlogArticleBackMapper;
 import com.easy.blog.api.model.*;
-import com.easy.blog.api.service.BlogArticleBackService;
-import com.easy.blog.api.service.BlogArticleService;
-import com.easy.blog.api.service.BlogTagService;
-import com.easy.blog.api.service.BlogThemeService;
+import com.easy.blog.api.service.*;
 import com.easy.blog.api.utils.RandomUtils;
 import com.easy.blog.api.utils.SnowflakeIdUtils;
 import com.easy.blog.api.utils.SubStringHTMLUtils;
@@ -49,6 +46,9 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
     private BlogThemeService blogThemeService;
 
     @Autowired
+    private BlogArticleImagesService blogArticleImagesService;
+
+    @Autowired
     private CacheService cacheService;
 
     @Transactional(rollbackFor = Exception.class)
@@ -81,6 +81,7 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
             Long id = SnowflakeIdUtils.getSnowflakeId();
             back.setId(id);
             back.setCode(RandomUtils.getRandomStr(10));
+            back.setLogo(this.getLogoValue(RandomUtils.getRandomNum(1, 50)));
             back.setCreateDate(new Date());
             back.setUpdateDate(new Date());
             blogArticleBackMapper.insertSelective(back);
@@ -92,7 +93,9 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
             back.setId(old.getId());
             back.setReadNum(old.getReadNum());
             back.setLikeNum(old.getLikeNum());
-            back.setCreateDate(old.getCreateDate());
+            if (StringUtils.isEmpty(old.getLogo())) {
+                back.setLogo(this.getLogoValue(RandomUtils.getRandomNum(1, 50)));
+            }
             back.setUpdateDate(new Date());
             blogArticleBackMapper.updateSelective(back);
         }
@@ -118,6 +121,14 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
         }
     }
 
+    private String getLogoValue(int randomNum) {
+        if (randomNum > 0) {
+            String url = blogArticleImagesService.getUrlByCode(randomNum);
+            return url;
+        }
+        return "";
+    }
+
     @Override
     public BlogArticleBackEditorVO getByCode(BlogArticleBackDTO param) {
         BlogArticleBack back = this.getByCode(param.getCode());
@@ -129,9 +140,9 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
                 String[] arr = back.getTags().split(",");
                 if (arr != null && arr.length > 0) {
                     vo.setTags(Arrays.asList(arr));
+                    vo.setTag(arr[0]);
                 }
             }
-            //md,html加密处理 todo
         }
         return vo;
     }

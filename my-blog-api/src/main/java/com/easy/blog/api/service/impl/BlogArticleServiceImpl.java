@@ -4,10 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.easy.blog.api.constant.GlobalConstant;
 import com.easy.blog.api.constant.RedisConstant;
+import com.easy.blog.api.constant.RsaConstant;
 import com.easy.blog.api.dao.BlogArticleMapper;
 import com.easy.blog.api.model.*;
 import com.easy.blog.api.pager.Pager;
 import com.easy.blog.api.service.*;
+import com.easy.blog.api.utils.RSAUtils;
+import com.easy.blog.api.utils.RandomUtils;
 import com.easy.blog.cache.service.CacheService;
 import com.easy.blog.es.model.BlogArticleEs;
 import com.easy.blog.es.model.BlogArticleEsDTO;
@@ -54,6 +57,9 @@ public class BlogArticleServiceImpl implements BlogArticleService {
 
     @Autowired
     private BlogArticleMapper blogArticleMapper;
+
+    @Autowired
+    private BlogQualityImagesService blogQualityImagesService;
 
     @Override
     public Pager<BlogArticleListVO> search(BlogArticleListDTO param) {
@@ -121,9 +127,21 @@ public class BlogArticleServiceImpl implements BlogArticleService {
             return null;
         }
         BlogArticleDetailsVO vo = new BlogArticleDetailsVO();
+        this.putArticleDetailValue(articleEs, vo);
+        return vo;
+    }
+
+    private void putArticleDetailValue(BlogArticleEs articleEs, BlogArticleDetailsVO vo) {
         BeanUtils.copyProperties(articleEs, vo);
         vo.setId(articleEs.getCode());
-        return vo;
+        if (StringUtils.isNotEmpty(articleEs.getArticleHtml())) {
+            try {
+                vo.setArticleHtml(RSAUtils.encryptBASE64(RSAUtils.encryptByPublicKey(articleEs.getArticleHtml(), RsaConstant.PUBLIC_KEY)));
+            } catch (Exception e) {
+                logger.error(e.getMessage(), e);
+                vo.setArticleHtml("<p>数据解析异常</p>");
+            }
+        }
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -169,6 +187,8 @@ public class BlogArticleServiceImpl implements BlogArticleService {
 
         Set<String> set = new HashSet<>();
         set.add(RedisConstant.BLOG_ARTICLE_RECENT_LIST);
+        set.add(RedisConstant.BLOG_ARTICLE_QUALITY_LIST);
+        set.add(RedisConstant.BLOG_ARTICLE_HOT_LIST);
         set.add(RedisConstant.BLOG_QUALITY_ARTICLE);
         cacheService.del(set);
     }
@@ -302,10 +322,15 @@ public class BlogArticleServiceImpl implements BlogArticleService {
                 vo = new BlogArticleSuccinctVO();
                 vo.setId(article.getCode());
                 vo.setTitle(article.getTitle());
+                vo.setLogo(this.getLogoValue(RandomUtils.getRandomNum(1, 13)));
                 vo.setDate(article.getUpdateDate());
                 cacheService.set(key, JSON.toJSONString(vo), 3600);
             }
         }
         return vo;
+    }
+
+    private String getLogoValue(int randomNum) {
+        return blogQualityImagesService.getUrlByCode(randomNum);
     }
 }

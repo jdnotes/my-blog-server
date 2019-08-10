@@ -1,7 +1,6 @@
 package com.easy.blog.api.controller;
 
 import com.easy.blog.api.constant.CodeMsgConstant;
-import com.easy.blog.api.constant.GlobalConstant;
 import com.easy.blog.api.constant.RedisConstant;
 import com.easy.blog.api.constant.Result;
 import com.easy.blog.api.model.*;

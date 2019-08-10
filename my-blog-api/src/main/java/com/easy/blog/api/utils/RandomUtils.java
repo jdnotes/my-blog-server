@@ -43,6 +43,6 @@ public class RandomUtils {
     public static void main(String[] args) {
         System.out.println(getRandomStr(10));
 
-        System.out.println(getRandomNum(10, 101));
+        System.out.println(getRandomNum(1, 50));
     }
 }

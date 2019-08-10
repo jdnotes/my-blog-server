@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.easy.blog.api.dao.BlogQualityImagesMapper">
+    <resultMap id="BaseResultMap" type="com.easy.blog.api.model.BlogQualityImages">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="code" jdbcType="INTEGER" property="code"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, code, name, url
+    </sql>
+
+    <select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_blog_quality_images
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="delete" parameterType="java.lang.Long">
+        delete from t_blog_quality_images
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.easy.blog.api.model.BlogQualityImages">
+        insert into t_blog_quality_images (id, code, name,
+        url)
+        values (#{id,jdbcType=BIGINT}, #{code,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+        #{url,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.easy.blog.api.model.BlogQualityImages">
+        insert into t_blog_quality_images
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateSelective" parameterType="com.easy.blog.api.model.BlogQualityImages">
+        update t_blog_quality_images
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="update" parameterType="com.easy.blog.api.model.BlogQualityImages">
+        update t_blog_quality_images
+        set code = #{code,jdbcType=INTEGER},
+        name = #{name,jdbcType=VARCHAR},
+        url = #{url,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <select id="getUrlByCode" parameterType="java.lang.Integer" resultType="java.lang.String">
+        select `url`
+        from t_blog_quality_images
+        where code = #{code}
+        limit 1
+    </select>
+
+</mapper>

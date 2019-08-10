@@ -265,6 +265,7 @@
         <foreach collection="ids" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
+        order by create_date desc
     </select>
 
 </mapper>

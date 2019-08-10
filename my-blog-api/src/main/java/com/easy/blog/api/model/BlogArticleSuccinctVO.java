@@ -15,6 +15,8 @@ public class BlogArticleSuccinctVO implements Serializable {
 
     private Date date;
 
+    private String logo;
+
     public String getId() {
         return id;
     }
@@ -37,5 +39,13 @@ public class BlogArticleSuccinctVO implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 }

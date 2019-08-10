@@ -52,7 +52,6 @@ public class BlogTagServiceImpl implements BlogTagService {
             vo.setCode(tag.getCode());
             vo.setTagName(tag.getAlias());
             vo.setIcon(tag.getIcon());
-            vo.setNum(1);
             voList.add(vo);
         }
         if (voList != null && voList.size() > 0) {
