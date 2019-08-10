@@ -223,37 +223,41 @@ public class RSAUtils {
     }
 
     public static void main(String[] args) throws Exception {
-        Map<String, Key> keyMap = initKey();
-        System.out.println("公钥：" + getPublicKey(keyMap));
-        System.out.println("私钥：" + getPrivateKey(keyMap));
-        String pwd = "pwd";
-        System.out.println("公钥加密后：");
-        byte[] encryptData = encryptByPublicKey(pwd, getPublicKey(keyMap));
-        String encryptStr = encryptBASE64(encryptData);
-        System.out.println(encryptStr);
-        System.out.println("私钥解密后：");
-        byte[] decryptData = decryptByPrivateKey(decryptBASE64(encryptStr), getPrivateKey(keyMap));
-        System.out.println(new String(decryptData));
+//        Map<String, Key> keyMap = initKey();
+//        System.out.println("公钥：" + getPublicKey(keyMap));
+//        System.out.println("私钥：" + getPrivateKey(keyMap));
+//        String pwd = "pwd";
+//        System.out.println("公钥加密后：");
+//        byte[] encryptData = encryptByPublicKey(pwd, getPublicKey(keyMap));
+//        String encryptStr = encryptBASE64(encryptData);
+//        System.out.println(encryptStr);
+//        System.out.println("私钥解密后：");
+//        byte[] decryptData = decryptByPrivateKey(decryptBASE64(encryptStr), getPrivateKey(keyMap));
+//        System.out.println(new String(decryptData));
+//
+//        System.out.println("-------------------\n");
+//
+//        System.out.println("私钥加密后：");
+//        encryptData = encryptByPrivateKey(pwd.getBytes(), getPrivateKey(keyMap));
+//        encryptStr = encryptBASE64(encryptData);
+//        System.out.println(encryptStr);
+//        System.out.println("公钥解密后：");
+//        decryptData = decryptByPublicKey(decryptBASE64(encryptStr), getPublicKey(keyMap));
+//        System.out.println(new String(decryptData));
+//
+//
+//        System.out.println("-------------------\n");
+//        pwd = "Docker应用之CentOS安装Docker";
+//        System.out.println("公钥加密后：");
+//        encryptData = encryptByPublicKey(pwd, RsaConstant.PUBLIC_KEY);
+//        encryptStr = encryptBASE64(encryptData);
+//        System.out.println(encryptStr);
+//        System.out.println("私钥解密后：");
+//        decryptData = decryptByPrivateKey(decryptBASE64(encryptStr), RsaConstant.PRIVATE_KEY);
+//        System.out.println(new String(decryptData));
 
-        System.out.println("-------------------\n");
 
-        System.out.println("私钥加密后：");
-        encryptData = encryptByPrivateKey(pwd.getBytes(), getPrivateKey(keyMap));
-        encryptStr = encryptBASE64(encryptData);
-        System.out.println(encryptStr);
-        System.out.println("公钥解密后：");
-        decryptData = decryptByPublicKey(decryptBASE64(encryptStr), getPublicKey(keyMap));
-        System.out.println(new String(decryptData));
-
-
-        System.out.println("-------------------\n");
-        pwd = "Docker应用之CentOS安装Docker";
-        System.out.println("公钥加密后：");
-        encryptData = encryptByPublicKey(pwd, RsaConstant.PUBLIC_KEY);
-        encryptStr = encryptBASE64(encryptData);
-        System.out.println(encryptStr);
-        System.out.println("私钥解密后：");
-        decryptData = decryptByPrivateKey(decryptBASE64(encryptStr), RsaConstant.PRIVATE_KEY);
-        System.out.println(new String(decryptData));
+        String html = "ccccc";
+        System.out.println(RSAUtils.encryptBASE64(RSAUtils.encryptByPublicKey(html, RsaConstant.PUBLIC_KEY)));
     }
 }

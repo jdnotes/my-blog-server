@@ -9,6 +9,7 @@ import com.easy.blog.api.dao.BlogArticleMapper;
 import com.easy.blog.api.model.*;
 import com.easy.blog.api.pager.Pager;
 import com.easy.blog.api.service.*;
+import com.easy.blog.api.utils.AesUtils;
 import com.easy.blog.api.utils.RSAUtils;
 import com.easy.blog.api.utils.RandomUtils;
 import com.easy.blog.cache.service.CacheService;
@@ -136,10 +137,11 @@ public class BlogArticleServiceImpl implements BlogArticleService {
         vo.setId(articleEs.getCode());
         if (StringUtils.isNotEmpty(articleEs.getArticleHtml())) {
             try {
-                vo.setArticleHtml(RSAUtils.encryptBASE64(RSAUtils.encryptByPublicKey(articleEs.getArticleHtml(), RsaConstant.PUBLIC_KEY)));
+                String articleHtml = new String(articleEs.getArticleHtml().getBytes(), "UTF-8");
+                vo.setArticleHtml(AesUtils.encrypt(articleHtml, AesUtils.KEY, AesUtils.IV));
             } catch (Exception e) {
                 logger.error(e.getMessage(), e);
-                vo.setArticleHtml("<p>数据解析异常</p>");
+                vo.setArticleHtml("数据解析异常");
             }
         }
     }
