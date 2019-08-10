@@ -82,6 +82,7 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
             back.setId(id);
             back.setCode(RandomUtils.getRandomStr(10));
             back.setLogo(this.getLogoValue(RandomUtils.getRandomNum(1, 50)));
+            logger.info("add save logo:{}", back.getLogo());
             back.setCreateDate(new Date());
             back.setUpdateDate(new Date());
             blogArticleBackMapper.insertSelective(back);
@@ -95,7 +96,12 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
             back.setLikeNum(old.getLikeNum());
             if (StringUtils.isEmpty(old.getLogo())) {
                 back.setLogo(this.getLogoValue(RandomUtils.getRandomNum(1, 50)));
+                logger.info("update save logo:{}", back.getLogo());
+            } else {
+                back.setLogo(old.getLogo());
+                logger.info("old save logo:{}", back.getLogo());
             }
+            back.setCreateDate(old.getCreateDate());
             back.setUpdateDate(new Date());
             blogArticleBackMapper.updateSelective(back);
         }

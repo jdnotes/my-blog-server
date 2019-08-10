@@ -98,8 +98,8 @@ public class BlogArticleSearchServiceImpl implements BlogArticleSearchService {
         //搜索
         if (StringUtils.isNotEmpty(param.getKeywords())) {
             List<FunctionScoreQueryBuilder.FilterFunctionBuilder> filterFunctionBuilders = new ArrayList<>();
-//            filterFunctionBuilders.add(new FunctionScoreQueryBuilder.FilterFunctionBuilder(QueryBuilders.matchQuery("title", param.getKeywords()),
-//                    ScoreFunctionBuilders.weightFactorFunction(1000)));
+            filterFunctionBuilders.add(new FunctionScoreQueryBuilder.FilterFunctionBuilder(QueryBuilders.matchQuery("title", param.getKeywords()),
+                    ScoreFunctionBuilders.weightFactorFunction(1000)));
             filterFunctionBuilders.add(new FunctionScoreQueryBuilder.FilterFunctionBuilder(QueryBuilders.matchQuery("subtitle", param.getKeywords()),
                     ScoreFunctionBuilders.weightFactorFunction(500)));
             FunctionScoreQueryBuilder.FilterFunctionBuilder[] builders = new FunctionScoreQueryBuilder.FilterFunctionBuilder[filterFunctionBuilders.size()];
