@@ -37,6 +37,16 @@ public class GlobalConstant {
     public static final String ARTICLE_PASSWORD = "ts842771506";
 
     /**
+     * 草稿口令
+     */
+    public static final String DRAFT_ARTICLE_WORD = "zhouyong";
+
+    /**
+     * 发布口令
+     */
+    public static final String PUBLISH_ARTICLE_WORD = "ts842771506";
+
+    /**
      * 请求超时时间(90s)
      */
     public static final long REPUEST_EXPIRE_TIME = 90000L;

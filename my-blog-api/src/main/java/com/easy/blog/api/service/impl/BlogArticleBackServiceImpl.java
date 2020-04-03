@@ -72,15 +72,28 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
     }
 
     @Override
-    public void save(BlogArticleBackDTO param) {
+    public String save(BlogArticleBackDTO param) {
         if (param == null) {
             throw new RuntimeException("blog article back param is null");
         }
+
+        if (StringUtils.isEmpty(param.getDraftWord())) {
+            //存草稿口令
+            throw new RuntimeException("blog article draft word is null");
+        }
+
+        if (!GlobalConstant.DRAFT_ARTICLE_WORD.equals(param.getDraftWord())) {
+            throw new RuntimeException("blog article draft word error");
+        }
+
+        String code;
+
         BlogArticleBack back = this.putBlogArticleParam(param);
         if (StringUtils.isEmpty(param.getCode())) {
             Long id = SnowflakeIdUtils.getSnowflakeId();
             back.setId(id);
-            back.setCode(RandomUtils.getRandomStr(10));
+            code = RandomUtils.getRandomStr(10);
+            back.setCode(code);
             back.setLogo(this.getLogoValue(RandomUtils.getRandomNum(1, 50)));
             logger.info("add save logo:{}", back.getLogo());
             back.setCreateDate(new Date());
@@ -91,6 +104,9 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
             if (old == null) {
                 throw new RuntimeException("blog article back is not exist!");
             }
+
+            code = old.getCode();
+
             back.setId(old.getId());
             back.setReadNum(old.getReadNum());
             back.setLikeNum(old.getLikeNum());
@@ -106,25 +122,22 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
             blogArticleBackMapper.updateSelective(back);
         }
 
-        if (StringUtils.isNotBlank(param.getUsername()) && StringUtils.isNotEmpty(param.getPassword())) {
-            //通过口令发布博客
-            if (GlobalConstant.ARTICLE_USERNAME.equals(param.getUsername())
-                    && GlobalConstant.ARTICLE_PASSWORD.equals(param.getPassword())) {
-
-                if (param.getHot() != null || param.getQuality() != null) {
-                    BlogTheme theme = new BlogTheme();
-                    theme.setId(SnowflakeIdUtils.getSnowflakeId());
-                    theme.setArticleId(back.getId());
-                    theme.setHot(param.getHot());
-                    theme.setQuality(param.getQuality());
-                    theme.setCreateDate(new Date());
-                    theme.setUpdateDate(new Date());
-                    blogThemeService.save(theme);
-                }
-
-                blogArticleService.publish(back);
+        //通过发布口令发布博客
+        if (GlobalConstant.PUBLISH_ARTICLE_WORD.equals(param.getPublishWord())) {
+            if (param.getHot() != null || param.getQuality() != null) {
+                BlogTheme theme = new BlogTheme();
+                theme.setId(SnowflakeIdUtils.getSnowflakeId());
+                theme.setArticleId(back.getId());
+                theme.setHot(param.getHot());
+                theme.setQuality(param.getQuality());
+                theme.setCreateDate(new Date());
+                theme.setUpdateDate(new Date());
+                blogThemeService.save(theme);
             }
+
+            blogArticleService.publish(back);
         }
+        return code;
     }
 
     private String getLogoValue(int randomNum) {

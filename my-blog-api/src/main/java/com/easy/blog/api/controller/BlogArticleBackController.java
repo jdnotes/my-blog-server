@@ -41,8 +41,8 @@ public class BlogArticleBackController {
         }
         Result result;
         try {
-            blogArticleBackService.save(param);
-            result = Result.success();
+            String code = blogArticleBackService.save(param);
+            result = Result.success(code);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             result = Result.error();

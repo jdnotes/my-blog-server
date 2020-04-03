@@ -31,9 +31,9 @@ public class BlogArticleBackDTO implements Serializable {
 
     private Boolean publish;
 
-    private String username;
+    private String draftWord;
 
-    private String password;
+    private String publishWord;
 
     public String getCode() {
         return code;
@@ -139,19 +139,19 @@ public class BlogArticleBackDTO implements Serializable {
         this.publish = publish;
     }
 
-    public String getUsername() {
-        return username;
+    public String getDraftWord() {
+        return draftWord;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setDraftWord(String draftWord) {
+        this.draftWord = draftWord;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPublishWord() {
+        return publishWord;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPublishWord(String publishWord) {
+        this.publishWord = publishWord;
     }
 }
