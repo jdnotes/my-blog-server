@@ -3,6 +3,7 @@ package com.easy.blog.api.controller;
 import com.easy.blog.api.constant.CodeMsgConstant;
 import com.easy.blog.api.constant.RedisConstant;
 import com.easy.blog.api.constant.Result;
+import com.easy.blog.api.filter.RateLimit;
 import com.easy.blog.api.model.*;
 import com.easy.blog.api.pager.Pager;
 import com.easy.blog.api.service.BlogArticleService;
@@ -172,6 +173,7 @@ public class BlogArticleController {
      *
      * @return
      */
+    @RateLimit(limitNum = 50)
     @RequestMapping(value = "/details", method = RequestMethod.POST)
     public Object details(@RequestBody BlogArticleDetailsDTO param) {
         if (param == null || StringUtils.isEmpty(param.getId())) {

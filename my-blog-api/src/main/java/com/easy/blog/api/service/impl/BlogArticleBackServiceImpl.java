@@ -3,7 +3,10 @@ package com.easy.blog.api.service.impl;
 import com.easy.blog.api.constant.GlobalConstant;
 import com.easy.blog.api.constant.RedisConstant;
 import com.easy.blog.api.dao.BlogArticleBackMapper;
-import com.easy.blog.api.model.*;
+import com.easy.blog.api.model.BlogArticleBack;
+import com.easy.blog.api.model.BlogArticleBackDTO;
+import com.easy.blog.api.model.BlogArticleBackEditorVO;
+import com.easy.blog.api.model.BlogTheme;
 import com.easy.blog.api.service.*;
 import com.easy.blog.api.utils.RandomUtils;
 import com.easy.blog.api.utils.SnowflakeIdUtils;
@@ -17,11 +20,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.util.HtmlUtils;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author zhouyong
@@ -72,54 +73,24 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
     }
 
     @Override
-    public String save(BlogArticleBackDTO param) {
+    public void save(BlogArticleBackDTO param) {
         if (param == null) {
             throw new RuntimeException("blog article back param is null");
         }
-
-        if (StringUtils.isEmpty(param.getDraftWord())) {
-            //存草稿口令
-            throw new RuntimeException("blog article draft word is null");
+        if (StringUtils.isNotEmpty(param.getCode())
+                && !param.getCode().matches("[a-z0-9]{10}")) {
+            throw new IllegalArgumentException("blog article back code arg is illegal");
         }
-
-        if (!GlobalConstant.DRAFT_ARTICLE_WORD.equals(param.getDraftWord())) {
-            throw new RuntimeException("blog article draft word error");
-        }
-
-        String code;
-
         BlogArticleBack back = this.putBlogArticleParam(param);
         if (StringUtils.isEmpty(param.getCode())) {
-            Long id = SnowflakeIdUtils.getSnowflakeId();
-            back.setId(id);
-            code = RandomUtils.getRandomStr(10);
-            back.setCode(code);
-            back.setLogo(this.getLogoValue(RandomUtils.getRandomNum(1, 50)));
-            logger.info("add save logo:{}", back.getLogo());
-            back.setCreateDate(new Date());
-            back.setUpdateDate(new Date());
-            blogArticleBackMapper.insertSelective(back);
+            doAddArticleBack(back);
         } else {
             BlogArticleBack old = blogArticleBackMapper.getByCode(param.getCode());
-            if (old == null) {
-                throw new RuntimeException("blog article back is not exist!");
-            }
-
-            code = old.getCode();
-
-            back.setId(old.getId());
-            back.setReadNum(old.getReadNum());
-            back.setLikeNum(old.getLikeNum());
-            if (StringUtils.isEmpty(old.getLogo())) {
-                back.setLogo(this.getLogoValue(RandomUtils.getRandomNum(1, 50)));
-                logger.info("update save logo:{}", back.getLogo());
+            if (old != null) {
+                doUpdateArticleBack(old, back);
             } else {
-                back.setLogo(old.getLogo());
-                logger.info("old save logo:{}", back.getLogo());
+                doAddArticleBack(back);
             }
-            back.setCreateDate(old.getCreateDate());
-            back.setUpdateDate(new Date());
-            blogArticleBackMapper.updateSelective(back);
         }
 
         //通过发布口令发布博客
@@ -137,7 +108,35 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
 
             blogArticleService.publish(back);
         }
-        return code;
+    }
+
+    private void doUpdateArticleBack(BlogArticleBack old, BlogArticleBack back) {
+        back.setId(old.getId());
+        back.setReadNum(old.getReadNum());
+        back.setLikeNum(old.getLikeNum());
+        if (StringUtils.isEmpty(old.getLogo())) {
+            back.setLogo(this.getLogoValue(RandomUtils.getRandomNum(1, 50)));
+            logger.info("update save logo:{}", back.getLogo());
+        } else {
+            back.setLogo(old.getLogo());
+            logger.info("old save logo:{}", back.getLogo());
+        }
+        back.setCreateDate(old.getCreateDate());
+        back.setUpdateDate(new Date());
+
+        blogArticleBackMapper.updateSelective(back);
+    }
+
+    private void doAddArticleBack(BlogArticleBack back) {
+        Long id = SnowflakeIdUtils.getSnowflakeId();
+        back.setId(id);
+        String code = RandomUtils.getRandomStr(10);
+        back.setCode(code);
+        back.setLogo(this.getLogoValue(RandomUtils.getRandomNum(1, 50)));
+        logger.info("add save logo:{}", back.getLogo());
+        back.setCreateDate(new Date());
+        back.setUpdateDate(new Date());
+        blogArticleBackMapper.insertSelective(back);
     }
 
     private String getLogoValue(int randomNum) {

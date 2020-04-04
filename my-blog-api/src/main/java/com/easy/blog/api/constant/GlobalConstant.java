@@ -27,24 +27,9 @@ public class GlobalConstant {
     public static final String ARTICLE_AUTHOR = "一花一世界";
 
     /**
-     * 用户(默认)
-     */
-    public static final String ARTICLE_USERNAME = "zhouyong";
-
-    /**
-     * 口令(默认)
-     */
-    public static final String ARTICLE_PASSWORD = "ts842771506";
-
-    /**
-     * 草稿口令
-     */
-    public static final String DRAFT_ARTICLE_WORD = "zhouyong";
-
-    /**
      * 发布口令
      */
-    public static final String PUBLISH_ARTICLE_WORD = "ts842771506";
+    public static final String PUBLISH_ARTICLE_WORD = "842771506";
 
     /**
      * 请求超时时间(90s)

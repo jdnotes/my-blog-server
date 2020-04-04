@@ -34,6 +34,8 @@
         <elasticsearch.version>6.4.2</elasticsearch.version>
         <fastjson.version>1.2.39</fastjson.version>
         <jackson.version>2.9.9</jackson.version>
+        <aspectjrt.version>1.8.13</aspectjrt.version>
+        <guava.version>18.0</guava.version>
     </properties>
 
     <dependencyManagement>
@@ -168,6 +170,17 @@
                 <version>${commons-collections.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${aspectjrt.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

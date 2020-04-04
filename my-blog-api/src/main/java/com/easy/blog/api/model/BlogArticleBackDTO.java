@@ -31,8 +31,6 @@ public class BlogArticleBackDTO implements Serializable {
 
     private Boolean publish;
 
-    private String draftWord;
-
     private String publishWord;
 
     public String getCode() {
@@ -137,14 +135,6 @@ public class BlogArticleBackDTO implements Serializable {
 
     public void setPublish(Boolean publish) {
         this.publish = publish;
-    }
-
-    public String getDraftWord() {
-        return draftWord;
-    }
-
-    public void setDraftWord(String draftWord) {
-        this.draftWord = draftWord;
     }
 
     public String getPublishWord() {

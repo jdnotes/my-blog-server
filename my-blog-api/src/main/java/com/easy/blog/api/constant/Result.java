@@ -44,8 +44,8 @@ public class Result<T> implements Serializable {
      * 成功的构造函数
      */
     private Result() {
-        this.code = 200;
-        this.msg = "success";
+        this.code = CodeMsgConstant.SUCCESS.getCode();
+        this.msg = CodeMsgConstant.SUCCESS.getMsg();
     }
 
     /**
@@ -54,8 +54,8 @@ public class Result<T> implements Serializable {
      * @param data
      */
     private Result(T data) {
-        this.code = 200;
-        this.msg = "success";
+        this.code = CodeMsgConstant.SUCCESS.getCode();
+        this.msg = CodeMsgConstant.SUCCESS.getMsg();
         this.data = data;
     }
 

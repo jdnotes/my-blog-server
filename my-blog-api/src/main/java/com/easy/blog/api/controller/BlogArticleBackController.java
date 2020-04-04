@@ -2,6 +2,7 @@ package com.easy.blog.api.controller;
 
 import com.easy.blog.api.constant.CodeMsgConstant;
 import com.easy.blog.api.constant.Result;
+import com.easy.blog.api.filter.RateLimit;
 import com.easy.blog.api.model.BlogArticle;
 import com.easy.blog.api.model.BlogArticleBack;
 import com.easy.blog.api.model.BlogArticleBackDTO;
@@ -34,6 +35,7 @@ public class BlogArticleBackController {
      *
      * @return
      */
+    @RateLimit(limitNum = 2)
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public Object add(@RequestBody BlogArticleBackDTO param) {
         if (param == null) {
@@ -41,8 +43,8 @@ public class BlogArticleBackController {
         }
         Result result;
         try {
-            String code = blogArticleBackService.save(param);
-            result = Result.success(code);
+            blogArticleBackService.save(param);
+            result = Result.success();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             result = Result.error();
@@ -55,6 +57,7 @@ public class BlogArticleBackController {
      *
      * @return
      */
+    @RateLimit(limitNum = 10)
     @RequestMapping(value = "/getByCode", method = RequestMethod.POST)
     public Object getByCode(@RequestBody BlogArticleBackDTO param) {
         if (param == null || StringUtils.isEmpty(param.getCode())) {

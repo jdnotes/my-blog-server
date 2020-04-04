@@ -15,7 +15,7 @@ public interface BlogArticleBackService {
 
     BlogArticleBack get(Long id);
 
-    String save(BlogArticleBackDTO param);
+    void save(BlogArticleBackDTO param);
 
     BlogArticleBackEditorVO getByCode(BlogArticleBackDTO param);
 }

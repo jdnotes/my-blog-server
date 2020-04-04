@@ -10,6 +10,7 @@ public class CodeMsgConstant {
     public static CodeMsgConstant SUCCESS = new CodeMsgConstant(200, "success");
     public static CodeMsgConstant SERVER_ERROR = new CodeMsgConstant(500100, "服务端异常");
     public static CodeMsgConstant PARAM_BIND_ERROR = new CodeMsgConstant(500101, "参数校验异常");
+    public static CodeMsgConstant SERVER_LIMIT_ERROR = new CodeMsgConstant(500102, "系统繁忙,请稍后再试");
 
     //登录模块 5002XX
     public static CodeMsgConstant SESSION_ERROR = new CodeMsgConstant(500210, "Session不存在或者已经失效");
