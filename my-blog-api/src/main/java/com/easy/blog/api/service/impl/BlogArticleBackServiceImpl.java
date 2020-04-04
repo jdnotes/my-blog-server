@@ -83,13 +83,17 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
         }
         BlogArticleBack back = this.putBlogArticleParam(param);
         if (StringUtils.isEmpty(param.getCode())) {
-            doAddArticleBack(back);
+            logger.info("add article...");
+            String code = RandomUtils.getRandomStr(10);
+            doAddArticleBack(back, code);
         } else {
             BlogArticleBack old = blogArticleBackMapper.getByCode(param.getCode());
             if (old != null) {
+                logger.info("update article by code...");
                 doUpdateArticleBack(old, back);
             } else {
-                doAddArticleBack(back);
+                logger.info("add article by code...");
+                doAddArticleBack(back, param.getCode());
             }
         }
 
@@ -127,10 +131,9 @@ public class BlogArticleBackServiceImpl implements BlogArticleBackService {
         blogArticleBackMapper.updateSelective(back);
     }
 
-    private void doAddArticleBack(BlogArticleBack back) {
+    private void doAddArticleBack(BlogArticleBack back, String code) {
         Long id = SnowflakeIdUtils.getSnowflakeId();
         back.setId(id);
-        String code = RandomUtils.getRandomStr(10);
         back.setCode(code);
         back.setLogo(this.getLogoValue(RandomUtils.getRandomNum(1, 50)));
         logger.info("add save logo:{}", back.getLogo());
